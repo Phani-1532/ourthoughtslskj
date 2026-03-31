@@ -43,7 +43,7 @@ export const DemoBooking = ({ trigger }: { trigger?: React.ReactNode }) => {
       </DialogTrigger>
       <DialogContent className="bg-card border-border/50 max-w-md">
         <DialogHeader>
-          <DialogTitle className="font-display text-xl">{booked ? "Demo Confirmed!" : "Book a Live Demo"}</DialogTitle>
+          <DialogTitle className="text-xl font-bold">{booked ? "Call Confirmed!" : "Schedule a Call"}</DialogTitle>
         </DialogHeader>
 
         {booked ? (
