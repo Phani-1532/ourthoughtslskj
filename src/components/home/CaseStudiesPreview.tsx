@@ -36,26 +36,26 @@ export const CaseStudiesPreview = () => (
       title="Real Impact, Real Results"
       subtitle="See how we've helped organizations transform their operations with measurable outcomes."
     />
-    <div className="grid md:grid-cols-3 gap-8">
+    <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
       {caseStudies.map((cs, i) => (
         <motion.div
           key={cs.title}
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ delay: i * 0.15 }}
+          transition={{ delay: i * 0.1 }}
         >
-          <Card className="bg-gradient-card border-border/30 hover:border-primary/30 h-full group">
-            <CardContent className="p-6">
+          <Card className="bg-background border-border hover:border-primary/30 h-full group hover:shadow-card transition-all">
+            <CardContent className="p-5 md:p-6">
               <div className="flex items-center gap-2 mb-4">
                 <TrendingUp className="w-4 h-4 text-primary" />
-                <span className="text-xs text-muted-foreground font-body uppercase tracking-wider">{cs.client}</span>
+                <span className="text-xs text-muted-foreground uppercase tracking-wider">{cs.client}</span>
               </div>
-              <div className="text-4xl font-display font-bold text-gradient-gold mb-1">{cs.metric}</div>
-              <p className="text-sm text-primary font-body mb-3">{cs.metricLabel}</p>
-              <h3 className="text-lg font-display font-semibold text-foreground mb-2">{cs.title}</h3>
-              <p className="text-sm text-muted-foreground font-body mb-4">{cs.description}</p>
-              <Link to="/case-studies" className="text-sm text-primary font-body font-medium inline-flex items-center gap-1 hover:gap-2 transition-all">
+              <div className="text-3xl md:text-4xl font-bold text-primary mb-1">{cs.metric}</div>
+              <p className="text-sm text-primary/80 mb-3">{cs.metricLabel}</p>
+              <h3 className="text-base font-semibold text-foreground mb-2">{cs.title}</h3>
+              <p className="text-sm text-muted-foreground mb-4">{cs.description}</p>
+              <Link to="/case-studies" className="text-sm text-primary font-medium inline-flex items-center gap-1 hover:gap-2 transition-all">
                 Read full case study <ArrowRight className="w-3 h-3" />
               </Link>
             </CardContent>

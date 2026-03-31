@@ -1,6 +1,5 @@
 import { SectionWrapper, SectionHeader } from "@/components/SectionWrapper";
 import { Card, CardContent } from "@/components/ui/card";
-import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import {
@@ -25,23 +24,23 @@ export const ServicesGrid = () => (
       title="Business Process Segments"
       subtitle="Comprehensive technological solutions to help companies achieve greater success."
     />
-    <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
       {services.map((service, i) => (
         <motion.div
           key={service.title}
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ delay: i * 0.08 }}
+          transition={{ delay: i * 0.05 }}
         >
-          <Card className="bg-gradient-card border-border/30 hover:border-primary/30 group h-full transition-all duration-300 hover:-translate-y-1">
-            <CardContent className="p-6">
-              <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors">
-                <service.icon className="w-6 h-6 text-primary" />
+          <Card className="bg-background border-border hover:border-primary/30 group h-full transition-all duration-300 hover:-translate-y-1 hover:shadow-card">
+            <CardContent className="p-5 md:p-6">
+              <div className="w-11 h-11 rounded-xl bg-primary/10 flex items-center justify-center mb-4 group-hover:bg-primary/15 transition-colors">
+                <service.icon className="w-5 h-5 text-primary" />
               </div>
-              <h3 className="text-base font-display font-semibold text-foreground mb-2">{service.title}</h3>
-              <p className="text-sm text-muted-foreground font-body mb-4">{service.description}</p>
-              <Link to={service.path} className="text-sm text-primary font-body font-medium inline-flex items-center gap-1 hover:gap-2 transition-all">
+              <h3 className="text-sm font-semibold text-foreground mb-2">{service.title}</h3>
+              <p className="text-xs text-muted-foreground mb-3 leading-relaxed">{service.description}</p>
+              <Link to={service.path} className="text-xs text-primary font-medium inline-flex items-center gap-1 hover:gap-2 transition-all">
                 Learn more <ArrowRight className="w-3 h-3" />
               </Link>
             </CardContent>

@@ -6,7 +6,7 @@ import { ChatWidget } from "./ChatWidget";
 import { ExitIntentPopup } from "./ExitIntentPopup";
 
 export const Layout = ({ children }: { children: ReactNode }) => (
-  <div className="min-h-screen bg-gradient-navy">
+  <div className="min-h-screen bg-background">
     <Navbar />
     <main>{children}</main>
     <Footer />

@@ -20,24 +20,24 @@ export const IndustryPreview = () => (
       title="Multi-Domain Expertise"
       subtitle="We deliver transformative solutions across diverse industry verticals."
     />
-    <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
       {industries.map((ind, i) => (
         <motion.div
           key={ind.title}
           initial={{ opacity: 0, scale: 0.95 }}
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
-          transition={{ delay: i * 0.1 }}
+          transition={{ delay: i * 0.08 }}
         >
           <Link to={ind.path}>
-            <Card className="bg-gradient-card border-border/30 hover:border-primary/30 group h-full transition-all duration-300 hover:-translate-y-1 cursor-pointer">
-              <CardContent className="p-6 flex items-start gap-4">
-                <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center shrink-0 group-hover:bg-primary/20 transition-colors">
-                  <ind.icon className="w-6 h-6 text-primary" />
+            <Card className="bg-background border-border hover:border-primary/30 group h-full transition-all duration-300 hover:-translate-y-1 hover:shadow-card cursor-pointer">
+              <CardContent className="p-5 md:p-6 flex items-start gap-4">
+                <div className="w-11 h-11 rounded-xl bg-primary/10 flex items-center justify-center shrink-0 group-hover:bg-primary/15 transition-colors">
+                  <ind.icon className="w-5 h-5 text-primary" />
                 </div>
                 <div>
-                  <h3 className="text-base font-display font-semibold text-foreground mb-1">{ind.title}</h3>
-                  <p className="text-sm text-muted-foreground font-body">{ind.description}</p>
+                  <h3 className="text-sm font-semibold text-foreground mb-1">{ind.title}</h3>
+                  <p className="text-xs text-muted-foreground">{ind.description}</p>
                 </div>
               </CardContent>
             </Card>
