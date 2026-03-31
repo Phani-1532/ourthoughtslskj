@@ -159,7 +159,7 @@ const Contact = () => {
                   <div className="flex justify-between mt-8">
                     <Button variant="ghost" onClick={() => setStep(s => s - 1)} disabled={step === 0}><ArrowLeft className="w-4 h-4 mr-1" />Back</Button>
                     {step < 3 ? (
-                      <Button variant="hero" onClick={() => setStep(s => s + 1)} disabled={!canNext()}>Next <ArrowRight className="w-4 h-4" /></Button>
+                      <Button onClick={() => setStep(s => s + 1)} disabled={!canNext()}>Next <ArrowRight className="w-4 h-4" /></Button>
                     ) : (
                       <Button variant="hero" onClick={handleSubmit}>Submit Inquiry <Send className="w-4 h-4" /></Button>
                     )}
