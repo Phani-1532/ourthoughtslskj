@@ -41,7 +41,7 @@ export const DemoBooking = ({ trigger }: { trigger?: React.ReactNode }) => {
       <DialogTrigger asChild>
         {trigger || <Button size="lg"><Calendar className="w-5 h-5 mr-2" />Schedule a Call</Button>}
       </DialogTrigger>
-      <DialogContent className="bg-card border-border/50 max-w-md">
+      <DialogContent className="bg-background border-border max-w-md">
         <DialogHeader>
           <DialogTitle className="text-xl font-bold">{booked ? "Call Confirmed!" : "Schedule a Call"}</DialogTitle>
         </DialogHeader>

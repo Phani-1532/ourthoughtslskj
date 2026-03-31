@@ -161,7 +161,7 @@ const Contact = () => {
                     {step < 3 ? (
                       <Button onClick={() => setStep(s => s + 1)} disabled={!canNext()}>Next <ArrowRight className="w-4 h-4" /></Button>
                     ) : (
-                      <Button variant="hero" onClick={handleSubmit}>Submit Inquiry <Send className="w-4 h-4" /></Button>
+                      <Button onClick={handleSubmit}>Submit Inquiry <Send className="w-4 h-4" /></Button>
                     )}
                   </div>
                 </CardContent>
