@@ -14,8 +14,8 @@ export default {
     },
     extend: {
       fontFamily: {
-        display: ["var(--font-display)"],
-        body: ["var(--font-body)"],
+        display: ["Verdana", "Geneva", "Tahoma", "sans-serif"],
+        body: ["Verdana", "Geneva", "Tahoma", "sans-serif"],
       },
       colors: {
         border: "hsl(var(--border))",
@@ -85,10 +85,6 @@ export default {
         "accordion-up": {
           from: { height: "var(--radix-accordion-content-height)" },
           to: { height: "0" },
-        },
-        "count-up": {
-          from: { "--num": "0" },
-          to: { "--num": "var(--target)" },
         },
       },
       animation: {

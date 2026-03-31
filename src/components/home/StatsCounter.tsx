@@ -32,7 +32,7 @@ const Counter = ({ target, suffix }: { target: number; suffix: string }) => {
 
 export const StatsCounter = () => (
   <SectionWrapper>
-    <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+    <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
       {stats.map((stat, i) => (
         <motion.div
           key={stat.label}
@@ -40,12 +40,12 @@ export const StatsCounter = () => (
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ delay: i * 0.1 }}
-          className="text-center"
+          className="text-center p-6 rounded-xl bg-card border border-border"
         >
-          <div className="text-4xl md:text-5xl font-display font-bold text-gradient-gold mb-2">
+          <div className="text-3xl md:text-4xl font-bold text-primary mb-2">
             <Counter target={stat.value} suffix={stat.suffix} />
           </div>
-          <p className="text-sm text-muted-foreground font-body">{stat.label}</p>
+          <p className="text-xs md:text-sm text-muted-foreground">{stat.label}</p>
         </motion.div>
       ))}
     </div>

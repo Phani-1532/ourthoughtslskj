@@ -39,20 +39,20 @@ export const ExitIntentPopup = () => {
 
   return (
     <Dialog open={show} onOpenChange={setShow}>
-      <DialogContent className="bg-card border-primary/20 max-w-md">
+      <DialogContent className="bg-background border-border max-w-md">
         <DialogHeader>
           <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
             <Gift className="w-8 h-8 text-primary" />
           </div>
-          <DialogTitle className="text-center text-2xl font-display">Wait! Don't Leave Empty-Handed</DialogTitle>
+          <DialogTitle className="text-center text-2xl font-bold">Wait! Don't Leave Empty-Handed</DialogTitle>
         </DialogHeader>
         <div className="text-center">
-          <p className="text-sm text-muted-foreground font-body mb-6">Get a <span className="text-primary font-semibold">free 30-minute consultation</span> with our experts. No strings attached.</p>
+          <p className="text-sm text-muted-foreground mb-6">Get a <span className="text-primary font-semibold">free 30-minute consultation</span> with our experts. No strings attached.</p>
           <div className="flex gap-2 mb-4">
-            <Input placeholder="Your email" type="email" value={email} onChange={e => setEmail(e.target.value)} className="bg-secondary/50 border-border/50" />
-            <Button variant="hero" onClick={handleSubmit}>Claim <ArrowRight className="w-4 h-4" /></Button>
+            <Input placeholder="Your email" type="email" value={email} onChange={e => setEmail(e.target.value)} className="border-border" />
+            <Button onClick={handleSubmit}>Claim <ArrowRight className="w-4 h-4" /></Button>
           </div>
-          <p className="text-xs text-muted-foreground font-body">Or <Link to="/contact" className="text-primary hover:underline" onClick={() => setShow(false)}>book a demo now</Link></p>
+          <p className="text-xs text-muted-foreground">Or <Link to="/contact" className="text-primary hover:underline" onClick={() => setShow(false)}>contact us now</Link></p>
         </div>
       </DialogContent>
     </Dialog>

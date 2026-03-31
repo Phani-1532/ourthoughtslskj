@@ -1,4 +1,5 @@
 import { Layout } from "@/components/Layout";
+import { SEOHead } from "@/components/SEOHead";
 import { HeroSection } from "@/components/home/HeroSection";
 import { ClientLogos } from "@/components/home/ClientLogos";
 import { ProductHighlights } from "@/components/home/ProductHighlights";
@@ -11,6 +12,11 @@ import { CTABlock } from "@/components/home/CTABlock";
 
 const Index = () => (
   <Layout>
+    <SEOHead
+      title="Home"
+      description="Our Thoughts LSKJ — Multi-domain innovation leader across E-Learning, Healthcare, Hospitality, IT, Consulting & BPM."
+      path="/"
+    />
     <HeroSection />
     <ClientLogos />
     <ProductHighlights />

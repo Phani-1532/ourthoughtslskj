@@ -39,11 +39,11 @@ export const DemoBooking = ({ trigger }: { trigger?: React.ReactNode }) => {
   return (
     <Dialog onOpenChange={(o) => { if (!o) { setBooked(false); setDate(""); setTime(""); setName(""); setEmail(""); } }}>
       <DialogTrigger asChild>
-        {trigger || <Button variant="hero" size="lg"><Calendar className="w-5 h-5 mr-2" />Book a Demo</Button>}
+        {trigger || <Button size="lg"><Calendar className="w-5 h-5 mr-2" />Schedule a Call</Button>}
       </DialogTrigger>
-      <DialogContent className="bg-card border-border/50 max-w-md">
+      <DialogContent className="bg-background border-border max-w-md">
         <DialogHeader>
-          <DialogTitle className="font-display text-xl">{booked ? "Demo Confirmed!" : "Book a Live Demo"}</DialogTitle>
+          <DialogTitle className="text-xl font-bold">{booked ? "Call Confirmed!" : "Schedule a Call"}</DialogTitle>
         </DialogHeader>
 
         {booked ? (

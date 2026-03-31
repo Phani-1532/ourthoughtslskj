@@ -45,7 +45,7 @@ const Contact = () => {
             </div>
             <h2 className="text-3xl font-display font-bold text-foreground mb-4">We've Received Your Inquiry</h2>
             <p className="text-muted-foreground font-body mb-8">Our team will reach out within 24 hours. Check your email for a confirmation.</p>
-            <Button variant="hero" onClick={() => { setSubmitted(false); setStep(0); setForm({ name: "", email: "", phone: "", company: "", role: "", industry: "", budget: "", timeline: "", message: "" }); }}>Submit Another</Button>
+            <Button onClick={() => { setSubmitted(false); setStep(0); setForm({ name: "", email: "", phone: "", company: "", role: "", industry: "", budget: "", timeline: "", message: "" }); }}>Submit Another</Button>
           </motion.div>
         </div>
       </Layout>
@@ -159,9 +159,9 @@ const Contact = () => {
                   <div className="flex justify-between mt-8">
                     <Button variant="ghost" onClick={() => setStep(s => s - 1)} disabled={step === 0}><ArrowLeft className="w-4 h-4 mr-1" />Back</Button>
                     {step < 3 ? (
-                      <Button variant="hero" onClick={() => setStep(s => s + 1)} disabled={!canNext()}>Next <ArrowRight className="w-4 h-4" /></Button>
+                      <Button onClick={() => setStep(s => s + 1)} disabled={!canNext()}>Next <ArrowRight className="w-4 h-4" /></Button>
                     ) : (
-                      <Button variant="hero" onClick={handleSubmit}>Submit Inquiry <Send className="w-4 h-4" /></Button>
+                      <Button onClick={handleSubmit}>Submit Inquiry <Send className="w-4 h-4" /></Button>
                     )}
                   </div>
                 </CardContent>
