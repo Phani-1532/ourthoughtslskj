@@ -45,7 +45,7 @@ const Contact = () => {
             </div>
             <h2 className="text-3xl font-display font-bold text-foreground mb-4">We've Received Your Inquiry</h2>
             <p className="text-muted-foreground font-body mb-8">Our team will reach out within 24 hours. Check your email for a confirmation.</p>
-            <Button variant="hero" onClick={() => { setSubmitted(false); setStep(0); setForm({ name: "", email: "", phone: "", company: "", role: "", industry: "", budget: "", timeline: "", message: "" }); }}>Submit Another</Button>
+            <Button onClick={() => { setSubmitted(false); setStep(0); setForm({ name: "", email: "", phone: "", company: "", role: "", industry: "", budget: "", timeline: "", message: "" }); }}>Submit Another</Button>
           </motion.div>
         </div>
       </Layout>
