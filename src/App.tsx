@@ -1,16 +1,30 @@
+import { lazy, Suspense } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { Toaster } from "@/components/ui/toaster";
 import { TooltipProvider } from "@/components/ui/tooltip";
-import Index from "./pages/Index";
-import NotFound from "./pages/NotFound";
-import Services from "./pages/Services";
-import Industries from "./pages/Industries";
-import Products from "./pages/Products";
-import CaseStudies from "./pages/CaseStudies";
-import WhyChooseUs from "./pages/WhyChooseUs";
-import { InsightsPage, CareersPage, AboutPage, ContactPage } from "./pages/GenericPages";
+
+const Index = lazy(() => import("./pages/Index"));
+const NotFound = lazy(() => import("./pages/NotFound"));
+const Services = lazy(() => import("./pages/Services"));
+const Industries = lazy(() => import("./pages/Industries"));
+const Products = lazy(() => import("./pages/Products"));
+const CaseStudies = lazy(() => import("./pages/CaseStudies"));
+const WhyChooseUs = lazy(() => import("./pages/WhyChooseUs"));
+const ELearning = lazy(() => import("./pages/ELearning"));
+const Contact = lazy(() => import("./pages/Contact"));
+const Blog = lazy(() => import("./pages/Blog"));
+const BlogPost = lazy(() => import("./pages/BlogPost"));
+const Careers = lazy(() => import("./pages/Careers"));
+const About = lazy(() => import("./pages/About"));
+const Admin = lazy(() => import("./pages/Admin"));
+
+const Loading = () => (
+  <div className="min-h-screen bg-gradient-navy flex items-center justify-center">
+    <div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin" />
+  </div>
+);
 
 const queryClient = new QueryClient();
 
@@ -20,21 +34,27 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Index />} />
-          <Route path="/services" element={<Services />} />
-          <Route path="/services/:slug" element={<Services />} />
-          <Route path="/industries" element={<Industries />} />
-          <Route path="/industries/:slug" element={<Industries />} />
-          <Route path="/products" element={<Products />} />
-          <Route path="/case-studies" element={<CaseStudies />} />
-          <Route path="/why-choose-us" element={<WhyChooseUs />} />
-          <Route path="/insights" element={<InsightsPage />} />
-          <Route path="/careers" element={<CareersPage />} />
-          <Route path="/about" element={<AboutPage />} />
-          <Route path="/contact" element={<ContactPage />} />
-          <Route path="*" element={<NotFound />} />
-        </Routes>
+        <Suspense fallback={<Loading />}>
+          <Routes>
+            <Route path="/" element={<Index />} />
+            <Route path="/services" element={<Services />} />
+            <Route path="/services/:slug" element={<Services />} />
+            <Route path="/industries" element={<Industries />} />
+            <Route path="/industries/:slug" element={<Industries />} />
+            <Route path="/products" element={<Products />} />
+            <Route path="/case-studies" element={<CaseStudies />} />
+            <Route path="/why-choose-us" element={<WhyChooseUs />} />
+            <Route path="/e-learning" element={<ELearning />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/blog" element={<Blog />} />
+            <Route path="/blog/:slug" element={<BlogPost />} />
+            <Route path="/insights" element={<Blog />} />
+            <Route path="/careers" element={<Careers />} />
+            <Route path="/about" element={<About />} />
+            <Route path="/admin" element={<Admin />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </Suspense>
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>
