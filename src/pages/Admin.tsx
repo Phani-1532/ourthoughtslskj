@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Layout } from "@/components/Layout";
 import { SectionWrapper } from "@/components/SectionWrapper";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -6,78 +6,235 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
+import { Textarea } from "@/components/ui/textarea";
 import {
-  BarChart3, Users, FileText, Eye, TrendingUp, Mail, Phone, Building2,
-  LogOut, Shield, Clock, ArrowUpRight
+  Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogTrigger
+} from "@/components/ui/dialog";
+import {
+  BarChart3, Users, FileText, Eye, TrendingUp, Mail,
+  LogOut, Shield, Clock, ArrowUpRight, Plus, Pencil, Trash2, X
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
 
-// Demo credentials for preview only — NOT secure for production
-const ADMIN_EMAIL = "admin@ourthoughtslskj.com";
-const ADMIN_PASSWORD = "OT@admin2025";
-
-const mockLeads = [
-  { id: 1, name: "Rajesh Kumar", email: "rajesh@company.com", company: "TechCorp", industry: "IT & Technology", status: "New", date: "Mar 30, 2025", score: 85 },
-  { id: 2, name: "Priya Menon", email: "priya@hospital.in", company: "City Hospital", industry: "Healthcare", status: "Contacted", date: "Mar 29, 2025", score: 72 },
-  { id: 3, name: "Aditya Shah", email: "aditya@ecom.co", company: "ShopEasy", industry: "E-Commerce", status: "Qualified", date: "Mar 28, 2025", score: 91 },
-  { id: 4, name: "Kavita Rao", email: "kavita@resort.com", company: "Sunset Resort", industry: "Hospitality", status: "New", date: "Mar 27, 2025", score: 65 },
-  { id: 5, name: "Mohammed Ali", email: "ali@lawfirm.in", company: "Ali & Associates", industry: "Law", status: "Demo Booked", date: "Mar 26, 2025", score: 95 },
-];
-
-const mockStats = {
-  totalVisits: 12450, totalLeads: 342, conversionRate: 2.74, avgTimeOnSite: "3:42",
-  topPages: [
-    { page: "Homepage", views: 4200 },
-    { page: "Services", views: 2100 },
-    { page: "Products", views: 1800 },
-    { page: "Contact", views: 1500 },
-    { page: "Case Studies", views: 980 },
-  ],
-  trafficSources: [
-    { source: "Organic Search", pct: 45 },
-    { source: "Direct", pct: 25 },
-    { source: "Social Media", pct: 18 },
-    { source: "Referrals", pct: 12 },
-  ],
-};
-
-const statusColor: Record<string, string> = {
-  "New": "bg-blue-500/10 text-blue-400",
-  "Contacted": "bg-yellow-500/10 text-yellow-400",
-  "Qualified": "bg-green-500/10 text-green-400",
+const statusColors: Record<string, string> = {
+  New: "bg-blue-100 text-blue-700",
+  Contacted: "bg-yellow-100 text-yellow-700",
+  Qualified: "bg-green-100 text-green-700",
   "Demo Booked": "bg-primary/10 text-primary",
+  Closed: "bg-muted text-muted-foreground",
 };
 
 const Admin = () => {
-  const [loggedIn, setLoggedIn] = useState(false);
+  const [session, setSession] = useState<any>(null);
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [tab, setTab] = useState("leads");
   const { toast } = useToast();
 
-  const handleLogin = () => {
-    if (email === ADMIN_EMAIL && password === ADMIN_PASSWORD) {
-      setLoggedIn(true);
-      toast({ title: "Welcome, Admin!", description: "You now have full access to the dashboard." });
-    } else {
-      toast({ title: "Login Failed", description: "Invalid credentials. Please try again.", variant: "destructive" });
+  // Data states
+  const [leads, setLeads] = useState<any[]>([]);
+  const [blogs, setBlogs] = useState<any[]>([]);
+  const [caseStudies, setCaseStudies] = useState<any[]>([]);
+  const [jobs, setJobs] = useState<any[]>([]);
+  const [testimonials, setTestimonials] = useState<any[]>([]);
+  const [products, setProducts] = useState<any[]>([]);
+  const [heroSlides, setHeroSlides] = useState<any[]>([]);
+
+  // Edit dialog
+  const [editOpen, setEditOpen] = useState(false);
+  const [editType, setEditType] = useState("");
+  const [editItem, setEditItem] = useState<any>(null);
+  const [formData, setFormData] = useState<Record<string, any>>({});
+
+  useEffect(() => {
+    supabase.auth.onAuthStateChange((_event, session) => {
+      setSession(session);
+      if (session?.user) checkAdmin(session.user.id);
+      else { setIsAdmin(false); setLoading(false); }
+    });
+    supabase.auth.getSession().then(({ data: { session } }) => {
+      setSession(session);
+      if (session?.user) checkAdmin(session.user.id);
+      else setLoading(false);
+    });
+  }, []);
+
+  const checkAdmin = async (uid: string) => {
+    const { data } = await supabase.from("user_roles").select("role").eq("user_id", uid).eq("role", "admin");
+    setIsAdmin(data && data.length > 0);
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    if (isAdmin) fetchAll();
+  }, [isAdmin]);
+
+  const fetchAll = async () => {
+    const [l, b, c, j, t, p, h] = await Promise.all([
+      supabase.from("leads").select("*").order("created_at", { ascending: false }),
+      supabase.from("blog_posts").select("*").order("created_at", { ascending: false }),
+      supabase.from("case_studies").select("*").order("created_at", { ascending: false }),
+      supabase.from("job_listings").select("*").order("created_at", { ascending: false }),
+      supabase.from("testimonials").select("*").order("created_at", { ascending: false }),
+      supabase.from("products").select("*").order("created_at", { ascending: false }),
+      supabase.from("hero_slides").select("*").order("sort_order"),
+    ]);
+    setLeads(l.data || []);
+    setBlogs(b.data || []);
+    setCaseStudies(c.data || []);
+    setJobs(j.data || []);
+    setTestimonials(t.data || []);
+    setProducts(p.data || []);
+    setHeroSlides(h.data || []);
+  };
+
+  const handleLogin = async () => {
+    const { error } = await supabase.auth.signInWithPassword({ email, password });
+    if (error) toast({ title: "Login Failed", description: error.message, variant: "destructive" });
+  };
+
+  const handleSignup = async () => {
+    const { data, error } = await supabase.auth.signUp({ email, password });
+    if (error) { toast({ title: "Signup Failed", description: error.message, variant: "destructive" }); return; }
+    // Auto-assign admin role
+    if (data.user) {
+      await supabase.from("user_roles").insert({ user_id: data.user.id, role: "admin" as any });
+      toast({ title: "Admin Created!", description: "You are now logged in as admin." });
     }
   };
 
-  if (!loggedIn) {
+  const handleLogout = async () => {
+    await supabase.auth.signOut();
+    setSession(null);
+    setIsAdmin(false);
+  };
+
+  // Generic CRUD
+  const openCreate = (type: string) => {
+    setEditType(type);
+    setEditItem(null);
+    setFormData(getDefaultForm(type));
+    setEditOpen(true);
+  };
+
+  const openEdit = (type: string, item: any) => {
+    setEditType(type);
+    setEditItem(item);
+    setFormData({ ...item });
+    setEditOpen(true);
+  };
+
+  const handleSave = async () => {
+    const table = getTable(editType) as any;
+    const saveData = { ...formData };
+    delete saveData.id;
+    delete saveData.created_at;
+    delete saveData.updated_at;
+
+    if (editItem) {
+      const { error } = await supabase.from(table).update(saveData as any).eq("id", editItem.id);
+      if (error) { toast({ title: "Error", description: error.message, variant: "destructive" }); return; }
+      toast({ title: "Updated!" });
+    } else {
+      const { error } = await supabase.from(table).insert(saveData as any);
+      if (error) { toast({ title: "Error", description: error.message, variant: "destructive" }); return; }
+      toast({ title: "Created!" });
+    }
+    setEditOpen(false);
+    fetchAll();
+  };
+
+  const handleDelete = async (type: string, id: string) => {
+    const table = getTable(type) as any;
+    const { error } = await supabase.from(table).delete().eq("id", id);
+    if (error) { toast({ title: "Error", description: error.message, variant: "destructive" }); return; }
+    toast({ title: "Deleted!" });
+    fetchAll();
+  };
+
+  const getTable = (type: string) => {
+    const map: Record<string, string> = {
+      blogs: "blog_posts", cases: "case_studies", jobs: "job_listings",
+      testimonials: "testimonials", products: "products", hero: "hero_slides", leads: "leads"
+    };
+    return map[type] || type;
+  };
+
+  const getDefaultForm = (type: string): Record<string, any> => {
+    switch (type) {
+      case "blogs": return { title: "", slug: "", excerpt: "", content: "", category: "", featured: false, reading_time: 5, published: false, image_url: "" };
+      case "cases": return { title: "", slug: "", client: "", industry: "", problem: "", solution: "", metrics: [], published: false, image_url: "" };
+      case "jobs": return { title: "", department: "", location: "", type: "Full-time", description: "", requirements: [], published: true };
+      case "testimonials": return { name: "", role: "", company: "", content: "", rating: 5, published: true };
+      case "products": return { name: "", slug: "", tagline: "", description: "", features: [], benefits: [], status: "Live", published: true, image_url: "" };
+      case "hero": return { title: "", highlight: "", subtitle: "", cta_text: "Get Started", cta_link: "/contact", badge: "", sort_order: 0, published: true };
+      default: return {};
+    }
+  };
+
+  const getFields = (type: string): { key: string; label: string; type: string }[] => {
+    switch (type) {
+      case "blogs": return [
+        { key: "title", label: "Title", type: "text" }, { key: "slug", label: "Slug", type: "text" },
+        { key: "excerpt", label: "Excerpt", type: "textarea" }, { key: "content", label: "Content", type: "textarea" },
+        { key: "category", label: "Category", type: "text" }, { key: "reading_time", label: "Reading Time (min)", type: "number" },
+        { key: "image_url", label: "Image URL", type: "text" }, { key: "featured", label: "Featured", type: "checkbox" },
+        { key: "published", label: "Published", type: "checkbox" },
+      ];
+      case "cases": return [
+        { key: "title", label: "Title", type: "text" }, { key: "slug", label: "Slug", type: "text" },
+        { key: "client", label: "Client", type: "text" }, { key: "industry", label: "Industry", type: "text" },
+        { key: "problem", label: "Problem", type: "textarea" }, { key: "solution", label: "Solution", type: "textarea" },
+        { key: "image_url", label: "Image URL", type: "text" }, { key: "published", label: "Published", type: "checkbox" },
+      ];
+      case "jobs": return [
+        { key: "title", label: "Title", type: "text" }, { key: "department", label: "Department", type: "text" },
+        { key: "location", label: "Location", type: "text" }, { key: "type", label: "Type", type: "text" },
+        { key: "description", label: "Description", type: "textarea" }, { key: "published", label: "Published", type: "checkbox" },
+      ];
+      case "testimonials": return [
+        { key: "name", label: "Name", type: "text" }, { key: "role", label: "Role", type: "text" },
+        { key: "company", label: "Company", type: "text" }, { key: "content", label: "Content", type: "textarea" },
+        { key: "rating", label: "Rating (1-5)", type: "number" }, { key: "published", label: "Published", type: "checkbox" },
+      ];
+      case "products": return [
+        { key: "name", label: "Name", type: "text" }, { key: "slug", label: "Slug", type: "text" },
+        { key: "tagline", label: "Tagline", type: "text" }, { key: "description", label: "Description", type: "textarea" },
+        { key: "status", label: "Status", type: "text" }, { key: "image_url", label: "Image URL", type: "text" },
+        { key: "published", label: "Published", type: "checkbox" },
+      ];
+      case "hero": return [
+        { key: "title", label: "Title", type: "text" }, { key: "highlight", label: "Highlight Word", type: "text" },
+        { key: "subtitle", label: "Subtitle", type: "textarea" }, { key: "badge", label: "Badge Text", type: "text" },
+        { key: "cta_text", label: "CTA Text", type: "text" }, { key: "cta_link", label: "CTA Link", type: "text" },
+        { key: "sort_order", label: "Sort Order", type: "number" }, { key: "published", label: "Published", type: "checkbox" },
+      ];
+      default: return [];
+    }
+  };
+
+  if (loading) return <Layout><div className="min-h-screen flex items-center justify-center"><div className="w-8 h-8 border-2 border-primary border-t-transparent rounded-full animate-spin" /></div></Layout>;
+
+  // Login form
+  if (!session || !isAdmin) {
     return (
       <Layout>
         <div className="pt-24 min-h-[70vh] flex items-center justify-center">
-          <Card className="w-full max-w-md bg-gradient-card border-border/30">
+          <Card className="w-full max-w-md">
             <CardHeader className="text-center">
               <div className="w-16 h-16 rounded-xl bg-primary/10 flex items-center justify-center mx-auto mb-4"><Shield className="w-8 h-8 text-primary" /></div>
               <CardTitle className="text-2xl">Admin Login</CardTitle>
-              <p className="text-sm text-muted-foreground font-body mt-2">Access the content management dashboard</p>
+              <p className="text-sm text-muted-foreground mt-2">Access the content management dashboard</p>
             </CardHeader>
             <CardContent className="space-y-4">
-              <Input placeholder="Email" type="email" value={email} onChange={e => setEmail(e.target.value)} className="bg-secondary/50 border-border/50" />
-              <Input placeholder="Password" type="password" value={password} onChange={e => setPassword(e.target.value)} className="bg-secondary/50 border-border/50"
-                onKeyDown={e => e.key === "Enter" && handleLogin()} />
-              <Button variant="hero" className="w-full" onClick={handleLogin}>Sign In</Button>
+              <Input placeholder="Email" type="email" value={email} onChange={e => setEmail(e.target.value)} />
+              <Input placeholder="Password" type="password" value={password} onChange={e => setPassword(e.target.value)} onKeyDown={e => e.key === "Enter" && handleLogin()} />
+              <Button className="w-full" onClick={handleLogin}>Sign In</Button>
+              <Button variant="outline" className="w-full" onClick={handleSignup}>Create Admin Account</Button>
+              {session && !isAdmin && <p className="text-sm text-destructive text-center">You don't have admin access.</p>}
             </CardContent>
           </Card>
         </div>
@@ -85,137 +242,182 @@ const Admin = () => {
     );
   }
 
+  // Dashboard
+  const sections = [
+    { key: "leads", label: "Leads", count: leads.length, icon: Mail },
+    { key: "hero", label: "Hero Slides", count: heroSlides.length, icon: Eye },
+    { key: "blogs", label: "Blog Posts", count: blogs.length, icon: FileText },
+    { key: "cases", label: "Case Studies", count: caseStudies.length, icon: TrendingUp },
+    { key: "jobs", label: "Job Listings", count: jobs.length, icon: Users },
+    { key: "testimonials", label: "Testimonials", count: testimonials.length, icon: BarChart3 },
+    { key: "products", label: "Products", count: products.length, icon: Clock },
+  ];
+
+  const getItems = (key: string) => {
+    switch (key) {
+      case "leads": return leads;
+      case "hero": return heroSlides;
+      case "blogs": return blogs;
+      case "cases": return caseStudies;
+      case "jobs": return jobs;
+      case "testimonials": return testimonials;
+      case "products": return products;
+      default: return [];
+    }
+  };
+
+  const getItemLabel = (key: string, item: any) => {
+    if (key === "leads") return item.name + " — " + item.email;
+    return item.title || item.name || "Untitled";
+  };
+
+  const getItemSub = (key: string, item: any) => {
+    if (key === "leads") return `${item.company || "N/A"} · ${item.industry || "N/A"} · Score: ${item.score}`;
+    if (key === "blogs") return `${item.category || "No category"} · ${item.reading_time}m read`;
+    if (key === "cases") return `${item.client} · ${item.industry || "N/A"}`;
+    if (key === "jobs") return `${item.department || ""} · ${item.location || ""} · ${item.type}`;
+    if (key === "testimonials") return `${item.role || ""} at ${item.company || ""}`;
+    if (key === "products") return `${item.tagline || ""} · ${item.status}`;
+    if (key === "hero") return `Order: ${item.sort_order} · Badge: ${item.badge || "None"}`;
+    return "";
+  };
+
   return (
     <Layout>
-      <div className="pt-24">
+      <div className="pt-24 pb-12">
         <SectionWrapper>
           <div className="flex items-center justify-between mb-8">
             <div>
-              <h1 className="text-3xl font-display font-bold text-foreground">Admin Dashboard</h1>
-              <p className="text-sm text-muted-foreground font-body mt-1">Full content management and analytics</p>
+              <h1 className="text-2xl md:text-3xl font-bold text-foreground">Admin Dashboard</h1>
+              <p className="text-sm text-muted-foreground mt-1">Manage all website content</p>
             </div>
-            <Button variant="ghost" onClick={() => setLoggedIn(false)}><LogOut className="w-4 h-4 mr-2" />Logout</Button>
+            <Button variant="ghost" onClick={handleLogout}><LogOut className="w-4 h-4 mr-2" />Logout</Button>
           </div>
 
-          {/* Stats */}
-          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+          {/* Stats row */}
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-8">
             {[
-              { icon: Eye, label: "Total Visits", value: mockStats.totalVisits.toLocaleString(), change: "+12%" },
-              { icon: Users, label: "Total Leads", value: mockStats.totalLeads.toString(), change: "+8%" },
-              { icon: TrendingUp, label: "Conversion Rate", value: `${mockStats.conversionRate}%`, change: "+0.3%" },
-              { icon: Clock, label: "Avg. Time on Site", value: mockStats.avgTimeOnSite, change: "+15s" },
+              { label: "Leads", value: leads.length, icon: Mail },
+              { label: "Blog Posts", value: blogs.length, icon: FileText },
+              { label: "Products", value: products.length, icon: Clock },
+              { label: "Case Studies", value: caseStudies.length, icon: TrendingUp },
             ].map(s => (
-              <Card key={s.label} className="bg-gradient-card border-border/30">
-                <CardContent className="p-5">
-                  <div className="flex items-center justify-between mb-3">
-                    <s.icon className="w-5 h-5 text-primary" />
-                    <span className="text-xs text-green-400 font-body flex items-center gap-0.5"><ArrowUpRight className="w-3 h-3" />{s.change}</span>
+              <Card key={s.label}>
+                <CardContent className="p-4">
+                  <div className="flex items-center justify-between mb-2">
+                    <s.icon className="w-4 h-4 text-primary" />
                   </div>
-                  <div className="text-2xl font-display font-bold text-foreground">{s.value}</div>
-                  <div className="text-xs text-muted-foreground font-body mt-1">{s.label}</div>
+                  <div className="text-2xl font-bold text-foreground">{s.value}</div>
+                  <div className="text-xs text-muted-foreground mt-0.5">{s.label}</div>
                 </CardContent>
               </Card>
             ))}
           </div>
 
-          <Tabs defaultValue="leads" className="w-full">
-            <TabsList className="bg-secondary/50 mb-6">
-              <TabsTrigger value="leads">Leads</TabsTrigger>
-              <TabsTrigger value="analytics">Analytics</TabsTrigger>
-              <TabsTrigger value="content">Content</TabsTrigger>
+          {/* Content tabs */}
+          <Tabs value={tab} onValueChange={setTab}>
+            <TabsList className="flex-wrap h-auto gap-1 mb-6">
+              {sections.map(s => (
+                <TabsTrigger key={s.key} value={s.key} className="text-xs">
+                  {s.label} ({s.count})
+                </TabsTrigger>
+              ))}
             </TabsList>
 
-            {/* Leads Tab */}
-            <TabsContent value="leads">
-              <Card className="bg-gradient-card border-border/30">
-                <CardHeader><CardTitle className="text-lg">Lead Management</CardTitle></CardHeader>
-                <CardContent>
-                  <div className="overflow-x-auto">
-                    <table className="w-full text-sm font-body">
-                      <thead><tr className="border-b border-border/30 text-muted-foreground">
-                        <th className="text-left py-3 px-2">Name</th><th className="text-left py-3 px-2">Company</th>
-                        <th className="text-left py-3 px-2">Industry</th><th className="text-left py-3 px-2">Status</th>
-                        <th className="text-left py-3 px-2">Score</th><th className="text-left py-3 px-2">Date</th>
-                      </tr></thead>
-                      <tbody>{mockLeads.map(l => (
-                        <tr key={l.id} className="border-b border-border/20 hover:bg-secondary/20">
-                          <td className="py-3 px-2"><div className="text-foreground font-medium">{l.name}</div><div className="text-xs text-muted-foreground">{l.email}</div></td>
-                          <td className="py-3 px-2 text-muted-foreground">{l.company}</td>
-                          <td className="py-3 px-2 text-muted-foreground">{l.industry}</td>
-                          <td className="py-3 px-2"><Badge className={`${statusColor[l.status]} border-0 font-normal`}>{l.status}</Badge></td>
-                          <td className="py-3 px-2"><span className={`font-semibold ${l.score >= 80 ? "text-green-400" : l.score >= 60 ? "text-yellow-400" : "text-muted-foreground"}`}>{l.score}</span></td>
-                          <td className="py-3 px-2 text-muted-foreground">{l.date}</td>
-                        </tr>
-                      ))}</tbody>
-                    </table>
-                  </div>
-                </CardContent>
-              </Card>
-            </TabsContent>
-
-            {/* Analytics Tab */}
-            <TabsContent value="analytics">
-              <div className="grid md:grid-cols-2 gap-6">
-                <Card className="bg-gradient-card border-border/30">
-                  <CardHeader><CardTitle className="text-lg">Top Pages</CardTitle></CardHeader>
-                  <CardContent className="space-y-3">
-                    {mockStats.topPages.map(p => (
-                      <div key={p.page} className="flex items-center justify-between">
-                        <span className="text-sm text-foreground font-body">{p.page}</span>
-                        <div className="flex items-center gap-3">
-                          <div className="w-32 h-2 bg-secondary/50 rounded-full overflow-hidden">
-                            <div className="h-full bg-primary rounded-full" style={{ width: `${(p.views / 4200) * 100}%` }} />
+            {sections.map(s => (
+              <TabsContent key={s.key} value={s.key}>
+                <Card>
+                  <CardHeader className="flex-row items-center justify-between space-y-0">
+                    <CardTitle className="text-lg">{s.label}</CardTitle>
+                    {s.key !== "leads" && (
+                      <Button size="sm" onClick={() => openCreate(s.key)}><Plus className="w-4 h-4 mr-1" />Add New</Button>
+                    )}
+                  </CardHeader>
+                  <CardContent>
+                    {getItems(s.key).length === 0 ? (
+                      <p className="text-sm text-muted-foreground text-center py-8">No items yet. Click "Add New" to create one.</p>
+                    ) : (
+                      <div className="space-y-2">
+                        {getItems(s.key).map((item: any) => (
+                          <div key={item.id} className="flex items-center justify-between p-3 rounded-lg border border-border hover:bg-accent/50 transition-colors">
+                            <div className="min-w-0 flex-1">
+                              <div className="flex items-center gap-2">
+                                <p className="text-sm font-medium text-foreground truncate">{getItemLabel(s.key, item)}</p>
+                                {item.published !== undefined && (
+                                  <Badge variant={item.published ? "default" : "secondary"} className="text-[10px]">
+                                    {item.published ? "Published" : "Draft"}
+                                  </Badge>
+                                )}
+                                {item.status && s.key === "leads" && (
+                                  <Badge className={`text-[10px] border-0 ${statusColors[item.status] || ""}`}>{item.status}</Badge>
+                                )}
+                              </div>
+                              <p className="text-xs text-muted-foreground truncate">{getItemSub(s.key, item)}</p>
+                            </div>
+                            <div className="flex items-center gap-1 ml-2">
+                              <Button variant="ghost" size="icon" className="h-8 w-8" onClick={() => openEdit(s.key, item)}>
+                                <Pencil className="w-3.5 h-3.5" />
+                              </Button>
+                              <Button variant="ghost" size="icon" className="h-8 w-8 text-destructive hover:text-destructive" onClick={() => handleDelete(s.key, item.id)}>
+                                <Trash2 className="w-3.5 h-3.5" />
+                              </Button>
+                            </div>
                           </div>
-                          <span className="text-xs text-muted-foreground font-body w-12 text-right">{p.views.toLocaleString()}</span>
-                        </div>
+                        ))}
                       </div>
-                    ))}
+                    )}
                   </CardContent>
                 </Card>
-                <Card className="bg-gradient-card border-border/30">
-                  <CardHeader><CardTitle className="text-lg">Traffic Sources</CardTitle></CardHeader>
-                  <CardContent className="space-y-3">
-                    {mockStats.trafficSources.map(s => (
-                      <div key={s.source} className="flex items-center justify-between">
-                        <span className="text-sm text-foreground font-body">{s.source}</span>
-                        <div className="flex items-center gap-3">
-                          <div className="w-32 h-2 bg-secondary/50 rounded-full overflow-hidden">
-                            <div className="h-full bg-primary rounded-full" style={{ width: `${s.pct}%` }} />
-                          </div>
-                          <span className="text-xs text-muted-foreground font-body w-10 text-right">{s.pct}%</span>
-                        </div>
-                      </div>
-                    ))}
-                  </CardContent>
-                </Card>
-              </div>
-            </TabsContent>
-
-            {/* Content Tab */}
-            <TabsContent value="content">
-              <Card className="bg-gradient-card border-border/30">
-                <CardHeader><CardTitle className="text-lg">Content Management</CardTitle></CardHeader>
-                <CardContent>
-                  <div className="space-y-4">
-                    {["Blog Posts", "Case Studies", "Job Listings", "Testimonials", "Products"].map(section => (
-                      <div key={section} className="flex items-center justify-between p-4 rounded-lg bg-secondary/20 border border-border/20">
-                        <div className="flex items-center gap-3">
-                          <FileText className="w-5 h-5 text-primary" />
-                          <span className="text-foreground font-body font-medium">{section}</span>
-                        </div>
-                        <Button variant="outline" size="sm">Manage</Button>
-                      </div>
-                    ))}
-                    <p className="text-xs text-muted-foreground font-body text-center mt-4">
-                      Full CMS functionality requires Lovable Cloud backend. Currently displaying demo data.
-                    </p>
-                  </div>
-                </CardContent>
-              </Card>
-            </TabsContent>
+              </TabsContent>
+            ))}
           </Tabs>
         </SectionWrapper>
       </div>
+
+      {/* Edit/Create Dialog */}
+      <Dialog open={editOpen} onOpenChange={setEditOpen}>
+        <DialogContent className="max-w-lg max-h-[85vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle>{editItem ? "Edit" : "Create"} {editType}</DialogTitle>
+          </DialogHeader>
+          <div className="space-y-4 py-2">
+            {getFields(editType).map(field => (
+              <div key={field.key}>
+                <label className="text-sm font-medium text-foreground mb-1 block">{field.label}</label>
+                {field.type === "textarea" ? (
+                  <Textarea
+                    value={formData[field.key] || ""}
+                    onChange={e => setFormData(p => ({ ...p, [field.key]: e.target.value }))}
+                    rows={3}
+                  />
+                ) : field.type === "checkbox" ? (
+                  <input
+                    type="checkbox"
+                    checked={!!formData[field.key]}
+                    onChange={e => setFormData(p => ({ ...p, [field.key]: e.target.checked }))}
+                    className="h-4 w-4"
+                  />
+                ) : field.type === "number" ? (
+                  <Input
+                    type="number"
+                    value={formData[field.key] ?? ""}
+                    onChange={e => setFormData(p => ({ ...p, [field.key]: parseInt(e.target.value) || 0 }))}
+                  />
+                ) : (
+                  <Input
+                    value={formData[field.key] || ""}
+                    onChange={e => setFormData(p => ({ ...p, [field.key]: e.target.value }))}
+                  />
+                )}
+              </div>
+            ))}
+          </div>
+          <DialogFooter>
+            <Button variant="outline" onClick={() => setEditOpen(false)}>Cancel</Button>
+            <Button onClick={handleSave}>{editItem ? "Update" : "Create"}</Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </Layout>
   );
 };

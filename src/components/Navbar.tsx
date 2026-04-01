@@ -48,7 +48,6 @@ const megaMenuItems = {
 const navItems = [
   { label: "Home", path: "/" },
   { label: "What We Serve", path: "/services", mega: true },
-  { label: "Products", path: "/products" },
   { label: "Why Choose Us", path: "/why-choose-us" },
   { label: "Case Studies", path: "/case-studies" },
   { label: "Insights", path: "/blog" },
@@ -81,7 +80,6 @@ export const Navbar = () => {
       }`}>
         <div className="container mx-auto px-4 md:px-6">
           <div className="flex items-center justify-between h-16 md:h-18">
-            {/* Logo */}
             <Link to="/" className="flex items-center gap-2">
               <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
                 <span className="text-primary-foreground font-bold text-sm">OT</span>
@@ -92,7 +90,6 @@ export const Navbar = () => {
               </div>
             </Link>
 
-            {/* Desktop Nav */}
             <div className="hidden lg:flex items-center gap-0.5">
               {navItems.map((item) => (
                 <div
@@ -104,7 +101,7 @@ export const Navbar = () => {
                   <Link
                     to={item.path}
                     className={`px-3 py-2 text-[13px] font-medium rounded-md transition-colors flex items-center gap-1 ${
-                      location.pathname === item.path || (item.mega && (location.pathname.startsWith("/services") || location.pathname.startsWith("/industries")))
+                      location.pathname === item.path || (item.mega && (location.pathname.startsWith("/services") || location.pathname.startsWith("/industries") || location.pathname.startsWith("/products")))
                         ? "text-primary bg-primary/5" : "text-muted-foreground hover:text-foreground hover:bg-accent"
                     }`}
                   >
@@ -112,7 +109,6 @@ export const Navbar = () => {
                     {item.mega && <ChevronDown className={`w-3 h-3 transition-transform ${megaOpen ? "rotate-180" : ""}`} />}
                   </Link>
 
-                  {/* 3-Column Mega Menu */}
                   <AnimatePresence>
                     {item.mega && megaOpen && (
                       <motion.div
@@ -148,7 +144,6 @@ export const Navbar = () => {
               ))}
             </div>
 
-            {/* CTA + Mobile */}
             <div className="flex items-center gap-3">
               <Button size="sm" className="hidden md:inline-flex" asChild>
                 <Link to="/contact">Get Started</Link>
@@ -161,7 +156,6 @@ export const Navbar = () => {
         </div>
       </nav>
 
-      {/* Mobile Menu */}
       <AnimatePresence>
         {mobileOpen && (
           <motion.div

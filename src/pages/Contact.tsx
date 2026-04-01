@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Layout } from "@/components/Layout";
+import { supabase } from "@/integrations/supabase/client";
 import { SectionWrapper, SectionHeader } from "@/components/SectionWrapper";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
@@ -24,7 +25,11 @@ const Contact = () => {
 
   const update = (k: string, v: string) => setForm(p => ({ ...p, [k]: v }));
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
+    await (supabase.from as any)("leads").insert({
+      name: form.name, email: form.email, phone: form.phone,
+      company: form.company, industry: form.industry, message: form.message,
+    });
     setSubmitted(true);
     toast({ title: "Thank you!", description: "We'll get back to you within 24 hours." });
   };
