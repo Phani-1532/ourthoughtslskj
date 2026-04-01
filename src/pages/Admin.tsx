@@ -128,18 +128,18 @@ const Admin = () => {
   };
 
   const handleSave = async () => {
-    const table = getTable(editType);
+    const table = getTable(editType) as any;
     const saveData = { ...formData };
     delete saveData.id;
     delete saveData.created_at;
     delete saveData.updated_at;
 
     if (editItem) {
-      const { error } = await supabase.from(table).update(saveData).eq("id", editItem.id);
+      const { error } = await supabase.from(table).update(saveData as any).eq("id", editItem.id);
       if (error) { toast({ title: "Error", description: error.message, variant: "destructive" }); return; }
       toast({ title: "Updated!" });
     } else {
-      const { error } = await supabase.from(table).insert(saveData);
+      const { error } = await supabase.from(table).insert(saveData as any);
       if (error) { toast({ title: "Error", description: error.message, variant: "destructive" }); return; }
       toast({ title: "Created!" });
     }
@@ -148,7 +148,7 @@ const Admin = () => {
   };
 
   const handleDelete = async (type: string, id: string) => {
-    const table = getTable(type);
+    const table = getTable(type) as any;
     const { error } = await supabase.from(table).delete().eq("id", id);
     if (error) { toast({ title: "Error", description: error.message, variant: "destructive" }); return; }
     toast({ title: "Deleted!" });
