@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Layout } from "@/components/Layout";
+import { supabase } from "@/integrations/supabase/client";
 import { SectionWrapper, SectionHeader } from "@/components/SectionWrapper";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
