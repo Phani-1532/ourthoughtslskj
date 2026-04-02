@@ -210,6 +210,7 @@ const Admin = () => {
         { key: "title", label: "Title", type: "text" }, { key: "highlight", label: "Highlight Word", type: "text" },
         { key: "subtitle", label: "Subtitle", type: "textarea" }, { key: "badge", label: "Badge Text", type: "text" },
         { key: "cta_text", label: "CTA Text", type: "text" }, { key: "cta_link", label: "CTA Link", type: "text" },
+        { key: "image_url", label: "Image URL", type: "text" },
         { key: "sort_order", label: "Sort Order", type: "number" }, { key: "published", label: "Published", type: "checkbox" },
       ];
       default: return [];
