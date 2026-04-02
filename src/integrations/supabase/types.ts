@@ -115,6 +115,7 @@ export type Database = {
           cta_text: string | null
           highlight: string | null
           id: string
+          image_url: string | null
           published: boolean | null
           sort_order: number | null
           subtitle: string | null
@@ -127,6 +128,7 @@ export type Database = {
           cta_text?: string | null
           highlight?: string | null
           id?: string
+          image_url?: string | null
           published?: boolean | null
           sort_order?: number | null
           subtitle?: string | null
@@ -139,6 +141,7 @@ export type Database = {
           cta_text?: string | null
           highlight?: string | null
           id?: string
+          image_url?: string | null
           published?: boolean | null
           sort_order?: number | null
           subtitle?: string | null
@@ -331,6 +334,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      assign_admin_role: { Args: { _user_id: string }; Returns: undefined }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
