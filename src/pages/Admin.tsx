@@ -99,9 +99,9 @@ const Admin = () => {
   const handleSignup = async () => {
     const { data, error } = await supabase.auth.signUp({ email, password });
     if (error) { toast({ title: "Signup Failed", description: error.message, variant: "destructive" }); return; }
-    // Auto-assign admin role
     if (data.user) {
-      await supabase.from("user_roles").insert({ user_id: data.user.id, role: "admin" as any });
+      // Use security definer function to assign admin (only works for first user)
+      await supabase.rpc("assign_admin_role", { _user_id: data.user.id });
       toast({ title: "Admin Created!", description: "You are now logged in as admin." });
     }
   };
@@ -170,7 +170,7 @@ const Admin = () => {
       case "jobs": return { title: "", department: "", location: "", type: "Full-time", description: "", requirements: [], published: true };
       case "testimonials": return { name: "", role: "", company: "", content: "", rating: 5, published: true };
       case "products": return { name: "", slug: "", tagline: "", description: "", features: [], benefits: [], status: "Live", published: true, image_url: "" };
-      case "hero": return { title: "", highlight: "", subtitle: "", cta_text: "Get Started", cta_link: "/contact", badge: "", sort_order: 0, published: true };
+      case "hero": return { title: "", highlight: "", subtitle: "", cta_text: "Get Started", cta_link: "/contact", badge: "", sort_order: 0, published: true, image_url: "" };
       default: return {};
     }
   };
@@ -210,6 +210,7 @@ const Admin = () => {
         { key: "title", label: "Title", type: "text" }, { key: "highlight", label: "Highlight Word", type: "text" },
         { key: "subtitle", label: "Subtitle", type: "textarea" }, { key: "badge", label: "Badge Text", type: "text" },
         { key: "cta_text", label: "CTA Text", type: "text" }, { key: "cta_link", label: "CTA Link", type: "text" },
+        { key: "image_url", label: "Image URL", type: "text" },
         { key: "sort_order", label: "Sort Order", type: "number" }, { key: "published", label: "Published", type: "checkbox" },
       ];
       default: return [];
