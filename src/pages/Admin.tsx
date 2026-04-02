@@ -170,7 +170,7 @@ const Admin = () => {
       case "jobs": return { title: "", department: "", location: "", type: "Full-time", description: "", requirements: [], published: true };
       case "testimonials": return { name: "", role: "", company: "", content: "", rating: 5, published: true };
       case "products": return { name: "", slug: "", tagline: "", description: "", features: [], benefits: [], status: "Live", published: true, image_url: "" };
-      case "hero": return { title: "", highlight: "", subtitle: "", cta_text: "Get Started", cta_link: "/contact", badge: "", sort_order: 0, published: true };
+      case "hero": return { title: "", highlight: "", subtitle: "", cta_text: "Get Started", cta_link: "/contact", badge: "", sort_order: 0, published: true, image_url: "" };
       default: return {};
     }
   };
