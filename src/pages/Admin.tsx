@@ -99,9 +99,9 @@ const Admin = () => {
   const handleSignup = async () => {
     const { data, error } = await supabase.auth.signUp({ email, password });
     if (error) { toast({ title: "Signup Failed", description: error.message, variant: "destructive" }); return; }
-    // Auto-assign admin role
     if (data.user) {
-      await supabase.from("user_roles").insert({ user_id: data.user.id, role: "admin" as any });
+      // Use security definer function to assign admin (only works for first user)
+      await supabase.rpc("assign_admin_role", { _user_id: data.user.id });
       toast({ title: "Admin Created!", description: "You are now logged in as admin." });
     }
   };
