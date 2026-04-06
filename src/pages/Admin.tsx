@@ -8,11 +8,11 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Badge } from "@/components/ui/badge";
 import { Textarea } from "@/components/ui/textarea";
 import {
-  Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogTrigger
+  Dialog, DialogContent, DialogHeader, DialogTitle, DialogFooter, DialogDescription
 } from "@/components/ui/dialog";
 import {
   BarChart3, Users, FileText, Eye, TrendingUp, Mail,
-  LogOut, Shield, Clock, ArrowUpRight, Plus, Pencil, Trash2, X
+  LogOut, Shield, Clock, Plus, Pencil, Trash2
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 import { supabase } from "@/integrations/supabase/client";
@@ -29,12 +29,13 @@ const Admin = () => {
   const [session, setSession] = useState<any>(null);
   const [isAdmin, setIsAdmin] = useState(false);
   const [loading, setLoading] = useState(true);
+  const [authLoading, setAuthLoading] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [isSignup, setIsSignup] = useState(false);
   const [tab, setTab] = useState("leads");
   const { toast } = useToast();
 
-  // Data states
   const [leads, setLeads] = useState<any[]>([]);
   const [blogs, setBlogs] = useState<any[]>([]);
   const [caseStudies, setCaseStudies] = useState<any[]>([]);
@@ -43,28 +44,39 @@ const Admin = () => {
   const [products, setProducts] = useState<any[]>([]);
   const [heroSlides, setHeroSlides] = useState<any[]>([]);
 
-  // Edit dialog
   const [editOpen, setEditOpen] = useState(false);
   const [editType, setEditType] = useState("");
   const [editItem, setEditItem] = useState<any>(null);
   const [formData, setFormData] = useState<Record<string, any>>({});
 
   useEffect(() => {
-    supabase.auth.onAuthStateChange((_event, session) => {
-      setSession(session);
-      if (session?.user) checkAdmin(session.user.id);
-      else { setIsAdmin(false); setLoading(false); }
+    const { data: { subscription } } = supabase.auth.onAuthStateChange(async (_event, sess) => {
+      setSession(sess);
+      if (sess?.user) {
+        await checkAdmin(sess.user.id);
+      } else {
+        setIsAdmin(false);
+        setLoading(false);
+      }
     });
-    supabase.auth.getSession().then(({ data: { session } }) => {
-      setSession(session);
-      if (session?.user) checkAdmin(session.user.id);
-      else setLoading(false);
+    supabase.auth.getSession().then(async ({ data: { session: sess } }) => {
+      setSession(sess);
+      if (sess?.user) {
+        await checkAdmin(sess.user.id);
+      } else {
+        setLoading(false);
+      }
     });
+    return () => subscription.unsubscribe();
   }, []);
 
   const checkAdmin = async (uid: string) => {
-    const { data } = await supabase.from("user_roles").select("role").eq("user_id", uid).eq("role", "admin");
-    setIsAdmin(data && data.length > 0);
+    try {
+      const { data } = await supabase.rpc("has_role", { _user_id: uid, _role: "admin" as any });
+      setIsAdmin(!!data);
+    } catch {
+      setIsAdmin(false);
+    }
     setLoading(false);
   };
 
@@ -91,19 +103,32 @@ const Admin = () => {
     setHeroSlides(h.data || []);
   };
 
-  const handleLogin = async () => {
-    const { error } = await supabase.auth.signInWithPassword({ email, password });
-    if (error) toast({ title: "Login Failed", description: error.message, variant: "destructive" });
-  };
-
-  const handleSignup = async () => {
-    const { data, error } = await supabase.auth.signUp({ email, password });
-    if (error) { toast({ title: "Signup Failed", description: error.message, variant: "destructive" }); return; }
-    if (data.user) {
-      // Use security definer function to assign admin (only works for first user)
-      await supabase.rpc("assign_admin_role", { _user_id: data.user.id });
-      toast({ title: "Admin Created!", description: "You are now logged in as admin." });
+  const handleAuth = async () => {
+    if (!email || !password) {
+      toast({ title: "Missing fields", description: "Please enter email and password.", variant: "destructive" });
+      return;
     }
+    setAuthLoading(true);
+    try {
+      if (isSignup) {
+        const { data, error } = await supabase.auth.signUp({ email, password });
+        if (error) throw error;
+        if (data.user) {
+          // Assign admin role (only works for first user via security definer)
+          await supabase.rpc("assign_admin_role", { _user_id: data.user.id });
+          // Re-check admin status
+          await checkAdmin(data.user.id);
+          toast({ title: "Account created!", description: "You are now logged in as admin." });
+        }
+      } else {
+        const { error } = await supabase.auth.signInWithPassword({ email, password });
+        if (error) throw error;
+        toast({ title: "Signed in successfully!" });
+      }
+    } catch (err: any) {
+      toast({ title: isSignup ? "Signup Failed" : "Login Failed", description: err.message, variant: "destructive" });
+    }
+    setAuthLoading(false);
   };
 
   const handleLogout = async () => {
@@ -223,19 +248,29 @@ const Admin = () => {
   if (!session || !isAdmin) {
     return (
       <Layout>
-        <div className="pt-24 min-h-[70vh] flex items-center justify-center">
+        <div className="pt-24 min-h-[70vh] flex items-center justify-center px-4">
           <Card className="w-full max-w-md">
             <CardHeader className="text-center">
               <div className="w-16 h-16 rounded-xl bg-primary/10 flex items-center justify-center mx-auto mb-4"><Shield className="w-8 h-8 text-primary" /></div>
-              <CardTitle className="text-2xl">Admin Login</CardTitle>
-              <p className="text-sm text-muted-foreground mt-2">Access the content management dashboard</p>
+              <CardTitle className="text-2xl">{isSignup ? "Create Admin Account" : "Admin Login"}</CardTitle>
+              <p className="text-sm text-muted-foreground mt-2">
+                {isSignup ? "First user becomes the admin" : "Access the content management dashboard"}
+              </p>
             </CardHeader>
             <CardContent className="space-y-4">
               <Input placeholder="Email" type="email" value={email} onChange={e => setEmail(e.target.value)} />
-              <Input placeholder="Password" type="password" value={password} onChange={e => setPassword(e.target.value)} onKeyDown={e => e.key === "Enter" && handleLogin()} />
-              <Button className="w-full" onClick={handleLogin}>Sign In</Button>
-              <Button variant="outline" className="w-full" onClick={handleSignup}>Create Admin Account</Button>
-              {session && !isAdmin && <p className="text-sm text-destructive text-center">You don't have admin access.</p>}
+              <Input placeholder="Password (min 6 chars)" type="password" value={password} onChange={e => setPassword(e.target.value)} onKeyDown={e => e.key === "Enter" && handleAuth()} />
+              <Button className="w-full" onClick={handleAuth} disabled={authLoading}>
+                {authLoading ? "Please wait..." : (isSignup ? "Create Account" : "Sign In")}
+              </Button>
+              <button
+                type="button"
+                className="w-full text-sm text-primary hover:underline text-center"
+                onClick={() => setIsSignup(!isSignup)}
+              >
+                {isSignup ? "Already have an account? Sign in" : "First time? Create admin account"}
+              </button>
+              {session && !isAdmin && <p className="text-sm text-destructive text-center">You don't have admin access. Only the first registered user becomes admin.</p>}
             </CardContent>
           </Card>
         </div>
@@ -295,7 +330,6 @@ const Admin = () => {
             <Button variant="ghost" onClick={handleLogout}><LogOut className="w-4 h-4 mr-2" />Logout</Button>
           </div>
 
-          {/* Stats row */}
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-8">
             {[
               { label: "Leads", value: leads.length, icon: Mail },
@@ -315,7 +349,6 @@ const Admin = () => {
             ))}
           </div>
 
-          {/* Content tabs */}
           <Tabs value={tab} onValueChange={setTab}>
             <TabsList className="flex-wrap h-auto gap-1 mb-6">
               {sections.map(s => (
@@ -342,7 +375,7 @@ const Admin = () => {
                         {getItems(s.key).map((item: any) => (
                           <div key={item.id} className="flex items-center justify-between p-3 rounded-lg border border-border hover:bg-accent/50 transition-colors">
                             <div className="min-w-0 flex-1">
-                              <div className="flex items-center gap-2">
+                              <div className="flex items-center gap-2 flex-wrap">
                                 <p className="text-sm font-medium text-foreground truncate">{getItemLabel(s.key, item)}</p>
                                 {item.published !== undefined && (
                                   <Badge variant={item.published ? "default" : "secondary"} className="text-[10px]">
@@ -375,11 +408,11 @@ const Admin = () => {
         </SectionWrapper>
       </div>
 
-      {/* Edit/Create Dialog */}
       <Dialog open={editOpen} onOpenChange={setEditOpen}>
         <DialogContent className="max-w-lg max-h-[85vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle>{editItem ? "Edit" : "Create"} {editType}</DialogTitle>
+            <DialogDescription>Fill in the fields below and save.</DialogDescription>
           </DialogHeader>
           <div className="space-y-4 py-2">
             {getFields(editType).map(field => (
