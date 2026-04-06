@@ -1,5 +1,4 @@
 import { SectionWrapper, SectionHeader } from "@/components/SectionWrapper";
-import { Card, CardContent } from "@/components/ui/card";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import {
@@ -33,18 +32,18 @@ export const ServicesGrid = () => (
           viewport={{ once: true }}
           transition={{ delay: i * 0.05 }}
         >
-          <Card className="bg-background border-border hover:border-primary/30 group h-full transition-all duration-300 hover:-translate-y-1 hover:shadow-card">
-            <CardContent className="p-5 md:p-6">
-              <div className="w-11 h-11 rounded-xl bg-primary/10 flex items-center justify-center mb-4 group-hover:bg-primary/15 transition-colors">
-                <service.icon className="w-5 h-5 text-primary" />
+          <Link to={service.path} className="block group">
+            <div className="relative p-6 rounded-2xl border border-border bg-background hover:border-primary/30 transition-all duration-300 hover:-translate-y-1 hover:shadow-elevated h-full">
+              <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center mb-5 group-hover:bg-primary group-hover:text-primary-foreground transition-all duration-300">
+                <service.icon className="w-5 h-5 text-primary group-hover:text-primary-foreground transition-colors" />
               </div>
-              <h3 className="text-sm font-semibold text-foreground mb-2">{service.title}</h3>
-              <p className="text-xs text-muted-foreground mb-3 leading-relaxed">{service.description}</p>
-              <Link to={service.path} className="text-xs text-primary font-medium inline-flex items-center gap-1 hover:gap-2 transition-all">
+              <h3 className="text-sm font-bold text-foreground mb-2">{service.title}</h3>
+              <p className="text-xs text-muted-foreground mb-4 leading-relaxed">{service.description}</p>
+              <span className="text-xs text-primary font-medium inline-flex items-center gap-1 group-hover:gap-2 transition-all">
                 Learn more <ArrowRight className="w-3 h-3" />
-              </Link>
-            </CardContent>
-          </Card>
+              </span>
+            </div>
+          </Link>
         </motion.div>
       ))}
     </div>

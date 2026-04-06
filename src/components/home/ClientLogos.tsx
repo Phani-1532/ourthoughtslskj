@@ -11,7 +11,7 @@ export const ClientLogos = () => (
     <p className="text-center text-xs uppercase tracking-widest text-muted-foreground mb-8">
       Trusted by innovative organizations
     </p>
-    <div className="flex flex-wrap justify-center items-center gap-6 md:gap-12">
+    <div className="flex flex-wrap justify-center items-center gap-8 md:gap-16">
       {logos.map((name, i) => (
         <motion.div
           key={name}
@@ -19,7 +19,7 @@ export const ClientLogos = () => (
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
           transition={{ delay: i * 0.08 }}
-          className="text-muted-foreground/30 font-bold text-lg md:text-xl hover:text-primary/50 transition-colors cursor-default"
+          className="text-muted-foreground/25 font-bold text-xl md:text-2xl hover:text-primary/40 transition-colors cursor-default select-none"
         >
           {name}
         </motion.div>
