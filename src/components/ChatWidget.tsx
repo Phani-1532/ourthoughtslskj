@@ -235,6 +235,29 @@ export const ChatWidget = () => {
                   </div>
                 </div>
               )}
+
+              {showLeadForm && !typing && (
+                <form onSubmit={submitLead} className="bg-primary/5 border border-primary/20 rounded-xl p-3 space-y-2">
+                  <p className="text-xs font-semibold text-foreground">Want a tailored answer? Leave your details:</p>
+                  <Input
+                    placeholder="Your name"
+                    value={lead.name}
+                    onChange={e => setLead({ ...lead, name: e.target.value })}
+                    className="h-8 text-xs"
+                  />
+                  <Input
+                    type="email"
+                    placeholder="Email address"
+                    value={lead.email}
+                    onChange={e => setLead({ ...lead, email: e.target.value })}
+                    className="h-8 text-xs"
+                  />
+                  <div className="flex gap-2">
+                    <Button type="submit" size="sm" className="h-7 text-xs flex-1">Send</Button>
+                    <Button type="button" size="sm" variant="ghost" className="h-7 text-xs" onClick={() => setLeadCaptured(true)}>Skip</Button>
+                  </div>
+                </form>
+              )}
             </div>
 
             <div className="px-3 py-2 border-t border-border flex flex-wrap gap-1">
