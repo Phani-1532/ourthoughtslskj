@@ -96,12 +96,22 @@ const loadHistory = (): ChatMessage[] => {
   }
 };
 
+const LEAD_KEY = "ot-chat-lead-v1";
+
 export const ChatWidget = () => {
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState<ChatMessage[]>(loadHistory);
   const [input, setInput] = useState("");
   const [typing, setTyping] = useState(false);
+  const [leadCaptured, setLeadCaptured] = useState<boolean>(() => {
+    if (typeof window === "undefined") return false;
+    return !!localStorage.getItem(LEAD_KEY);
+  });
+  const [lead, setLead] = useState({ name: "", email: "" });
   const scrollRef = useRef<HTMLDivElement>(null);
+
+  const userMsgCount = messages.filter(m => m.role === "user").length;
+  const showLeadForm = !leadCaptured && userMsgCount >= 2;
 
   useEffect(() => {
     try { localStorage.setItem(STORAGE_KEY, JSON.stringify(messages)); } catch {}
@@ -109,7 +119,7 @@ export const ChatWidget = () => {
 
   useEffect(() => {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" });
-  }, [messages, typing, open]);
+  }, [messages, typing, open, showLeadForm]);
 
   const sendText = (text: string) => {
     if (!text.trim() || typing) return;
@@ -123,7 +133,18 @@ export const ChatWidget = () => {
     }, 900);
   };
 
-  const resetChat = () => setMessages([initialMessage]);
+  const submitLead = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!lead.name.trim() || !lead.email.trim()) return;
+    try { localStorage.setItem(LEAD_KEY, JSON.stringify({ ...lead, at: Date.now() })); } catch {}
+    setLeadCaptured(true);
+    setMessages(prev => [...prev, {
+      role: "bot",
+      text: `Thanks ${lead.name.split(" ")[0]}! Our team will reach out at ${lead.email} shortly. Anything else I can help with?`,
+    }]);
+  };
+
+  const resetChat = () => { setMessages([initialMessage]); };
 
   return (
     <>
