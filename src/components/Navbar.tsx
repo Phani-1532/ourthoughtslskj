@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { motion, AnimatePresence } from "framer-motion";
 import { Button } from "@/components/ui/button";
+import { GlobalSearch } from "@/components/GlobalSearch";
 import {
   ChevronDown, Menu, X, Heart, ShoppingCart, Hotel, Cpu, BarChart3,
   Utensils, Scale, Brain, Users, Briefcase, Globe, Smartphone,
@@ -145,6 +146,7 @@ export const Navbar = () => {
             </div>
 
             <div className="flex items-center gap-3">
+              <GlobalSearch />
               <Button size="sm" className="hidden md:inline-flex" asChild>
                 <Link to="/contact">Get Started</Link>
               </Button>

@@ -96,12 +96,22 @@ const loadHistory = (): ChatMessage[] => {
   }
 };
 
+const LEAD_KEY = "ot-chat-lead-v1";
+
 export const ChatWidget = () => {
   const [open, setOpen] = useState(false);
   const [messages, setMessages] = useState<ChatMessage[]>(loadHistory);
   const [input, setInput] = useState("");
   const [typing, setTyping] = useState(false);
+  const [leadCaptured, setLeadCaptured] = useState<boolean>(() => {
+    if (typeof window === "undefined") return false;
+    return !!localStorage.getItem(LEAD_KEY);
+  });
+  const [lead, setLead] = useState({ name: "", email: "" });
   const scrollRef = useRef<HTMLDivElement>(null);
+
+  const userMsgCount = messages.filter(m => m.role === "user").length;
+  const showLeadForm = !leadCaptured && userMsgCount >= 2;
 
   useEffect(() => {
     try { localStorage.setItem(STORAGE_KEY, JSON.stringify(messages)); } catch {}
@@ -109,7 +119,7 @@ export const ChatWidget = () => {
 
   useEffect(() => {
     scrollRef.current?.scrollTo({ top: scrollRef.current.scrollHeight, behavior: "smooth" });
-  }, [messages, typing, open]);
+  }, [messages, typing, open, showLeadForm]);
 
   const sendText = (text: string) => {
     if (!text.trim() || typing) return;
@@ -123,7 +133,18 @@ export const ChatWidget = () => {
     }, 900);
   };
 
-  const resetChat = () => setMessages([initialMessage]);
+  const submitLead = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!lead.name.trim() || !lead.email.trim()) return;
+    try { localStorage.setItem(LEAD_KEY, JSON.stringify({ ...lead, at: Date.now() })); } catch {}
+    setLeadCaptured(true);
+    setMessages(prev => [...prev, {
+      role: "bot",
+      text: `Thanks ${lead.name.split(" ")[0]}! Our team will reach out at ${lead.email} shortly. Anything else I can help with?`,
+    }]);
+  };
+
+  const resetChat = () => { setMessages([initialMessage]); };
 
   return (
     <>
@@ -213,6 +234,29 @@ export const ChatWidget = () => {
                     <span className="w-1.5 h-1.5 bg-foreground/50 rounded-full animate-bounce" style={{ animationDelay: "300ms" }} />
                   </div>
                 </div>
+              )}
+
+              {showLeadForm && !typing && (
+                <form onSubmit={submitLead} className="bg-primary/5 border border-primary/20 rounded-xl p-3 space-y-2">
+                  <p className="text-xs font-semibold text-foreground">Want a tailored answer? Leave your details:</p>
+                  <Input
+                    placeholder="Your name"
+                    value={lead.name}
+                    onChange={e => setLead({ ...lead, name: e.target.value })}
+                    className="h-8 text-xs"
+                  />
+                  <Input
+                    type="email"
+                    placeholder="Email address"
+                    value={lead.email}
+                    onChange={e => setLead({ ...lead, email: e.target.value })}
+                    className="h-8 text-xs"
+                  />
+                  <div className="flex gap-2">
+                    <Button type="submit" size="sm" className="h-7 text-xs flex-1">Send</Button>
+                    <Button type="button" size="sm" variant="ghost" className="h-7 text-xs" onClick={() => setLeadCaptured(true)}>Skip</Button>
+                  </div>
+                </form>
               )}
             </div>
 
