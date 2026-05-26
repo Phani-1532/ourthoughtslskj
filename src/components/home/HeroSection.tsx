@@ -4,6 +4,8 @@ import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { ArrowRight, ChevronLeft, ChevronRight } from "lucide-react";
 import { supabase } from "@/integrations/supabase/client";
+import { useIndustry } from "@/contexts/IndustryContext";
+import { getIndustryContent } from "@/lib/industryContent";
 
 interface Slide {
   id: string;
@@ -23,13 +25,19 @@ const fallbackSlides: Slide[] = [
 ];
 
 export const HeroSection = () => {
-  const [slides, setSlides] = useState<Slide[]>(fallbackSlides);
+  const { industry } = useIndustry();
+  const industryContent = getIndustryContent(industry);
+  const [dbSlides, setDbSlides] = useState<Slide[]>(fallbackSlides);
   const [current, setCurrent] = useState(0);
 
   useEffect(() => {
     supabase.from("hero_slides").select("*").eq("published", true).order("sort_order")
-      .then(({ data }) => { if (data && data.length > 0) setSlides(data as Slide[]); });
+      .then(({ data }) => { if (data && data.length > 0) setDbSlides(data as Slide[]); });
   }, []);
+
+  const slides: Slide[] = industryContent ? (industryContent.hero as Slide[]) : dbSlides;
+
+  useEffect(() => { setCurrent(0); }, [industry]);
 
   useEffect(() => {
     const timer = setInterval(() => setCurrent(p => (p + 1) % slides.length), 6000);

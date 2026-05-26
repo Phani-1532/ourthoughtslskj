@@ -16,12 +16,18 @@ const services = [
   { title: "LAW Management", description: "Case management and client relationship tools.", icon: Scale, path: "/industries/law" },
 ];
 
-export const ServicesGrid = () => (
+import { useIndustry } from "@/contexts/IndustryContext";
+import { getIndustryContent } from "@/lib/industryContent";
+
+export const ServicesGrid = () => {
+  const { industry } = useIndustry();
+  const c = getIndustryContent(industry)?.servicesHeader;
+  return (
   <SectionWrapper>
     <SectionHeader
-      badge="What We Serve"
-      title="Business Process Segments"
-      subtitle="Comprehensive technological solutions to help companies achieve greater success."
+      badge={c?.badge || "What We Serve"}
+      title={c?.title || "Business Process Segments"}
+      subtitle={c?.subtitle || "Comprehensive technological solutions to help companies achieve greater success."}
     />
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6">
       {services.map((service, i) => (
@@ -48,4 +54,5 @@ export const ServicesGrid = () => (
       ))}
     </div>
   </SectionWrapper>
-);
+  );
+};
