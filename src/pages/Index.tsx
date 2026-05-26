@@ -15,7 +15,7 @@ import { FAQ } from "@/components/home/FAQ";
 import { CTABlock } from "@/components/home/CTABlock";
 
 const Index = () => (
-  <Layout>
+  <Layout personalize>
     <SEOHead
       title="Home"
       description="Our Thoughts LSKJ — Multi-domain innovation leader across E-Learning, Healthcare, Hospitality, IT, Consulting & BPM."

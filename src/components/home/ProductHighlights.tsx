@@ -32,12 +32,18 @@ const products = [
   },
 ];
 
-export const ProductHighlights = () => (
+import { useIndustry } from "@/contexts/IndustryContext";
+import { getIndustryContent } from "@/lib/industryContent";
+
+export const ProductHighlights = () => {
+  const { industry } = useIndustry();
+  const c = getIndustryContent(industry)?.productsHeader;
+  return (
   <SectionWrapper className="bg-card/50">
     <SectionHeader
-      badge="Our Products"
-      title="Innovative Solutions Built for Scale"
-      subtitle="Powerful platforms designed to transform industries and drive measurable results."
+      badge={c?.badge || "Our Products"}
+      title={c?.title || "Innovative Solutions Built for Scale"}
+      subtitle={c?.subtitle || "Powerful platforms designed to transform industries and drive measurable results."}
     />
     <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
       {products.map((product, i) => (
@@ -74,4 +80,5 @@ export const ProductHighlights = () => (
       ))}
     </div>
   </SectionWrapper>
-);
+  );
+};

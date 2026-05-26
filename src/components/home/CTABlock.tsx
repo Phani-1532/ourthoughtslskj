@@ -2,8 +2,13 @@ import { SectionWrapper } from "@/components/SectionWrapper";
 import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { ArrowRight, Rocket } from "lucide-react";
+import { useIndustry } from "@/contexts/IndustryContext";
+import { getIndustryContent } from "@/lib/industryContent";
 
-export const CTABlock = () => (
+export const CTABlock = () => {
+  const { industry } = useIndustry();
+  const c = getIndustryContent(industry)?.cta;
+  return (
   <SectionWrapper>
     <div className="relative rounded-3xl overflow-hidden bg-primary p-10 md:p-20 text-center">
       <div className="absolute inset-0 bg-gradient-to-br from-primary via-primary to-primary/80" />
@@ -14,10 +19,10 @@ export const CTABlock = () => (
           <Rocket className="w-8 h-8 text-primary-foreground" />
         </div>
         <h2 className="text-3xl md:text-5xl font-bold text-primary-foreground mb-4">
-          Ready to Transform Your Business?
+          {c?.title || "Ready to Transform Your Business?"}
         </h2>
         <p className="text-base md:text-lg text-primary-foreground/80 mb-10 max-w-xl mx-auto">
-          Let's discuss how our solutions can drive measurable growth for your organization. Free consultation, no commitments.
+          {c?.subtitle || "Let's discuss how our solutions can drive measurable growth for your organization. Free consultation, no commitments."}
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
           <Button variant="secondary" size="lg" className="text-base px-8" asChild>
@@ -32,4 +37,6 @@ export const CTABlock = () => (
       </div>
     </div>
   </SectionWrapper>
-);
+  );
+};
+
