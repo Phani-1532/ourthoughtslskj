@@ -61,6 +61,7 @@ const App = () => (
           </Suspense>
         </BrowserRouter>
       </TooltipProvider>
+      </IndustryProvider>
     </QueryClientProvider>
   </HelmetProvider>
 );
