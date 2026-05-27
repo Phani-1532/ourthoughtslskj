@@ -6,6 +6,7 @@ import { ChatWidget } from "./ChatWidget";
 import { ExitIntentPopup } from "./ExitIntentPopup";
 import { IndustrySelectModal } from "./IndustrySelectModal";
 import { IndustrySwitcher } from "./IndustrySwitcher";
+import { VersionChecker } from "./VersionChecker";
 
 export const Layout = ({ children, personalize = false }: { children: ReactNode; personalize?: boolean }) => (
   <div className="min-h-screen bg-background">
@@ -17,6 +18,7 @@ export const Layout = ({ children, personalize = false }: { children: ReactNode;
     <ExitIntentPopup />
     {personalize && <IndustrySelectModal />}
     {personalize && <IndustrySwitcher />}
+    <VersionChecker />
   </div>
 );
 
