@@ -14,8 +14,8 @@ export default {
     },
     extend: {
       fontFamily: {
-        display: ["Verdana", "Geneva", "Tahoma", "sans-serif"],
-        body: ["Verdana", "Geneva", "Tahoma", "sans-serif"],
+        display: ["Outfit", "Arial", "sans-serif"],
+        body: ["Figtree", "Arial", "sans-serif"],
       },
       colors: {
         border: "hsl(var(--border))",
