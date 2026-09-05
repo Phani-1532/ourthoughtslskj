@@ -1,6 +1,7 @@
 import { SectionWrapper, SectionHeader } from "@/components/SectionWrapper";
 import { motion } from "framer-motion";
 import { Award, Shield, Star, Trophy, BadgeCheck, Sparkles } from "lucide-react";
+import awardsWall from "@/assets/awards-wall.png";
 
 const awards = [
   { icon: Trophy, title: "Top B2B Innovator 2025", body: "Clutch Global Leaders" },
@@ -18,6 +19,9 @@ export const Awards = () => (
       title="Recognized for Impact"
       subtitle="Trusted by industry leaders, certified by global standards."
     />
+    <div className="max-w-5xl mx-auto mb-8 overflow-hidden border border-border bg-background shadow-card">
+      <img src={awardsWall} alt="Our Thoughts LSKJ awards and certifications" loading="lazy" className="w-full h-auto" />
+    </div>
     <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
       {awards.map((a, i) => (
         <motion.div

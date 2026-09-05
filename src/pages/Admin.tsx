@@ -43,6 +43,7 @@ const Admin = () => {
   const [testimonials, setTestimonials] = useState<any[]>([]);
   const [products, setProducts] = useState<any[]>([]);
   const [heroSlides, setHeroSlides] = useState<any[]>([]);
+  const [newsletterSubscribers, setNewsletterSubscribers] = useState<any[]>([]);
 
   const [editOpen, setEditOpen] = useState(false);
   const [editType, setEditType] = useState("");
@@ -85,7 +86,7 @@ const Admin = () => {
   }, [isAdmin]);
 
   const fetchAll = async () => {
-    const [l, b, c, j, t, p, h] = await Promise.all([
+    const [l, b, c, j, t, p, h, n] = await Promise.all([
       supabase.from("leads").select("*").order("created_at", { ascending: false }),
       supabase.from("blog_posts").select("*").order("created_at", { ascending: false }),
       supabase.from("case_studies").select("*").order("created_at", { ascending: false }),
@@ -93,6 +94,7 @@ const Admin = () => {
       supabase.from("testimonials").select("*").order("created_at", { ascending: false }),
       supabase.from("products").select("*").order("created_at", { ascending: false }),
       supabase.from("hero_slides").select("*").order("sort_order"),
+      supabase.from("newsletter_subscribers").select("*").order("subscribed_at", { ascending: false }),
     ]);
     setLeads(l.data || []);
     setBlogs(b.data || []);
@@ -101,6 +103,7 @@ const Admin = () => {
     setTestimonials(t.data || []);
     setProducts(p.data || []);
     setHeroSlides(h.data || []);
+    setNewsletterSubscribers(n.data || []);
   };
 
   const handleAuth = async () => {
@@ -184,6 +187,7 @@ const Admin = () => {
     const map: Record<string, string> = {
       blogs: "blog_posts", cases: "case_studies", jobs: "job_listings",
       testimonials: "testimonials", products: "products", hero: "hero_slides", leads: "leads"
+      ,newsletter: "newsletter_subscribers"
     };
     return map[type] || type;
   };
@@ -287,6 +291,7 @@ const Admin = () => {
     { key: "jobs", label: "Job Listings", count: jobs.length, icon: Users },
     { key: "testimonials", label: "Testimonials", count: testimonials.length, icon: BarChart3 },
     { key: "products", label: "Products", count: products.length, icon: Clock },
+    { key: "newsletter", label: "Newsletter", count: newsletterSubscribers.length, icon: Mail },
   ];
 
   const getItems = (key: string) => {
@@ -298,17 +303,20 @@ const Admin = () => {
       case "jobs": return jobs;
       case "testimonials": return testimonials;
       case "products": return products;
+      case "newsletter": return newsletterSubscribers;
       default: return [];
     }
   };
 
   const getItemLabel = (key: string, item: any) => {
     if (key === "leads") return item.name + " — " + item.email;
+    if (key === "newsletter") return item.email;
     return item.title || item.name || "Untitled";
   };
 
   const getItemSub = (key: string, item: any) => {
     if (key === "leads") return `${item.company || "N/A"} · ${item.industry || "N/A"} · Score: ${item.score}`;
+    if (key === "newsletter") return `${item.source || "homepage"} · ${new Date(item.subscribed_at).toLocaleDateString()}`;
     if (key === "blogs") return `${item.category || "No category"} · ${item.reading_time}m read`;
     if (key === "cases") return `${item.client} · ${item.industry || "N/A"}`;
     if (key === "jobs") return `${item.department || ""} · ${item.location || ""} · ${item.type}`;

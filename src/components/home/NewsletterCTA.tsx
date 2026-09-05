@@ -4,19 +4,32 @@ import { Input } from "@/components/ui/input";
 import { Mail, CheckCircle2 } from "lucide-react";
 import { useState, FormEvent } from "react";
 import { toast } from "sonner";
+import { supabase } from "@/integrations/supabase/client";
 
 export const NewsletterCTA = () => {
   const [email, setEmail] = useState("");
   const [done, setDone] = useState(false);
 
-  const submit = (e: FormEvent) => {
+  const [submitting, setSubmitting] = useState(false);
+
+  const submit = async (e: FormEvent) => {
     e.preventDefault();
     if (!email.includes("@")) {
       toast.error("Please enter a valid email");
       return;
     }
+    setSubmitting(true);
+    const { error } = await supabase.from("newsletter_subscribers").insert({
+      email: email.trim().toLowerCase(),
+      source: "homepage",
+    });
+    setSubmitting(false);
+    if (error && error.code !== "23505") {
+      toast.error("We couldn't subscribe you right now. Please try again.");
+      return;
+    }
     setDone(true);
-    toast.success("You're in! Check your inbox.");
+    toast.success(error?.code === "23505" ? "You're already subscribed." : "You're in! Check your inbox.");
     setEmail("");
   };
 
@@ -46,7 +59,7 @@ export const NewsletterCTA = () => {
               className="flex-1"
               required
             />
-            <Button type="submit" size="lg">Subscribe</Button>
+            <Button type="submit" size="lg" disabled={submitting}>{submitting ? "Joining…" : "Subscribe"}</Button>
           </form>
         )}
       </div>
