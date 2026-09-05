@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { Layout } from "@/components/Layout";
 import { SectionWrapper, SectionHeader } from "@/components/SectionWrapper";
 import { Card, CardContent } from "@/components/ui/card";
@@ -8,25 +8,29 @@ import { Badge } from "@/components/ui/badge";
 import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import { Clock, User, ArrowRight, Search, TrendingUp, Calendar } from "lucide-react";
+import { useQuery } from "@tanstack/react-query";
+import { supabase } from "@/integrations/supabase/client";
 
-const posts = [
-  { id: "ai-business-2025", title: "How AI is Reshaping Business Operations in 2025", excerpt: "From predictive analytics to automated workflows, AI is no longer optional—it's the backbone of modern enterprise.", category: "Technology", author: "Rahul Sharma", date: "Mar 28, 2025", readTime: "8 min", featured: true, tags: ["AI", "Business", "Automation"] },
-  { id: "hrms-implementation", title: "HRMS Implementation: A Complete Guide for Growing Companies", excerpt: "Step-by-step blueprint for deploying an HRMS that actually gets adopted by your team.", category: "Products", author: "Priya Patel", date: "Mar 22, 2025", readTime: "12 min", featured: true, tags: ["HRMS", "HR Tech", "Implementation"] },
-  { id: "healthcare-digital", title: "Digital Transformation in Healthcare: Beyond EHR", excerpt: "Healthcare's next wave isn't about records—it's about connected, intelligent care ecosystems.", category: "Healthcare", author: "Dr. Meera Joshi", date: "Mar 15, 2025", readTime: "6 min", featured: false, tags: ["Healthcare", "Digital", "Innovation"] },
-  { id: "ecommerce-trends", title: "E-Commerce Trends That Will Define the Next Decade", excerpt: "Voice commerce, social selling, and hyper-personalization—the retail landscape is evolving fast.", category: "E-Commerce", author: "Vikram Desai", date: "Mar 10, 2025", readTime: "7 min", featured: false, tags: ["E-Commerce", "Retail", "Trends"] },
-  { id: "hospitality-tech", title: "Smart Hotels: Technology That Guests Actually Want", excerpt: "Forget gimmicks—here's what high-tech hospitality looks like when done right.", category: "Hospitality", author: "Ananya Rao", date: "Mar 5, 2025", readTime: "5 min", featured: false, tags: ["Hospitality", "Hotels", "Tech"] },
-  { id: "women-entrepreneurship", title: "Empowering Women Entrepreneurs in India's Tech Ecosystem", excerpt: "How Our Thoughts LSKJ is bridging the gender gap in technology and business leadership.", category: "Culture", author: "Sneha Reddy", date: "Feb 28, 2025", readTime: "9 min", featured: false, tags: ["Women", "Entrepreneurship", "Empowerment"] },
-];
-
-const categories = ["All", "Technology", "Products", "Healthcare", "E-Commerce", "Hospitality", "Culture"];
-const trendingTags = ["AI", "HRMS", "Healthcare", "E-Commerce", "Digital Transformation", "Women Empowerment"];
+type Post = { id: string; slug: string; title: string; excerpt: string | null; category: string | null; tags: string[] | null; featured: boolean | null; reading_time: number | null; created_at: string };
 
 const Blog = () => {
   const [search, setSearch] = useState("");
   const [activeCategory, setActiveCategory] = useState("All");
+  const { data: posts = [], isLoading, isError } = useQuery<Post[]>({
+    queryKey: ["blog-posts"],
+    queryFn: async () => {
+      const { data, error } = await supabase.from("blog_posts").select("id, slug, title, excerpt, category, tags, featured, reading_time, created_at").eq("published", true).order("created_at", { ascending: false });
+      if (error) throw error;
+      return data ?? [];
+    },
+  });
+
+  const categories = useMemo(() => ["All", ...Array.from(new Set(posts.map(p => p.category).filter(Boolean) as string[]))], [posts]);
+  const trendingTags = useMemo(() => Array.from(new Set(posts.flatMap(p => p.tags ?? []))).slice(0, 6), [posts]);
 
   const filtered = posts.filter(p => {
-    const matchSearch = !search || p.title.toLowerCase().includes(search.toLowerCase()) || p.tags.some(t => t.toLowerCase().includes(search.toLowerCase()));
+    const query = search.toLowerCase();
+    const matchSearch = !query || p.title.toLowerCase().includes(query) || (p.excerpt ?? "").toLowerCase().includes(query) || (p.tags ?? []).some(t => t.toLowerCase().includes(query));
     const matchCat = activeCategory === "All" || p.category === activeCategory;
     return matchSearch && matchCat;
   });
@@ -39,7 +43,9 @@ const Blog = () => {
         <SectionWrapper>
           <SectionHeader badge="Insights" title="Insights & Blog" subtitle="Thought leadership, industry insights, and latest updates from Our Thoughts LSKJ." />
 
-          {/* Search + Tags */}
+           {isLoading && <div className="py-16 text-center text-muted-foreground">Loading the latest posts…</div>}
+           {isError && <div className="py-16 text-center text-muted-foreground">We couldn't load the blog right now.</div>}
+           {/* Search + Tags */}
           <div className="max-w-2xl mx-auto mb-12">
             <div className="relative mb-6">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
@@ -74,9 +80,8 @@ const Blog = () => {
                         <h2 className="text-2xl font-display font-bold text-foreground mb-3 group-hover:text-primary transition-colors">{post.title}</h2>
                         <p className="text-sm text-muted-foreground font-body mb-4 line-clamp-2">{post.excerpt}</p>
                         <div className="flex items-center gap-4 text-xs text-muted-foreground font-body">
-                          <span className="flex items-center gap-1"><User className="w-3 h-3" />{post.author}</span>
-                          <span className="flex items-center gap-1"><Calendar className="w-3 h-3" />{post.date}</span>
-                          <span className="flex items-center gap-1"><Clock className="w-3 h-3" />{post.readTime} read</span>
+                           <span className="flex items-center gap-1"><Calendar className="w-3 h-3" />{new Date(post.created_at).toLocaleDateString()}</span>
+                           <span className="flex items-center gap-1"><Clock className="w-3 h-3" />{post.reading_time ?? 5} min read</span>
                         </div>
                       </CardContent>
                     </Card>
@@ -94,13 +99,13 @@ const Blog = () => {
                   <Card className="bg-gradient-card border-border/30 hover:border-primary/30 group h-full transition-all hover:-translate-y-1">
                     <CardContent className="p-6">
                       <div className="flex items-center gap-2 mb-3">
-                        <Badge variant="outline" className="text-xs border-primary/30 text-primary font-body">{post.category}</Badge>
-                        <span className="text-xs text-muted-foreground font-body flex items-center gap-1"><Clock className="w-3 h-3" />{post.readTime}</span>
+                         <Badge variant="outline" className="text-xs border-primary/30 text-primary font-body">{post.category ?? "Insights"}</Badge>
+                         <span className="text-xs text-muted-foreground font-body flex items-center gap-1"><Clock className="w-3 h-3" />{post.reading_time ?? 5} min</span>
                       </div>
                       <h3 className="text-lg font-display font-semibold text-foreground mb-2 group-hover:text-primary transition-colors line-clamp-2">{post.title}</h3>
-                      <p className="text-sm text-muted-foreground font-body mb-4 line-clamp-2">{post.excerpt}</p>
+                       <p className="text-sm text-muted-foreground font-body mb-4 line-clamp-2">{post.excerpt ?? "Read the latest from Our Thoughts LSKJ."}</p>
                       <div className="flex items-center justify-between">
-                        <span className="text-xs text-muted-foreground font-body">{post.author} · {post.date}</span>
+                         <span className="text-xs text-muted-foreground font-body">{new Date(post.created_at).toLocaleDateString()}</span>
                         <ArrowRight className="w-4 h-4 text-primary opacity-0 group-hover:opacity-100 transition-opacity" />
                       </div>
                     </CardContent>

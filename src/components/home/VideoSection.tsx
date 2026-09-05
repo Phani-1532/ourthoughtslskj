@@ -2,6 +2,7 @@ import { SectionWrapper, SectionHeader } from "@/components/SectionWrapper";
 import { Play } from "lucide-react";
 import { useState } from "react";
 import { motion } from "framer-motion";
+import videoAsset from "@/assets/our-thoughts-reel.mp4.asset.json";
 
 export const VideoSection = () => {
   const [playing, setPlaying] = useState(false);
@@ -19,12 +20,13 @@ export const VideoSection = () => {
         className="max-w-4xl mx-auto rounded-3xl overflow-hidden border border-border shadow-xl aspect-video bg-primary relative"
       >
         {playing ? (
-          <iframe
+          <video
             className="w-full h-full"
-            src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1"
+            src={videoAsset.url}
             title="Our Thoughts LSKJ"
-            allow="autoplay; encrypted-media"
-            allowFullScreen
+            controls
+            autoPlay
+            playsInline
           />
         ) : (
           <button
