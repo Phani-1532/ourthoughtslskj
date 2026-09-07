@@ -58,7 +58,7 @@ const roadmap = [
 
 const Products = () => (
   <Layout>
-    <div className="pt-24">
+      <div className="pt-24 bg-background">
       {/* Main Products */}
       <SectionWrapper>
         <SectionHeader
@@ -75,9 +75,9 @@ const Products = () => (
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
             >
-              <div className={`grid lg:grid-cols-2 gap-10 items-center ${i % 2 === 1 ? "lg:flex-row-reverse" : ""}`}>
+              <div className={`grid lg:grid-cols-2 gap-10 items-center border-t border-border/40 pt-10 ${i % 2 === 1 ? "lg:flex-row-reverse" : ""}`}>
                 <div className={i % 2 === 1 ? "lg:order-2" : ""}>
-                  <span className="inline-block px-3 py-1 text-xs font-semibold text-primary bg-primary/10 rounded-full border border-primary/20 font-body mb-4">
+                  <span className="inline-block px-3 py-1 text-xs font-semibold text-primary bg-primary/10 rounded-sm border border-primary/20 font-body mb-4">
                     {product.status}
                   </span>
                   <h3 className="text-3xl font-display font-bold text-foreground mb-4">{product.title}</h3>
@@ -91,7 +91,7 @@ const Products = () => (
                     ))}
                   </div>
 
-                  <div className="bg-primary/5 border border-primary/10 rounded-xl p-4 mb-6">
+                  <div className="bg-card border border-primary/20 rounded-sm p-4 mb-6 shadow-card">
                     <h4 className="text-sm font-semibold text-primary font-body mb-2">Key Benefits</h4>
                     {product.benefits.map((b) => (
                       <p key={b} className="text-sm text-muted-foreground font-body mb-1">• {b}</p>
@@ -107,7 +107,7 @@ const Products = () => (
 
                 <div className={`flex justify-center ${i % 2 === 1 ? "lg:order-1" : ""}`}>
                   <div className="relative">
-                    <div className="absolute inset-0 bg-primary/5 rounded-3xl blur-3xl" />
+                    <div className="absolute inset-0 bg-primary/10 rounded-full blur-3xl" />
                     <img
                       src={product.image}
                       alt={product.title}
@@ -123,7 +123,7 @@ const Products = () => (
       </SectionWrapper>
 
       {/* Upcoming Apps */}
-      <SectionWrapper className="bg-card/50">
+      <SectionWrapper className="bg-card/30 border-y border-border/30">
         <SectionHeader
           badge="Coming Soon"
           title="Applications on the Way"
@@ -138,7 +138,7 @@ const Products = () => (
               viewport={{ once: true }}
               transition={{ delay: i * 0.1 }}
             >
-              <Card className="bg-gradient-card border-border/30 hover:border-primary/30 h-full text-center group">
+              <Card className="bg-card/80 border-border/30 hover:border-primary/50 h-full text-center group shadow-card">
                 <CardContent className="p-6">
                   <div className="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center mx-auto mb-4 group-hover:bg-primary/20 transition-colors">
                     <app.icon className="w-7 h-7 text-primary" />

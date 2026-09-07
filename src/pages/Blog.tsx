@@ -73,8 +73,8 @@ const Blog = () => {
             <div className="grid md:grid-cols-2 gap-6 mb-16">
               {featured.map((post, i) => (
                 <motion.div key={post.id} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }}>
-                  <Link to={`/blog/${post.id}`}>
-                    <Card className="bg-gradient-card border-primary/20 hover:border-primary/40 group h-full transition-all hover:-translate-y-1">
+                   <Link to={`/blog/${post.slug}`}>
+                     <Card className="bg-card/80 border-primary/20 hover:border-primary/60 group h-full transition-all hover:-translate-y-1 shadow-card">
                       <CardContent className="p-8">
                         <Badge className="mb-4 bg-primary/10 text-primary border-0 font-body">Featured</Badge>
                         <h2 className="text-2xl font-display font-bold text-foreground mb-3 group-hover:text-primary transition-colors">{post.title}</h2>
@@ -95,8 +95,8 @@ const Blog = () => {
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {filtered.map((post, i) => (
               <motion.div key={post.id} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.06 }}>
-                <Link to={`/blog/${post.id}`}>
-                  <Card className="bg-gradient-card border-border/30 hover:border-primary/30 group h-full transition-all hover:-translate-y-1">
+                 <Link to={`/blog/${post.slug}`}>
+                   <Card className="bg-card/80 border-border/30 hover:border-primary/50 group h-full transition-all hover:-translate-y-1 shadow-card">
                     <CardContent className="p-6">
                       <div className="flex items-center gap-2 mb-3">
                          <Badge variant="outline" className="text-xs border-primary/30 text-primary font-body">{post.category ?? "Insights"}</Badge>

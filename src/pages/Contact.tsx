@@ -59,7 +59,7 @@ const Contact = () => {
 
   return (
     <Layout>
-      <div className="pt-24">
+      <div className="pt-24 bg-background">
         <SectionWrapper>
           <SectionHeader badge="Contact" title="Let's Build Something Great" subtitle="Tell us about your project. We'll respond within 24 hours." />
 
@@ -72,7 +72,7 @@ const Contact = () => {
                 { icon: MapPin, label: "Office", value: "Hyderabad, India" },
                 { icon: MessageCircle, label: "WhatsApp", value: "Chat with us", href: "https://wa.me/919876543210" },
               ].map((c) => (
-                <Card key={c.label} className="bg-gradient-card border-border/30">
+                  <Card key={c.label} className="bg-card/80 border-border/30 shadow-card hover:border-primary/50 transition-colors">
                   <CardContent className="p-4 flex items-center gap-4">
                     <div className="w-10 h-10 rounded-lg bg-primary/10 flex items-center justify-center"><c.icon className="w-5 h-5 text-primary" /></div>
                     <div>
@@ -90,7 +90,7 @@ const Contact = () => {
 
             {/* Multi-step Form */}
             <div className="lg:col-span-2">
-              <Card className="bg-gradient-card border-border/30">
+              <Card className="bg-card/80 border-primary/20 shadow-card">
                 <CardContent className="p-8">
                   {/* Progress */}
                   <div className="flex items-center justify-between mb-8">

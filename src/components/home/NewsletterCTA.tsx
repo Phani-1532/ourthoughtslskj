@@ -35,7 +35,7 @@ export const NewsletterCTA = () => {
 
   return (
     <SectionWrapper>
-      <div className="max-w-3xl mx-auto bg-card border border-border rounded-3xl p-8 md:p-12 text-center">
+      <div className="max-w-3xl mx-auto bg-card border border-primary/20 p-8 md:p-12 text-center shadow-card">
         <div className="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center mx-auto mb-6">
           <Mail className="w-7 h-7 text-primary" />
         </div>

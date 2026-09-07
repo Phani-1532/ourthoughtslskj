@@ -151,7 +151,7 @@ const Admin = () => {
   const openEdit = (type: string, item: any) => {
     setEditType(type);
     setEditItem(item);
-    setFormData({ ...item });
+    setFormData(type === "blogs" ? { ...item, tags: (item.tags ?? []).join(", ") } : { ...item });
     setEditOpen(true);
   };
 
@@ -161,6 +161,9 @@ const Admin = () => {
     delete saveData.id;
     delete saveData.created_at;
     delete saveData.updated_at;
+    if (editType === "blogs" && typeof saveData.tags === "string") {
+      saveData.tags = saveData.tags.split(",").map((tag: string) => tag.trim()).filter(Boolean);
+    }
 
     if (editItem) {
       const { error } = await supabase.from(table).update(saveData as any).eq("id", editItem.id);
@@ -209,7 +212,7 @@ const Admin = () => {
       case "blogs": return [
         { key: "title", label: "Title", type: "text" }, { key: "slug", label: "Slug", type: "text" },
         { key: "excerpt", label: "Excerpt", type: "textarea" }, { key: "content", label: "Content", type: "textarea" },
-        { key: "category", label: "Category", type: "text" }, { key: "reading_time", label: "Reading Time (min)", type: "number" },
+        { key: "category", label: "Category", type: "text" }, { key: "tags", label: "Tags (comma separated)", type: "text" }, { key: "reading_time", label: "Reading Time (min)", type: "number" },
         { key: "image_url", label: "Image URL", type: "text" }, { key: "featured", label: "Featured", type: "checkbox" },
         { key: "published", label: "Published", type: "checkbox" },
       ];
