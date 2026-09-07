@@ -43,7 +43,7 @@ const services = [
 
 const Services = () => (
   <Layout>
-    <div className="pt-24">
+      <div className="pt-24 bg-background">
       <SectionWrapper>
         <SectionHeader
           badge="What We Serve"
@@ -60,7 +60,7 @@ const Services = () => (
               transition={{ duration: 0.6 }}
               id={service.id}
             >
-              <div className="grid lg:grid-cols-2 gap-10 items-start">
+              <div className="grid lg:grid-cols-2 gap-10 items-start border-t border-border/40 pt-10">
                 {/* Problem → Solution → Impact */}
                 <div>
                   <div className="flex items-center gap-3 mb-6">
@@ -101,7 +101,7 @@ const Services = () => (
 
                 {/* Use Cases + Benefits */}
                 <div className="space-y-6">
-                  <Card className="bg-gradient-card border-border/30">
+                  <Card className="bg-card/80 border-border/30 shadow-card">
                     <CardContent className="p-6">
                       <h4 className="font-display font-semibold text-foreground mb-4">Use Cases</h4>
                       <div className="grid grid-cols-2 gap-3">
@@ -114,7 +114,7 @@ const Services = () => (
                       </div>
                     </CardContent>
                   </Card>
-                  <Card className="bg-gradient-card border-border/30">
+                  <Card className="bg-card/80 border-border/30 shadow-card">
                     <CardContent className="p-6">
                       <h4 className="font-display font-semibold text-foreground mb-4">Key Benefits</h4>
                       <div className="grid grid-cols-2 gap-3">

@@ -28,7 +28,7 @@ const timeline = [
 
 const About = () => (
   <Layout>
-    <div className="pt-24">
+      <div className="pt-24 bg-background">
       {/* Hero */}
       <SectionWrapper>
         <div className="text-center max-w-3xl mx-auto">
@@ -50,7 +50,7 @@ const About = () => (
             { icon: Eye, title: "Our Vision", text: "To be the world's most trusted multi-domain innovation partner — where every entrepreneur, regardless of background, has the tools to succeed." },
           ].map((item, i) => (
             <motion.div key={item.title} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }}>
-              <Card className="bg-gradient-card border-primary/20 h-full">
+              <Card className="bg-card/80 border-primary/20 h-full shadow-card">
                 <CardContent className="p-8">
                   <div className="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center mb-6"><item.icon className="w-7 h-7 text-primary" /></div>
                   <h3 className="text-2xl font-display font-bold text-foreground mb-4">{item.title}</h3>
@@ -68,7 +68,7 @@ const About = () => (
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {values.map((v, i) => (
             <motion.div key={v.title} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.08 }}>
-              <Card className="bg-gradient-card border-border/30 hover:border-primary/30 h-full transition-all hover:-translate-y-1">
+              <Card className="bg-card/80 border-border/30 hover:border-primary/50 h-full transition-all hover:-translate-y-1 shadow-card">
                 <CardContent className="p-6">
                   <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-4"><v.icon className="w-6 h-6 text-primary" /></div>
                   <h3 className="text-lg font-display font-semibold text-foreground mb-2">{v.title}</h3>
@@ -99,7 +99,7 @@ const About = () => (
 
       {/* CTA */}
       <SectionWrapper>
-        <div className="text-center bg-gradient-card rounded-2xl border border-primary/20 p-12">
+          <div className="text-center bg-card/80 border border-primary/20 p-12 shadow-card">
           <h2 className="text-3xl font-display font-bold text-foreground mb-4">Ready to Build Something Together?</h2>
           <p className="text-muted-foreground font-body mb-8 max-w-xl mx-auto">Let's discuss how Our Thoughts LSKJ can transform your business.</p>
           <div className="flex flex-wrap gap-4 justify-center">
