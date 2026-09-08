@@ -31,7 +31,7 @@ const Counter = ({ target, suffix }: { target: number; suffix: string }) => {
 };
 
 export const StatsCounter = () => (
-  <SectionWrapper className="bg-primary">
+  <SectionWrapper className="bg-gradient-primary">
     <div className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8">
       {stats.map((stat, i) => (
         <motion.div
@@ -42,10 +42,10 @@ export const StatsCounter = () => (
           transition={{ delay: i * 0.1 }}
           className="text-center p-6"
         >
-          <div className="text-4xl md:text-5xl font-bold text-primary-foreground mb-2">
+          <div className="text-4xl md:text-6xl font-extrabold text-primary-foreground mb-2 tracking-tight">
             <Counter target={stat.value} suffix={stat.suffix} />
           </div>
-          <p className="text-sm text-primary-foreground/70">{stat.label}</p>
+          <p className="text-sm text-primary-foreground/70 font-medium">{stat.label}</p>
         </motion.div>
       ))}
     </div>

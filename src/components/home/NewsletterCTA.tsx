@@ -35,33 +35,37 @@ export const NewsletterCTA = () => {
 
   return (
     <SectionWrapper>
-      <div className="max-w-3xl mx-auto bg-card border border-primary/20 p-8 md:p-12 text-center shadow-card">
-        <div className="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center mx-auto mb-6">
-          <Mail className="w-7 h-7 text-primary" />
-        </div>
-        <h2 className="text-2xl md:text-3xl font-bold text-foreground mb-3">
-          Get the LSKJ Insider — Free
-        </h2>
-        <p className="text-sm md:text-base text-muted-foreground mb-8 max-w-xl mx-auto">
-          Monthly insights on digital transformation, case studies and free playbooks. No spam, unsubscribe anytime.
-        </p>
-        {done ? (
-          <div className="flex items-center justify-center gap-2 text-primary font-semibold">
-            <CheckCircle2 className="w-5 h-5" /> Subscribed successfully
+      <div className="max-w-3xl mx-auto bg-card border border-primary/20 p-8 md:p-12 text-center rounded-2xl shadow-card relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-60 h-60 rounded-full bg-primary/5 blur-3xl" />
+        <div className="absolute bottom-0 left-0 w-48 h-48 rounded-full bg-primary/5 blur-3xl" />
+        <div className="relative">
+          <div className="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center mx-auto mb-6">
+            <Mail className="w-7 h-7 text-primary" />
           </div>
-        ) : (
-          <form onSubmit={submit} className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
-            <Input
-              type="email"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-              placeholder="you@company.com"
-              className="flex-1"
-              required
-            />
-            <Button type="submit" size="lg" disabled={submitting}>{submitting ? "Joining…" : "Subscribe"}</Button>
-          </form>
-        )}
+          <h2 className="text-2xl md:text-3xl font-extrabold text-foreground mb-3 tracking-tight">
+            Get the LSKJ Insider — Free
+          </h2>
+          <p className="text-sm md:text-base text-muted-foreground mb-8 max-w-xl mx-auto leading-relaxed">
+            Monthly insights on digital transformation, case studies and free playbooks. No spam, unsubscribe anytime.
+          </p>
+          {done ? (
+            <div className="flex items-center justify-center gap-2 text-primary font-semibold">
+              <CheckCircle2 className="w-5 h-5" /> Subscribed successfully
+            </div>
+          ) : (
+            <form onSubmit={submit} className="flex flex-col sm:flex-row gap-3 max-w-md mx-auto">
+              <Input
+                type="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                placeholder="you@company.com"
+                className="flex-1"
+                required
+              />
+              <Button type="submit" size="lg" disabled={submitting}>{submitting ? "Joining…" : "Subscribe"}</Button>
+            </form>
+          )}
+        </div>
       </div>
     </SectionWrapper>
   );

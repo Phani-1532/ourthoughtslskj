@@ -10,10 +10,10 @@ interface SectionWrapperProps {
 export const SectionWrapper = ({ children, className = "", id }: SectionWrapperProps) => (
   <motion.section
     id={id}
-    initial={{ opacity: 0, y: 30 }}
+    initial={{ opacity: 0, y: 24 }}
     whileInView={{ opacity: 1, y: 0 }}
     viewport={{ once: true, margin: "-80px" }}
-    transition={{ duration: 0.5, ease: "easeOut" }}
+    transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
     className={`relative py-16 md:py-24 ${className}`}
   >
     <div className="container mx-auto px-4 md:px-6">{children}</div>
@@ -37,7 +37,7 @@ export const SectionHeader = ({
         {badge}
       </span>
     )}
-    <h2 className="text-3xl md:text-5xl lg:text-6xl font-extrabold leading-[0.95] text-foreground mb-5">{title}</h2>
-    {subtitle && <p className={`text-sm md:text-base text-muted-foreground max-w-2xl leading-relaxed ${center ? "mx-auto" : ""}`}>{subtitle}</p>}
+    <h2 className="text-3xl md:text-5xl lg:text-[3.5rem] font-extrabold leading-[1.05] tracking-tight text-foreground mb-5">{title}</h2>
+    {subtitle && <p className={`text-sm md:text-lg text-muted-foreground max-w-2xl leading-relaxed ${center ? "mx-auto" : ""}`}>{subtitle}</p>}
   </div>
 );

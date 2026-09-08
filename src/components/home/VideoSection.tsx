@@ -7,7 +7,7 @@ import videoAsset from "@/assets/our-thoughts-reel.mp4.asset.json";
 export const VideoSection = () => {
   const [playing, setPlaying] = useState(false);
   return (
-    <SectionWrapper className="bg-muted/30">
+    <SectionWrapper className="bg-muted/20">
       <SectionHeader
         badge="See Us in Action"
         title="2 Minutes to Understand What We Do"
@@ -17,7 +17,7 @@ export const VideoSection = () => {
         initial={{ opacity: 0, scale: 0.97 }}
         whileInView={{ opacity: 1, scale: 1 }}
         viewport={{ once: true }}
-        className="max-w-4xl mx-auto rounded-3xl overflow-hidden border border-border shadow-xl aspect-video bg-primary relative"
+        className="max-w-4xl mx-auto rounded-3xl overflow-hidden border border-border shadow-elevated aspect-video bg-gradient-primary relative"
       >
         {playing ? (
           <video
@@ -34,8 +34,8 @@ export const VideoSection = () => {
             className="absolute inset-0 w-full h-full bg-gradient-to-br from-primary via-primary to-primary/70 flex items-center justify-center group"
             aria-label="Play video"
           >
-            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_hsl(var(--primary-foreground)/0.15),_transparent_60%)]" />
-            <div className="relative w-20 h-20 md:w-24 md:h-24 rounded-full bg-primary-foreground flex items-center justify-center group-hover:scale-110 transition shadow-2xl">
+            <div className="absolute inset-0 bg-[radial-gradient(circle_at_center,_hsl(var(--primary-foreground)/0.12),_transparent_60%)]" />
+            <div className="relative w-20 h-20 md:w-24 md:h-24 rounded-full bg-primary-foreground flex items-center justify-center group-hover:scale-110 transition-transform duration-300 shadow-2xl">
               <Play className="w-8 h-8 md:w-10 md:h-10 text-primary fill-primary ml-1" />
             </div>
           </button>

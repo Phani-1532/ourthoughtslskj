@@ -26,15 +26,15 @@ export const TechStack = () => (
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ delay: i * 0.08 }}
-          className="bg-card border border-border rounded-2xl p-6 hover:border-primary/30 hover:shadow-lg transition"
+          className="bg-card border border-border rounded-2xl p-6 hover:border-primary/30 hover:shadow-elevated transition-all duration-300"
         >
           <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-4">
             <s.icon className="w-6 h-6 text-primary" />
           </div>
-          <h3 className="text-lg font-bold text-foreground mb-3">{s.title}</h3>
+          <h3 className="text-lg font-bold text-foreground mb-3 tracking-tight">{s.title}</h3>
           <div className="flex flex-wrap gap-2">
             {s.items.map((it) => (
-              <span key={it} className="text-xs px-3 py-1 rounded-full bg-muted text-foreground border border-border">
+              <span key={it} className="text-xs px-3 py-1.5 rounded-full bg-muted text-foreground border border-border">
                 {it}
               </span>
             ))}

@@ -13,13 +13,13 @@ const awards = [
 ];
 
 export const Awards = () => (
-  <SectionWrapper className="bg-muted/30">
+  <SectionWrapper className="bg-muted/20">
     <SectionHeader
       badge="Awards & Recognition"
       title="Recognized for Impact"
       subtitle="Trusted by industry leaders, certified by global standards."
     />
-    <div className="max-w-5xl mx-auto mb-8 overflow-hidden border border-border bg-background shadow-card">
+    <div className="max-w-5xl mx-auto mb-8 overflow-hidden border border-border bg-card rounded-2xl shadow-card">
       <img src={awardsWall} alt="Our Thoughts LSKJ awards and certifications" loading="lazy" className="w-full h-auto" />
     </div>
     <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
@@ -30,7 +30,7 @@ export const Awards = () => (
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ delay: i * 0.06 }}
-          className="bg-card border border-border rounded-2xl p-5 text-center hover:border-primary/30 transition"
+          className="bg-card border border-border rounded-2xl p-5 text-center hover:border-primary/30 hover:shadow-elevated transition-all duration-300"
         >
           <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mx-auto mb-3">
             <a.icon className="w-6 h-6 text-primary" />

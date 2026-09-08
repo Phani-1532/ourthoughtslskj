@@ -15,7 +15,7 @@ export const TrustBar = () => (
   <SectionWrapper className="bg-card/30 py-12">
     <div className="text-center mb-8">
       <p className="text-xs uppercase tracking-[0.2em] text-primary font-semibold">Trusted & Certified</p>
-      <h2 className="text-2xl md:text-3xl font-bold text-foreground mt-2">Enterprise-grade standards</h2>
+      <h2 className="text-2xl md:text-3xl font-bold text-foreground mt-2 tracking-tight">Enterprise-grade standards</h2>
     </div>
     <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
       {badges.map((b, i) => (
@@ -25,7 +25,7 @@ export const TrustBar = () => (
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ delay: i * 0.05 }}
-          className="flex flex-col items-center text-center gap-2 p-4 rounded-xl border border-border/60 bg-background/60 backdrop-blur-sm hover:border-primary/40 transition-colors"
+          className="flex flex-col items-center text-center gap-2.5 p-5 rounded-2xl border border-border/50 bg-background/50 backdrop-blur-sm hover:border-primary/40 hover:bg-primary/5 transition-all duration-300"
         >
           <b.icon className="w-8 h-8 text-primary" />
           <div>

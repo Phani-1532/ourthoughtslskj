@@ -39,7 +39,7 @@ export const ProductHighlights = () => {
   const { industry } = useIndustry();
   const c = getIndustryContent(industry)?.productsHeader;
   return (
-  <SectionWrapper className="bg-card/50">
+  <SectionWrapper className="bg-card/40">
     <SectionHeader
       badge={c?.badge || "Our Products"}
       title={c?.title || "Innovative Solutions Built for Scale"}
@@ -54,21 +54,21 @@ export const ProductHighlights = () => {
           viewport={{ once: true }}
           transition={{ delay: i * 0.1 }}
         >
-          <Card className="bg-background border-border hover:border-primary/30 group overflow-hidden h-full flex flex-col hover:shadow-card transition-all">
-            <div className="relative h-44 overflow-hidden bg-muted/30 flex items-center justify-center">
+          <Card className="bg-card border-border hover:border-primary/30 group overflow-hidden h-full flex flex-col hover:shadow-elevated transition-all duration-300 hover:-translate-y-1">
+            <div className="relative h-48 overflow-hidden bg-gradient-to-br from-muted/20 to-background flex items-center justify-center">
               <img
                 src={product.image}
                 alt={product.title}
                 loading="lazy"
                 className="h-36 w-auto object-contain group-hover:scale-105 transition-transform duration-500"
               />
-              <span className="absolute top-3 right-3 px-3 py-1 text-xs font-semibold text-primary bg-primary/10 rounded-full border border-primary/15">
+              <span className="absolute top-3 right-3 px-3 py-1 text-xs font-semibold text-primary bg-primary/10 rounded-full border border-primary/20 backdrop-blur-sm">
                 {product.badge}
               </span>
             </div>
-            <CardContent className="flex-1 flex flex-col p-5 md:p-6">
-              <h3 className="text-lg font-bold text-foreground mb-2">{product.title}</h3>
-              <p className="text-sm text-muted-foreground mb-4 flex-1">{product.description}</p>
+            <CardContent className="flex-1 flex flex-col p-6">
+              <h3 className="text-lg font-bold text-foreground mb-2 tracking-tight">{product.title}</h3>
+              <p className="text-sm text-muted-foreground mb-5 flex-1 leading-relaxed">{product.description}</p>
               <Button variant="outline" size="sm" className="w-fit" asChild>
                 <Link to={product.link}>
                   Learn More <ArrowRight className="w-3 h-3" />

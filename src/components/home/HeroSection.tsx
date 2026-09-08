@@ -50,15 +50,14 @@ export const HeroSection = () => {
     : [slide.title];
 
   return (
-    <section className="relative min-h-[90vh] md:min-h-screen flex items-center overflow-hidden">
-      {/* Full background image */}
+    <section className="relative min-h-[92vh] md:min-h-screen flex items-center overflow-hidden">
       <AnimatePresence mode="wait">
         <motion.div
           key={slide.id + "-bg"}
-          initial={{ opacity: 0, scale: 1.05 }}
+          initial={{ opacity: 0, scale: 1.06 }}
           animate={{ opacity: 1, scale: 1 }}
           exit={{ opacity: 0 }}
-          transition={{ duration: 0.8 }}
+          transition={{ duration: 0.9, ease: [0.22, 1, 0.36, 1] }}
           className="absolute inset-0"
         >
           <img
@@ -66,53 +65,64 @@ export const HeroSection = () => {
             alt=""
             className="w-full h-full object-cover"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-foreground/80 via-foreground/60 to-foreground/30" />
+          <div className="absolute inset-0 bg-gradient-to-r from-background via-background/70 to-background/20" />
+          <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-background/30" />
         </motion.div>
       </AnimatePresence>
 
-      {/* Content overlay */}
-      <div className="container mx-auto px-4 md:px-6 relative z-10 pt-20">
+      <div className="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent" />
+
+      <div className="container mx-auto px-4 md:px-6 relative z-10 pt-24">
         <AnimatePresence mode="wait">
           <motion.div
             key={slide.id}
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 32 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.5 }}
+            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
             className="max-w-2xl"
           >
             {slide.badge && (
-              <span className="inline-flex items-center gap-2 mb-6 px-4 py-1.5 text-xs font-semibold uppercase tracking-widest text-primary-foreground bg-primary/80 rounded-full backdrop-blur-sm">
+              <motion.span
+                initial={{ opacity: 0, x: -16 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: 0.15 }}
+                className="inline-flex items-center gap-2 mb-7 px-4 py-2 text-xs font-semibold uppercase tracking-[0.18em] text-primary-foreground bg-primary rounded-full shadow-primary"
+              >
+                <span className="w-1.5 h-1.5 rounded-full bg-primary-foreground/80 animate-pulse" />
                 {slide.badge}
-              </span>
+              </motion.span>
             )}
 
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold leading-[1.1] mb-6 text-background">
+            <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold leading-[1.05] mb-7 text-foreground tracking-tight">
               {titleParts[0]}
-              {slide.highlight && <span className="text-primary">{slide.highlight}</span>}
+              {slide.highlight && <span className="text-gradient-primary">{slide.highlight}</span>}
               {titleParts[1] || ""}
             </h1>
 
-            <p className="text-base md:text-lg text-background/80 mb-8 max-w-xl leading-relaxed">
+            <p className="text-base md:text-lg text-foreground/70 mb-10 max-w-xl leading-relaxed">
               {slide.subtitle}
             </p>
 
             <div className="flex flex-col sm:flex-row gap-3">
-              <Button size="lg" className="shadow-gold" asChild>
+              <Button size="lg" className="shadow-primary" asChild>
                 <Link to={slide.cta_link || "/contact"}>
-                  {slide.cta_text || "Get Started"} <ArrowRight className="w-4 h-4 ml-1" />
+                  {slide.cta_text || "Get Started"} <ArrowRight className="w-4 h-4 ml-0.5" />
                 </Link>
               </Button>
-              <Button variant="outline" size="lg" className="border-background/30 text-background hover:bg-background/10" asChild>
+              <Button variant="glass" size="lg" asChild>
                 <Link to="/services">Explore Services</Link>
               </Button>
             </div>
           </motion.div>
         </AnimatePresence>
 
-        {/* Slide indicators */}
-        <div className="flex items-center gap-4 mt-12 md:mt-16">
-          <button onClick={() => setCurrent(p => (p - 1 + slides.length) % slides.length)} className="w-10 h-10 rounded-full border border-background/30 flex items-center justify-center text-background/70 hover:text-background hover:border-background transition-colors backdrop-blur-sm">
+        <div className="flex items-center gap-4 mt-14 md:mt-20">
+          <button
+            onClick={() => setCurrent(p => (p - 1 + slides.length) % slides.length)}
+            className="w-11 h-11 rounded-full border border-border bg-background/40 flex items-center justify-center text-foreground/60 hover:text-primary hover:border-primary hover:bg-primary/10 transition-all duration-200 backdrop-blur-sm"
+            aria-label="Previous slide"
+          >
             <ChevronLeft className="w-4 h-4" />
           </button>
           <div className="flex gap-2">
@@ -120,15 +130,26 @@ export const HeroSection = () => {
               <button
                 key={i}
                 onClick={() => setCurrent(i)}
-                className={`h-2 rounded-full transition-all duration-300 ${i === current ? "w-10 bg-primary" : "w-2 bg-background/40 hover:bg-background/60"}`}
+                className={`h-1.5 rounded-full transition-all duration-300 ${
+                  i === current
+                    ? "w-12 bg-primary"
+                    : "w-2.5 bg-foreground/25 hover:bg-foreground/40"
+                }`}
+                aria-label={`Go to slide ${i + 1}`}
               />
             ))}
           </div>
-          <button onClick={() => setCurrent(p => (p + 1) % slides.length)} className="w-10 h-10 rounded-full border border-background/30 flex items-center justify-center text-background/70 hover:text-background hover:border-background transition-colors backdrop-blur-sm">
+          <button
+            onClick={() => setCurrent(p => (p + 1) % slides.length)}
+            className="w-11 h-11 rounded-full border border-border bg-background/40 flex items-center justify-center text-foreground/60 hover:text-primary hover:border-primary hover:bg-primary/10 transition-all duration-200 backdrop-blur-sm"
+            aria-label="Next slide"
+          >
             <ChevronRight className="w-4 h-4" />
           </button>
         </div>
       </div>
+
+      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-background to-transparent pointer-events-none" />
     </section>
   );
 };

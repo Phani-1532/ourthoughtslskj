@@ -21,12 +21,12 @@ export const Testimonials = () => {
   }, []);
 
   return (
-    <SectionWrapper className="bg-card/50">
+    <SectionWrapper className="bg-card/40">
       <div className="text-center mb-12 md:mb-16">
-        <span className="inline-block mb-4 px-4 py-1.5 text-xs font-semibold uppercase tracking-widest text-primary bg-primary/5 rounded-full border border-primary/10">
+        <span className="editorial-kicker mb-5">
           Testimonials
         </span>
-        <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-foreground mb-4">
+        <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-foreground mb-4 tracking-tight">
           Voices That Drive Us Forward
         </h2>
       </div>
@@ -38,9 +38,9 @@ export const Testimonials = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: i * 0.08 }}
-            className="bg-background border border-border rounded-xl p-6 md:p-8 relative hover:shadow-card transition-shadow"
+            className="bg-background border border-border rounded-2xl p-7 md:p-8 relative hover:shadow-elevated hover:border-primary/20 transition-all duration-300"
           >
-            <Quote className="w-8 h-8 text-primary/10 absolute top-6 right-6" />
+            <Quote className="w-10 h-10 text-primary/10 absolute top-6 right-6" />
             <div className="flex gap-0.5 mb-4">
               {Array.from({ length: t.rating || 5 }).map((_, j) => (
                 <Star key={j} className="w-4 h-4 fill-primary text-primary" />

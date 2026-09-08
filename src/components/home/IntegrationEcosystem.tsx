@@ -8,7 +8,7 @@ const integrations = [
 ];
 
 export const IntegrationEcosystem = () => (
-  <SectionWrapper className="bg-muted/30">
+  <SectionWrapper className="bg-muted/20">
     <SectionHeader
       badge="Integration Ecosystem"
       title="Plays Well with Your Stack"
@@ -22,7 +22,7 @@ export const IntegrationEcosystem = () => (
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
           transition={{ delay: i * 0.04 }}
-          className="aspect-square bg-card border border-border rounded-xl flex items-center justify-center text-center px-2 hover:border-primary/40 hover:shadow-md transition"
+          className="aspect-square bg-card border border-border rounded-2xl flex items-center justify-center text-center px-2 hover:border-primary/40 hover:shadow-card hover:bg-primary/5 transition-all duration-300"
         >
           <span className="text-xs md:text-sm font-semibold text-foreground">{name}</span>
         </motion.div>

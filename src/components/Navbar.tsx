@@ -76,22 +76,24 @@ export const Navbar = () => {
 
   return (
     <>
-      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 bg-navy text-sidebar-foreground ${
-        scrolled ? "border-b border-sidebar-border shadow-elevated" : "border-b border-sidebar-border/60"
+      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        scrolled
+          ? "bg-glass-strong border-b border-border shadow-card"
+          : "bg-gradient-to-b from-background/80 to-transparent border-b border-transparent"
       }`}>
         <div className="container mx-auto px-4 md:px-6">
-          <div className="flex items-center justify-between h-16 md:h-18">
-            <Link to="/" className="flex items-center gap-2">
-              <div className="w-9 h-9 rounded-sm bg-primary flex items-center justify-center">
+          <div className="flex items-center justify-between h-16 md:h-20">
+            <Link to="/" className="flex items-center gap-2.5 group">
+              <div className="w-10 h-10 rounded-xl bg-gradient-primary flex items-center justify-center shadow-primary group-hover:scale-105 transition-transform">
                 <span className="text-primary-foreground font-extrabold text-sm">OT</span>
               </div>
               <div className="hidden sm:block">
-                <span className="text-sidebar-foreground font-bold text-base">Our Thoughts</span>
+                <span className="text-foreground font-bold text-base tracking-tight">Our Thoughts</span>
                 <span className="text-primary text-sm ml-1 font-extrabold">LSKJ</span>
               </div>
             </Link>
 
-            <div className="hidden lg:flex items-center gap-0.5">
+            <div className="hidden lg:flex items-center gap-1">
               {navItems.map((item) => (
                 <div
                   key={item.label}
@@ -101,13 +103,13 @@ export const Navbar = () => {
                 >
                   <Link
                     to={item.path}
-                    className={`px-3 py-2 text-[13px] font-medium rounded-md transition-colors flex items-center gap-1 ${
+                    className={`px-3.5 py-2 text-[13px] font-medium rounded-lg transition-all duration-200 flex items-center gap-1 ${
                       location.pathname === item.path || (item.mega && (location.pathname.startsWith("/services") || location.pathname.startsWith("/industries") || location.pathname.startsWith("/products")))
-                        ? "text-primary bg-sidebar-accent" : "text-sidebar-foreground/70 hover:text-sidebar-foreground hover:bg-sidebar-accent"
+                        ? "text-primary bg-primary/10" : "text-foreground/60 hover:text-foreground hover:bg-foreground/5"
                     }`}
                   >
                     {item.label}
-                    {item.mega && <ChevronDown className={`w-3 h-3 transition-transform ${megaOpen ? "rotate-180" : ""}`} />}
+                    {item.mega && <ChevronDown className={`w-3.5 h-3.5 transition-transform duration-200 ${megaOpen ? "rotate-180" : ""}`} />}
                   </Link>
 
                   <AnimatePresence>
@@ -116,21 +118,21 @@ export const Navbar = () => {
                         initial={{ opacity: 0, y: 8 }}
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: 8 }}
-                        transition={{ duration: 0.15 }}
-                        className="absolute top-full left-1/2 -translate-x-1/2 mt-3 w-[720px] bg-navy-light border border-sidebar-border rounded-sm shadow-elevated p-6"
+                        transition={{ duration: 0.18 }}
+                        className="absolute top-full left-1/2 -translate-x-1/2 mt-2 w-[740px] bg-glass-strong rounded-2xl shadow-elevated p-7 border border-border/60"
                       >
                         <div className="grid grid-cols-3 gap-6">
                           {megaMenuItems.columns.map((col) => (
                             <div key={col.heading}>
-                              <h4 className="editorial-kicker mb-3">{col.heading}</h4>
-                              <div className="space-y-0.5">
+                              <h4 className="editorial-kicker mb-4">{col.heading}</h4>
+                              <div className="space-y-1">
                                 {col.items.map((child) => (
                                   <Link
                                     key={child.label}
                                     to={child.path}
-                                    className="flex items-center gap-2 px-3 py-2 rounded-sm text-sm text-sidebar-foreground/70 hover:text-sidebar-foreground hover:bg-sidebar-accent transition-colors"
+                                    className="flex items-center gap-2.5 px-3 py-2 rounded-lg text-sm text-foreground/60 hover:text-foreground hover:bg-primary/10 transition-all duration-200 group/item"
                                   >
-                                     <child.icon className="w-4 h-4 text-primary flex-shrink-0" />
+                                     <child.icon className="w-4 h-4 text-primary/70 group-hover/item:text-primary flex-shrink-0 transition-colors" />
                                     {child.label}
                                   </Link>
                                 ))}
@@ -150,7 +152,7 @@ export const Navbar = () => {
               <Button size="sm" className="hidden md:inline-flex" asChild>
                 <Link to="/contact">Get Started</Link>
               </Button>
-                <button onClick={() => setMobileOpen(!mobileOpen)} aria-label={mobileOpen ? "Close menu" : "Open menu"} className="lg:hidden p-2 text-sidebar-foreground">
+                <button onClick={() => setMobileOpen(!mobileOpen)} aria-label={mobileOpen ? "Close menu" : "Open menu"} className="lg:hidden p-2 text-foreground hover:text-primary transition-colors">
                 {mobileOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
               </button>
             </div>
@@ -164,13 +166,13 @@ export const Navbar = () => {
             initial={{ opacity: 0, x: "100%" }}
             animate={{ opacity: 1, x: 0 }}
             exit={{ opacity: 0, x: "100%" }}
-            transition={{ type: "spring", damping: 25 }}
-            className="fixed inset-0 z-40 bg-navy pt-20 text-sidebar-foreground overflow-y-auto lg:hidden"
+            transition={{ type: "spring", damping: 28, stiffness: 300 }}
+            className="fixed inset-0 z-40 bg-background pt-20 text-foreground overflow-y-auto lg:hidden"
           >
             <div className="container px-6 py-6 space-y-1">
               {navItems.map((item) => (
                 <div key={item.label}>
-                  <Link to={item.path} className="block px-4 py-3 text-base font-medium text-sidebar-foreground hover:text-primary hover:bg-sidebar-accent rounded-sm transition-colors">
+                  <Link to={item.path} className="block px-4 py-3.5 text-base font-medium text-foreground hover:text-primary hover:bg-primary/10 rounded-lg transition-colors">
                     {item.label}
                   </Link>
                   {item.mega && (
@@ -180,7 +182,7 @@ export const Navbar = () => {
                            <p className="editorial-kicker px-4 mb-2">{col.heading}</p>
                           <div className="space-y-0.5">
                             {col.items.map((child) => (
-                               <Link key={child.label} to={child.path} className="flex items-center gap-2 px-4 py-2 text-sm text-sidebar-foreground/70 hover:text-sidebar-foreground hover:bg-sidebar-accent rounded-sm transition-colors">
+                               <Link key={child.label} to={child.path} className="flex items-center gap-2 px-4 py-2.5 text-sm text-foreground/60 hover:text-foreground hover:bg-primary/10 rounded-lg transition-colors">
                                 <child.icon className="w-4 h-4 text-primary" />
                                 {child.label}
                               </Link>

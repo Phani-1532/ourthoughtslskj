@@ -51,7 +51,7 @@ const steps = [
 export const ProcessSteps = () => {
   const { industry } = useIndustry();
   return (
-    <SectionWrapper className="bg-muted/30">
+    <SectionWrapper className="bg-muted/20">
       <SectionHeader
         badge="How We Work"
         title="A Proven Delivery Process"
@@ -67,19 +67,19 @@ export const ProcessSteps = () => {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: i * 0.08 }}
-            className="bg-card rounded-2xl p-6 border border-border hover:border-primary/40 hover:shadow-lg transition"
+            className="bg-card rounded-2xl p-6 border border-border hover:border-primary/40 hover:shadow-elevated transition-all duration-300"
           >
             <div className="flex items-start justify-between mb-4">
               <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
                 <s.icon className="w-6 h-6 text-primary" />
               </div>
-              <span className="text-xs font-semibold text-muted-foreground bg-muted px-2 py-1 rounded-full">
+              <span className="text-xs font-semibold text-muted-foreground bg-muted px-2.5 py-1 rounded-full">
                 {s.duration}
               </span>
             </div>
-            <div className="text-xs text-primary font-semibold mb-2">STEP {i + 1}</div>
-            <h3 className="text-lg font-bold text-foreground mb-2">{s.title}</h3>
-            <p className="text-sm text-muted-foreground mb-4">{s.desc}</p>
+            <div className="text-xs text-primary font-semibold mb-2 tracking-wider">STEP {i + 1}</div>
+            <h3 className="text-lg font-bold text-foreground mb-2 tracking-tight">{s.title}</h3>
+            <p className="text-sm text-muted-foreground mb-4 leading-relaxed">{s.desc}</p>
             <div className="pt-4 border-t border-border">
               <div className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground mb-1">
                 Deliverable

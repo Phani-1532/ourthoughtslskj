@@ -18,12 +18,12 @@ export const FAQ = () => (
         <div className="inline-flex items-center gap-2 text-xs uppercase tracking-[0.2em] text-primary font-semibold">
           <HelpCircle className="w-4 h-4" /> FAQ
         </div>
-        <h2 className="text-3xl md:text-4xl font-bold text-foreground mt-3">Frequently asked questions</h2>
-        <p className="text-muted-foreground mt-3">Everything you need to know before getting started.</p>
+        <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold text-foreground mt-3 tracking-tight">Frequently asked questions</h2>
+        <p className="text-muted-foreground mt-3 text-sm md:text-base">Everything you need to know before getting started.</p>
       </div>
       <Accordion type="single" collapsible className="space-y-3">
         {faqs.map((f, i) => (
-          <AccordionItem key={i} value={`item-${i}`} className="border border-border/60 rounded-xl px-4 bg-card/40">
+          <AccordionItem key={i} value={`item-${i}`} className="border border-border/60 rounded-2xl px-5 bg-card/40 hover:border-primary/20 transition-colors">
             <AccordionTrigger className="text-left hover:no-underline">{f.q}</AccordionTrigger>
             <AccordionContent className="text-muted-foreground">{f.a}</AccordionContent>
           </AccordionItem>

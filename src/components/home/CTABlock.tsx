@@ -10,18 +10,17 @@ export const CTABlock = () => {
   const c = getIndustryContent(industry)?.cta;
   return (
   <SectionWrapper>
-    <div className="relative rounded-3xl overflow-hidden bg-primary p-10 md:p-20 text-center">
-      <div className="absolute inset-0 bg-gradient-to-br from-primary via-primary to-primary/80" />
-      <div className="absolute top-0 right-0 w-80 h-80 rounded-full bg-primary-foreground/5 blur-3xl" />
-      <div className="absolute bottom-0 left-0 w-60 h-60 rounded-full bg-primary-foreground/5 blur-3xl" />
+    <div className="relative rounded-3xl overflow-hidden bg-gradient-primary p-10 md:p-20 text-center shadow-glow">
+      <div className="absolute top-0 right-0 w-96 h-96 rounded-full bg-primary-foreground/5 blur-3xl" />
+      <div className="absolute bottom-0 left-0 w-72 h-72 rounded-full bg-primary-foreground/5 blur-3xl" />
       <div className="relative z-10">
         <div className="w-16 h-16 rounded-2xl bg-primary-foreground/10 flex items-center justify-center mx-auto mb-6">
           <Rocket className="w-8 h-8 text-primary-foreground" />
         </div>
-        <h2 className="text-3xl md:text-5xl font-bold text-primary-foreground mb-4">
+        <h2 className="text-3xl md:text-5xl font-extrabold text-primary-foreground mb-4 tracking-tight">
           {c?.title || "Ready to Transform Your Business?"}
         </h2>
-        <p className="text-base md:text-lg text-primary-foreground/80 mb-10 max-w-xl mx-auto">
+        <p className="text-base md:text-lg text-primary-foreground/80 mb-10 max-w-xl mx-auto leading-relaxed">
           {c?.subtitle || "Let's discuss how our solutions can drive measurable growth for your organization. Free consultation, no commitments."}
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -39,4 +38,3 @@ export const CTABlock = () => {
   </SectionWrapper>
   );
 };
-

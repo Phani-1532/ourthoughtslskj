@@ -44,20 +44,23 @@ export const CaseStudiesPreview = () => (
           viewport={{ once: true }}
           transition={{ delay: i * 0.1 }}
         >
-          <div className="relative p-6 md:p-8 rounded-2xl border border-border hover:border-primary/30 h-full group hover:shadow-elevated transition-all duration-300 bg-background">
-            <div className="flex items-center gap-2 mb-5">
-              <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center">
-                <TrendingUp className="w-4 h-4 text-primary" />
+          <div className="relative p-7 md:p-8 rounded-2xl border border-border hover:border-primary/30 h-full group hover:shadow-elevated transition-all duration-300 hover:-translate-y-1 bg-card overflow-hidden">
+            <div className="absolute -top-16 -right-16 w-40 h-40 rounded-full bg-primary/0 group-hover:bg-primary/5 transition-colors duration-500" />
+            <div className="relative">
+              <div className="flex items-center gap-2 mb-5">
+                <div className="w-9 h-9 rounded-lg bg-primary/10 flex items-center justify-center">
+                  <TrendingUp className="w-4 h-4 text-primary" />
+                </div>
+                <span className="text-xs text-muted-foreground uppercase tracking-wider">{cs.client}</span>
               </div>
-              <span className="text-xs text-muted-foreground uppercase tracking-wider">{cs.client}</span>
+              <div className="text-4xl md:text-5xl font-extrabold text-gradient-primary mb-1 tracking-tight">{cs.metric}</div>
+              <p className="text-sm text-primary/80 mb-4">{cs.metricLabel}</p>
+              <h3 className="text-base font-bold text-foreground mb-2 tracking-tight">{cs.title}</h3>
+              <p className="text-sm text-muted-foreground mb-5 leading-relaxed">{cs.description}</p>
+              <Link to="/case-studies" className="text-sm text-primary font-medium inline-flex items-center gap-1 hover:gap-2 transition-all">
+                Read full case study <ArrowRight className="w-3 h-3" />
+              </Link>
             </div>
-            <div className="text-4xl md:text-5xl font-bold text-primary mb-1">{cs.metric}</div>
-            <p className="text-sm text-primary/80 mb-4">{cs.metricLabel}</p>
-            <h3 className="text-base font-bold text-foreground mb-2">{cs.title}</h3>
-            <p className="text-sm text-muted-foreground mb-5">{cs.description}</p>
-            <Link to="/case-studies" className="text-sm text-primary font-medium inline-flex items-center gap-1 hover:gap-2 transition-all">
-              Read full case study <ArrowRight className="w-3 h-3" />
-            </Link>
           </div>
         </motion.div>
       ))}

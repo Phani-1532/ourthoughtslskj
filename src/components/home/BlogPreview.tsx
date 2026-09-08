@@ -38,10 +38,10 @@ export const BlogPreview = () => {
     <SectionWrapper>
       <div className="flex flex-col md:flex-row md:items-end md:justify-between mb-12 gap-4">
         <div>
-          <span className="inline-block mb-4 px-4 py-1.5 text-xs font-semibold uppercase tracking-widest text-primary bg-primary/5 rounded-full border border-primary/10">
+          <span className="editorial-kicker mb-5">
             Insights & Blog
           </span>
-          <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold text-foreground">
+          <h2 className="text-2xl md:text-3xl lg:text-4xl font-extrabold text-foreground tracking-tight">
             Latest from Our Team
           </h2>
         </div>
@@ -79,7 +79,7 @@ export const BlogPreview = () => {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
                 transition={{ delay: i * 0.1 }}
-                className="group bg-card rounded-2xl overflow-hidden border border-border hover:border-primary/30 hover:shadow-lg transition cursor-pointer flex flex-col"
+                className="group bg-card rounded-2xl overflow-hidden border border-border hover:border-primary/30 hover:shadow-elevated transition-all duration-300 cursor-pointer flex flex-col hover:-translate-y-1"
               >
                 {p.image_url && (
                   <div className="aspect-video overflow-hidden bg-muted">
@@ -101,10 +101,10 @@ export const BlogPreview = () => {
                       {p.reading_time ?? 5} min read
                     </span>
                   </div>
-                  <h3 className="text-lg font-bold text-foreground mb-3 group-hover:text-primary transition line-clamp-2">
+                  <h3 className="text-lg font-bold text-foreground mb-3 group-hover:text-primary transition line-clamp-2 tracking-tight">
                     {p.title}
                   </h3>
-                  <p className="text-sm text-muted-foreground mb-4 flex-1 line-clamp-3">
+                  <p className="text-sm text-muted-foreground mb-4 flex-1 line-clamp-3 leading-relaxed">
                     {p.excerpt ?? "Read the latest from Our Thoughts LSKJ."}
                   </p>
                   <div className="text-xs text-muted-foreground">{date}</div>
