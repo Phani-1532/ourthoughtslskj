@@ -9,9 +9,10 @@ import { Textarea } from "@/components/ui/textarea";
 import { motion, AnimatePresence } from "framer-motion";
 import {
   ArrowRight, ArrowLeft, CheckCircle, Mail, Phone, MapPin, MessageCircle,
-  User, Building2, Briefcase, Send,
+  User, Building2, Briefcase, Send, Sparkles,
 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { InlineAIAssistant } from "@/components/InlineAIAssistant";
 
 const steps = ["Your Info", "Company", "Requirements", "Confirm"];
 
@@ -64,7 +65,7 @@ const Contact = () => {
           <SectionHeader badge="Contact" title="Let's Build Something Great" subtitle="Tell us about your project. We'll respond within 24 hours." />
 
           <div className="grid lg:grid-cols-3 gap-12">
-            {/* Contact Info */}
+            {/* Contact Info + AI Assistant */}
             <div className="space-y-6">
               {[
                 { icon: Mail, label: "Email", value: "info@ourthoughtslskj.com" },
@@ -86,6 +87,15 @@ const Contact = () => {
                   </CardContent>
                 </Card>
               ))}
+            </div>
+
+            {/* AI Assistant */}
+            <div className="mt-6">
+              <div className="flex items-center gap-2 mb-3">
+                <Sparkles className="w-4 h-4 text-primary" />
+                <span className="text-sm font-semibold text-foreground">Ask our AI Assistant</span>
+              </div>
+              <InlineAIAssistant pageKey="contact" />
             </div>
 
             {/* Multi-step Form */}

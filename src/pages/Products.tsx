@@ -6,7 +6,9 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import {
   ArrowRight, CheckCircle, Clock, Smartphone, Eye, Tractor, ShoppingBag,
+  Sparkles,
 } from "lucide-react";
+import { InlineAIAssistant } from "@/components/InlineAIAssistant";
 import hrmsImg from "@/assets/hrms-app.png";
 import elearningImg from "@/assets/elearning-platform.png";
 import healthcareImg from "@/assets/healthcare-platform.png";
@@ -182,6 +184,32 @@ const Products = () => (
               </div>
             </motion.div>
           ))}
+        </div>
+      </SectionWrapper>
+
+      <SectionWrapper className="bg-card/30 border-y border-border">
+        <div className="grid lg:grid-cols-2 gap-10 items-start">
+          <div>
+            <span className="editorial-kicker mb-5">AI-Powered Guidance</span>
+            <h2 className="text-3xl md:text-4xl font-extrabold text-foreground mb-4 tracking-tight">
+              Which product is right for you?
+            </h2>
+            <p className="text-muted-foreground mb-6 leading-relaxed">
+              Ask our AI assistant about product features, demos, pricing, launch dates, or which platform best fits your industry. It's here to help you decide.
+            </p>
+            <div className="flex flex-wrap gap-3">
+              <Button variant="hero" size="lg" asChild>
+                <Link to="/contact">Request a Demo <ArrowRight className="w-4 h-4" /></Link>
+              </Button>
+            </div>
+          </div>
+          <div>
+            <div className="flex items-center gap-2 mb-3">
+              <Sparkles className="w-4 h-4 text-primary" />
+              <span className="text-sm font-semibold text-foreground">Ask our AI Assistant</span>
+            </div>
+            <InlineAIAssistant pageKey="products" />
+          </div>
         </div>
       </SectionWrapper>
     </div>

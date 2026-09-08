@@ -6,7 +6,9 @@ import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 import {
   ShoppingCart, Globe, Smartphone, ArrowRight, CheckCircle, TrendingUp, Users, Target,
+  Sparkles,
 } from "lucide-react";
+import { InlineAIAssistant } from "@/components/InlineAIAssistant";
 
 const services = [
   {
@@ -136,6 +138,35 @@ const Services = () => (
               </div>
             </motion.div>
           ))}
+        </div>
+      </SectionWrapper>
+
+      <SectionWrapper className="bg-card/30 border-y border-border">
+        <div className="grid lg:grid-cols-2 gap-10 items-start">
+          <div>
+            <span className="editorial-kicker mb-5">AI-Powered Guidance</span>
+            <h2 className="text-3xl md:text-4xl font-extrabold text-foreground mb-4 tracking-tight">
+              Not sure which service fits your business?
+            </h2>
+            <p className="text-muted-foreground mb-6 leading-relaxed">
+              Our AI assistant can help you figure out the right service for your needs. Ask about pricing, timelines, integrations, or anything else — it's here to guide you.
+            </p>
+            <div className="flex flex-wrap gap-3">
+              <Button variant="cta" size="lg" asChild>
+                <Link to="/contact">Get a Free Consultation <ArrowRight className="w-4 h-4" /></Link>
+              </Button>
+              <Button variant="outline" size="lg" asChild>
+                <Link to="/case-studies">See Case Studies</Link>
+              </Button>
+            </div>
+          </div>
+          <div>
+            <div className="flex items-center gap-2 mb-3">
+              <Sparkles className="w-4 h-4 text-primary" />
+              <span className="text-sm font-semibold text-foreground">Ask our AI Assistant</span>
+            </div>
+            <InlineAIAssistant pageKey="services" />
+          </div>
         </div>
       </SectionWrapper>
     </div>
