@@ -94,9 +94,14 @@ const Services = () => (
                     </div>
                   </div>
 
-                  <Button variant="cta" size="lg" className="mt-8" asChild>
-                    <Link to="/contact">Get Started <ArrowRight className="w-4 h-4" /></Link>
-                  </Button>
+                  <div className="flex flex-wrap items-center gap-4 mt-8">
+                    <Button variant="cta" size="lg" asChild>
+                      <Link to="/contact">Get Started <ArrowRight className="w-4 h-4" /></Link>
+                    </Button>
+                    <Button variant="outline" size="lg" asChild>
+                      <Link to="/case-studies">See Case Studies</Link>
+                    </Button>
+                  </div>
                 </div>
 
                 {/* Use Cases + Benefits */}
