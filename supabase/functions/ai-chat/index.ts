@@ -64,15 +64,14 @@ Deno.serve(async (req: Request) => {
       })),
     ];
 
-    // Call the AI API
-    const aiResponse = await fetch("https://api.openai.com/v1/chat/completions", {
+    // Use Pollinations AI (free, no API key needed)
+    const aiResponse = await fetch("https://text.pollinations.ai/openai", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
-        "Authorization": `Bearer ${Deno.env.get("OPENAI_API_KEY")}`,
       },
       body: JSON.stringify({
-        model: "gpt-4o-mini",
+        model: "openai",
         messages: conversation,
         max_tokens: 300,
         temperature: 0.7,
@@ -82,6 +81,28 @@ Deno.serve(async (req: Request) => {
     if (!aiResponse.ok) {
       const errText = await aiResponse.text();
       console.error("AI API error:", errText);
+      // Fallback: try the simple text endpoint
+      const promptText = conversation.map((m: any) => `${m.role}: ${m.content}`).join("\n");
+      const fallbackResponse = await fetch(
+        `https://text.pollinations.ai/${encodeURIComponent(promptText + "\nassistant:")}`,
+        { method: "GET" }
+      );
+
+      if (fallbackResponse.ok) {
+        const reply = (await fallbackResponse.text()).trim();
+        if (reply && sessionId) {
+          await supabase.from("chat_messages").insert({
+            session_id: sessionId,
+            role: "assistant",
+            content: reply,
+          });
+        }
+        return new Response(
+          JSON.stringify({ reply: reply || "I couldn't generate a response. Please try again." }),
+          { headers: { ...corsHeaders, "Content-Type": "application/json" } },
+        );
+      }
+
       return new Response(
         JSON.stringify({
           reply: "I'm having trouble connecting right now. Please try again or contact us at info@ourthoughtslskj.com.",
@@ -91,7 +112,7 @@ Deno.serve(async (req: Request) => {
     }
 
     const aiData = await aiResponse.json();
-    const reply = aiData.choices?.[0]?.message?.content || "I couldn't generate a response. Please try again.";
+    const reply = aiData.choices?.[0]?.message?.content || aiData.choices?.[0]?.text || "I couldn't generate a response. Please try again.";
 
     // Save the assistant reply to the database
     if (sessionId) {

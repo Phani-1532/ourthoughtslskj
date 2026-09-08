@@ -144,8 +144,8 @@ export const ChatWidget = () => {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
             transition={{ type: "spring", damping: 26, stiffness: 320 }}
-            className="fixed bottom-24 right-6 z-50 w-80 sm:w-96 bg-glass-strong border border-border rounded-2xl shadow-elevated overflow-hidden flex flex-col"
-            style={{ maxHeight: "580px" }}
+            className="fixed bottom-20 right-3 left-3 sm:left-auto sm:right-6 z-50 w-auto sm:w-96 bg-glass-strong border border-border rounded-2xl shadow-elevated overflow-hidden flex flex-col"
+            style={{ maxHeight: "min(580px, 75vh)" }}
           >
             <div className="bg-gradient-primary p-4 flex items-center justify-between">
               <div className="flex items-center gap-2.5">
@@ -170,7 +170,7 @@ export const ChatWidget = () => {
               </div>
             </div>
 
-            <div ref={scrollRef} className="flex-1 overflow-y-auto p-4 space-y-3" style={{ maxHeight: "360px" }}>
+            <div ref={scrollRef} className="flex-1 overflow-y-auto p-3 sm:p-4 space-y-3" style={{ maxHeight: "min(360px, 50vh)" }}>
               {messages.map((msg, i) => (
                 <div key={i} className={`flex gap-2 ${msg.role === "user" ? "justify-end" : ""}`}>
                   {msg.role === "bot" && (
@@ -240,13 +240,13 @@ export const ChatWidget = () => {
               )}
             </div>
 
-            <div className="px-3 py-2 border-t border-border flex flex-wrap gap-1.5">
+            <div className="px-3 py-2 border-t border-border flex flex-wrap gap-1.5 overflow-x-auto">
               {suggestions.map(s => (
                 <button
                   key={s}
                   onClick={() => sendText(s)}
                   disabled={typing}
-                  className="text-xs px-2.5 py-1 rounded-full border border-border hover:bg-primary/10 hover:border-primary/30 hover:text-primary transition-colors disabled:opacity-50"
+                  className="text-xs px-2.5 py-1 rounded-full border border-border hover:bg-primary/10 hover:border-primary/30 hover:text-primary transition-colors disabled:opacity-50 whitespace-nowrap"
                 >
                   {s}
                 </button>

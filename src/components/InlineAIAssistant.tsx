@@ -84,7 +84,7 @@ export const InlineAIAssistant = ({ pageKey }: { pageKey: string }) => {
         </div>
       </div>
 
-      <div ref={scrollRef} className="p-4 space-y-3 min-h-[200px] max-h-[320px] overflow-y-auto">
+      <div ref={scrollRef} className="p-3 sm:p-4 space-y-3 min-h-[180px] max-h-[280px] sm:max-h-[320px] overflow-y-auto">
         {messages.length === 0 && (
           <div className="text-center py-8">
             <Bot className="w-10 h-10 text-primary/30 mx-auto mb-3" />
@@ -135,20 +135,20 @@ export const InlineAIAssistant = ({ pageKey }: { pageKey: string }) => {
         )}
       </div>
 
-      {messages.length === 0 && (
-        <div className="px-4 pb-3 flex flex-wrap gap-1.5">
-          {suggestions.map(s => (
-            <button
-              key={s}
-              onClick={() => sendText(s)}
-              disabled={typing}
-              className="text-xs px-2.5 py-1.5 rounded-full border border-border hover:bg-primary/10 hover:border-primary/30 hover:text-primary transition-colors disabled:opacity-50"
-            >
-              {s}
-            </button>
-          ))}
-        </div>
-      )}
+        {messages.length === 0 && (
+          <div className="px-3 pb-3 flex flex-wrap gap-1.5">
+            {suggestions.map(s => (
+              <button
+                key={s}
+                onClick={() => sendText(s)}
+                disabled={typing}
+                className="text-xs px-2.5 py-1.5 rounded-full border border-border hover:bg-primary/10 hover:border-primary/30 hover:text-primary transition-colors disabled:opacity-50 whitespace-nowrap"
+              >
+                {s}
+              </button>
+            ))}
+          </div>
+        )}
 
       <div className="p-3 border-t border-border flex gap-2">
         <Input
