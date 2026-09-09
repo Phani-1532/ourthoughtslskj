@@ -22,19 +22,19 @@ export const TechStack = () => (
       {stack.map((s, i) => (
         <motion.div
           key={s.title}
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ delay: i * 0.08 }}
-          className="bg-card border border-border rounded-2xl p-6 hover:border-primary/30 hover:shadow-elevated transition-all duration-300"
+          transition={{ delay: i * 0.08, duration: 0.5 }}
+          className="gradient-border bg-card border border-border rounded-2xl p-6 hover:border-primary/30 hover:shadow-elevated transition-all duration-300 group overflow-hidden"
         >
-          <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-4">
-            <s.icon className="w-6 h-6 text-primary" />
+          <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-4 group-hover:bg-primary group-hover:shadow-glow transition-all duration-300 group-hover:scale-110">
+            <s.icon className="w-6 h-6 text-primary group-hover:text-primary-foreground transition-colors" />
           </div>
-          <h3 className="text-lg font-bold text-foreground mb-3 tracking-tight">{s.title}</h3>
+          <h3 className="text-lg font-bold text-foreground mb-3 tracking-tight group-hover:text-primary transition-colors">{s.title}</h3>
           <div className="flex flex-wrap gap-2">
             {s.items.map((it) => (
-              <span key={it} className="text-xs px-3 py-1.5 rounded-full bg-muted text-foreground border border-border">
+              <span key={it} className="text-xs px-3 py-1.5 rounded-full bg-muted text-foreground border border-border group-hover:border-primary/20 group-hover:bg-primary/5 transition-colors">
                 {it}
               </span>
             ))}
