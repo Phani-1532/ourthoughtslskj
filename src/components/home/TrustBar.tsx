@@ -25,9 +25,12 @@ export const TrustBar = () => (
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ delay: i * 0.05 }}
-          className="flex flex-col items-center text-center gap-2.5 p-5 rounded-2xl border border-border/50 bg-background/50 backdrop-blur-sm hover:border-primary/40 hover:bg-primary/5 transition-all duration-300"
+          whileHover={{ y: -4 }}
+          className="flex flex-col items-center text-center gap-2.5 p-5 rounded-2xl border border-border/50 bg-background/50 backdrop-blur-sm hover:border-primary/40 hover:bg-primary/5 hover:shadow-glow transition-all duration-300 group"
         >
-          <b.icon className="w-8 h-8 text-primary" />
+          <div className="w-14 h-14 rounded-2xl bg-primary/10 flex items-center justify-center group-hover:bg-primary/15 group-hover:scale-110 transition-all duration-300">
+            <b.icon className="w-7 h-7 text-primary" />
+          </div>
           <div>
             <div className="text-sm font-semibold text-foreground">{b.label}</div>
             <div className="text-xs text-muted-foreground">{b.sub}</div>
