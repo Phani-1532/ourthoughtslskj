@@ -63,28 +63,34 @@ export const ProcessSteps = () => {
         {steps.map((s, i) => (
           <motion.div
             key={s.title}
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ delay: i * 0.08 }}
-            className="bg-card rounded-2xl p-6 border border-border hover:border-primary/40 hover:shadow-elevated transition-all duration-300"
+            transition={{ delay: i * 0.08, duration: 0.5 }}
+            className="gradient-border bg-card rounded-2xl p-6 border border-border hover:border-primary/40 hover:shadow-elevated transition-all duration-300 group overflow-hidden relative"
           >
-            <div className="flex items-start justify-between mb-4">
-              <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
-                <s.icon className="w-6 h-6 text-primary" />
+            {/* Step number watermark */}
+            <span className="absolute top-2 right-4 text-5xl font-extrabold text-foreground/[0.03] group-hover:text-primary/10 transition-colors duration-500 select-none">
+              {String(i + 1).padStart(2, "0")}
+            </span>
+            <div className="relative">
+              <div className="flex items-start justify-between mb-4">
+                <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center group-hover:bg-primary group-hover:shadow-glow transition-all duration-300 group-hover:scale-110">
+                  <s.icon className="w-6 h-6 text-primary group-hover:text-primary-foreground transition-colors" />
+                </div>
+                <span className="text-xs font-semibold text-muted-foreground bg-muted px-2.5 py-1 rounded-full border border-border">
+                  {s.duration}
+                </span>
               </div>
-              <span className="text-xs font-semibold text-muted-foreground bg-muted px-2.5 py-1 rounded-full">
-                {s.duration}
-              </span>
-            </div>
-            <div className="text-xs text-primary font-semibold mb-2 tracking-wider">STEP {i + 1}</div>
-            <h3 className="text-lg font-bold text-foreground mb-2 tracking-tight">{s.title}</h3>
-            <p className="text-sm text-muted-foreground mb-4 leading-relaxed">{s.desc}</p>
-            <div className="pt-4 border-t border-border">
-              <div className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground mb-1">
-                Deliverable
+              <div className="text-xs text-primary font-semibold mb-2 tracking-wider">STEP {i + 1}</div>
+              <h3 className="text-lg font-bold text-foreground mb-2 tracking-tight group-hover:text-primary transition-colors">{s.title}</h3>
+              <p className="text-sm text-muted-foreground mb-4 leading-relaxed">{s.desc}</p>
+              <div className="pt-4 border-t border-border">
+                <div className="text-[10px] font-semibold uppercase tracking-wider text-muted-foreground mb-1">
+                  Deliverable
+                </div>
+                <div className="text-xs text-foreground font-medium">{s.deliverable}</div>
               </div>
-              <div className="text-xs text-foreground font-medium">{s.deliverable}</div>
             </div>
           </motion.div>
         ))}

@@ -12,6 +12,7 @@ const products = [
   {
     title: "HRMS App",
     badge: "Beta Live",
+    badgeColor: "text-primary bg-primary/10 border-primary/20",
     description: "All-in-one HR Management System. Streamline hiring, payroll, attendance, and employee management.",
     image: hrmsImg,
     link: "/products",
@@ -19,6 +20,7 @@ const products = [
   {
     title: "E-Learning Platform",
     badge: "Coming Soon",
+    badgeColor: "text-amber-400 bg-amber-500/10 border-amber-500/20",
     description: "Covers all tech domains with live classes, interactive courses, and industry-leading instructors.",
     image: elearningImg,
     link: "/products",
@@ -26,6 +28,7 @@ const products = [
   {
     title: "Healthcare Platform",
     badge: "Coming Soon",
+    badgeColor: "text-amber-400 bg-amber-500/10 border-amber-500/20",
     description: "End-to-end healthcare solutions including pharmacy management and facility operations.",
     image: healthcareImg,
     link: "/products",
@@ -39,7 +42,7 @@ export const ProductHighlights = () => {
   const { industry } = useIndustry();
   const c = getIndustryContent(industry)?.productsHeader;
   return (
-  <SectionWrapper className="bg-card/40">
+  <SectionWrapper className="bg-card/40 relative overflow-hidden">
     <SectionHeader
       badge={c?.badge || "Our Products"}
       title={c?.title || "Innovative Solutions Built for Scale"}
@@ -49,29 +52,31 @@ export const ProductHighlights = () => {
       {products.map((product, i) => (
         <motion.div
           key={product.title}
-          initial={{ opacity: 0, y: 20 }}
+          initial={{ opacity: 0, y: 24 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ delay: i * 0.1 }}
+          transition={{ delay: i * 0.1, duration: 0.5 }}
         >
-          <Card className="bg-card border-border hover:border-primary/30 group overflow-hidden h-full flex flex-col hover:shadow-elevated transition-all duration-300 hover:-translate-y-1">
+          <Card className="gradient-border bg-card border-border hover:border-primary/30 group overflow-hidden h-full flex flex-col hover:shadow-elevated transition-all duration-300 hover:-translate-y-1.5">
             <div className="relative h-48 overflow-hidden bg-gradient-to-br from-muted/20 to-background flex items-center justify-center">
+              {/* Glow behind image */}
+              <div className="absolute inset-0 bg-primary/0 group-hover:bg-primary/5 transition-colors duration-500" />
               <img
                 src={product.image}
                 alt={product.title}
                 loading="lazy"
-                className="h-36 w-auto object-contain group-hover:scale-105 transition-transform duration-500"
+                className="h-36 w-auto object-contain group-hover:scale-110 transition-transform duration-500 relative z-10"
               />
-              <span className="absolute top-3 right-3 px-3 py-1 text-xs font-semibold text-primary bg-primary/10 rounded-full border border-primary/20 backdrop-blur-sm">
+              <span className={`absolute top-3 right-3 px-3 py-1 text-xs font-semibold rounded-full border backdrop-blur-sm ${product.badgeColor}`}>
                 {product.badge}
               </span>
             </div>
             <CardContent className="flex-1 flex flex-col p-6">
-              <h3 className="text-lg font-bold text-foreground mb-2 tracking-tight">{product.title}</h3>
+              <h3 className="text-lg font-bold text-foreground mb-2 tracking-tight group-hover:text-primary transition-colors">{product.title}</h3>
               <p className="text-sm text-muted-foreground mb-5 flex-1 leading-relaxed">{product.description}</p>
-              <Button variant="outline" size="sm" className="w-fit" asChild>
+              <Button variant="outline" size="sm" className="w-fit group/btn" asChild>
                 <Link to={product.link}>
-                  Learn More <ArrowRight className="w-3 h-3" />
+                  Learn More <ArrowRight className="w-3 h-3 group-hover/btn:translate-x-1 transition-transform" />
                 </Link>
               </Button>
             </CardContent>
