@@ -4,14 +4,17 @@ import { HeroSection } from "@/components/home/HeroSection";
 import { ClientLogos } from "@/components/home/ClientLogos";
 import { TrustBar } from "@/components/home/TrustBar";
 import { ProductHighlights } from "@/components/home/ProductHighlights";
+import { EmpoweringInnovation } from "@/components/home/EmpoweringInnovation";
 import { ServicesGrid } from "@/components/home/ServicesGrid";
 import { ProcessSteps } from "@/components/home/ProcessSteps";
 import { TechProjects } from "@/components/home/TechProjects";
 import { IndustryPreview } from "@/components/home/IndustryPreview";
+import { UpcomingApps } from "@/components/home/UpcomingApps";
 import { WhyUsComparison } from "@/components/home/WhyUsComparison";
 import { CaseStudiesPreview } from "@/components/home/CaseStudiesPreview";
 import { VideoSection } from "@/components/home/VideoSection";
 import { Testimonials } from "@/components/home/Testimonials";
+import { InspirationalQuotes } from "@/components/home/InspirationalQuotes";
 import { StatsCounter } from "@/components/home/StatsCounter";
 import { TechStack } from "@/components/home/TechStack";
 import { IntegrationEcosystem } from "@/components/home/IntegrationEcosystem";
@@ -32,15 +35,18 @@ const Index = () => (
     <HeroSection />
     <ClientLogos />
     <TrustBar />
+    <EmpoweringInnovation />
     <ProductHighlights />
     <ServicesGrid />
     <ProcessSteps />
     <TechProjects />
     <IndustryPreview />
+    <UpcomingApps />
     <WhyUsComparison />
     <CaseStudiesPreview />
     <VideoSection />
     <Testimonials />
+    <InspirationalQuotes />
     <StatsCounter />
     <TechStack />
     <IntegrationEcosystem />
