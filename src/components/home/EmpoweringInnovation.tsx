@@ -42,29 +42,44 @@ export const EmpoweringInnovation = () => (
         whileInView={{ opacity: 1, x: 0 }}
         viewport={{ once: true }}
         transition={{ duration: 0.6, delay: 0.1 }}
-        className="grid grid-cols-2 gap-4"
+        className="relative"
       >
-        {[
-          { icon: Sparkles, title: "Dream Big", desc: "We turn ambitious ideas into real products." },
-          { icon: Heart, title: "Women Empowerment", desc: "Creating opportunities for women entrepreneurs." },
-          { icon: Users, title: "Work Together", desc: "Collaborative culture built on trust." },
-          { icon: ArrowRight, title: "Achieve More", desc: "Measurable outcomes for every stakeholder." },
-        ].map((item, i) => (
-          <motion.div
-            key={item.title}
-            initial={{ opacity: 0, y: 16 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ delay: 0.2 + i * 0.08 }}
-            className="gradient-border bg-card border border-border rounded-2xl p-5 hover:border-primary/30 hover:shadow-elevated transition-all duration-300 group"
-          >
-            <div className="w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center mb-3 group-hover:bg-primary group-hover:shadow-glow transition-all duration-300 group-hover:scale-110">
-              <item.icon className="w-5 h-5 text-primary group-hover:text-primary-foreground transition-colors" />
+        <div className="relative rounded-3xl overflow-hidden border border-border shadow-elevated group">
+          <img
+            src="https://images.pexels.com/photos/8837438/pexels-photo-8837438.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+            alt="Diverse group of businesswomen collaborating"
+            loading="lazy"
+            className="w-full h-[320px] md:h-[400px] object-cover group-hover:scale-105 transition-transform duration-700"
+          />
+          <div className="absolute inset-0 bg-gradient-to-t from-background/80 via-background/20 to-transparent" />
+          <div className="absolute bottom-0 left-0 right-0 p-6">
+            <div className="grid grid-cols-2 gap-3">
+              {[
+                { icon: Sparkles, title: "Dream Big", desc: "Turning ambitious ideas into real products." },
+                { icon: Heart, title: "Women First", desc: "Opportunities for women entrepreneurs." },
+                { icon: Users, title: "Together", desc: "Collaborative culture built on trust." },
+                { icon: ArrowRight, title: "Achieve More", desc: "Measurable outcomes for everyone." },
+              ].map((item, i) => (
+                <motion.div
+                  key={item.title}
+                  initial={{ opacity: 0, y: 16 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: 0.3 + i * 0.08 }}
+                  className="bg-background/80 backdrop-blur-md border border-border/60 rounded-xl p-3 flex items-center gap-2.5 hover:border-primary/30 transition-colors"
+                >
+                  <div className="w-8 h-8 rounded-lg bg-primary/10 flex items-center justify-center shrink-0">
+                    <item.icon className="w-4 h-4 text-primary" />
+                  </div>
+                  <div>
+                    <p className="text-xs font-bold text-foreground">{item.title}</p>
+                    <p className="text-[10px] text-muted-foreground leading-tight">{item.desc}</p>
+                  </div>
+                </motion.div>
+              ))}
             </div>
-            <h3 className="text-sm font-bold text-foreground mb-1 group-hover:text-primary transition-colors">{item.title}</h3>
-            <p className="text-xs text-muted-foreground leading-relaxed">{item.desc}</p>
-          </motion.div>
-        ))}
+          </div>
+        </div>
       </motion.div>
     </div>
   </SectionWrapper>

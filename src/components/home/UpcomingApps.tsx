@@ -11,6 +11,7 @@ const upcomingApps = [
     status: "Coming Soon",
     color: "bg-cyan-500/10 text-cyan-400",
     glow: "bg-cyan-500/8",
+    image: "https://images.pexels.com/photos/6693661/pexels-photo-6693661.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
   },
   {
     title: "Company Profile Platform",
@@ -19,6 +20,7 @@ const upcomingApps = [
     status: "Coming Soon",
     color: "bg-blue-500/10 text-blue-400",
     glow: "bg-blue-500/8",
+    image: "https://images.pexels.com/photos/7869057/pexels-photo-7869057.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
   },
   {
     title: "Learning Across Sectors",
@@ -27,6 +29,7 @@ const upcomingApps = [
     status: "Coming Soon",
     color: "bg-emerald-500/10 text-emerald-400",
     glow: "bg-emerald-500/8",
+    image: "https://images.pexels.com/photos/5905749/pexels-photo-5905749.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
   },
   {
     title: "Modern Food App",
@@ -35,6 +38,7 @@ const upcomingApps = [
     status: "Coming Soon",
     color: "bg-amber-500/10 text-amber-400",
     glow: "bg-amber-500/8",
+    image: "https://images.pexels.com/photos/16052344/pexels-photo-16052344.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
   },
   {
     title: "Healthcare Management Suite",
@@ -43,6 +47,7 @@ const upcomingApps = [
     status: "Coming Soon",
     color: "bg-red-500/10 text-red-400",
     glow: "bg-red-500/8",
+    image: "https://images.pexels.com/photos/5407260/pexels-photo-5407260.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
   },
   {
     title: "Vendor Management System",
@@ -51,6 +56,7 @@ const upcomingApps = [
     status: "Coming Soon",
     color: "bg-violet-500/10 text-violet-400",
     glow: "bg-violet-500/8",
+    image: "https://images.pexels.com/photos/4487365/pexels-photo-4487365.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
   },
 ];
 
@@ -70,20 +76,29 @@ export const UpcomingApps = () => (
           viewport={{ once: true }}
           transition={{ delay: i * 0.08, duration: 0.5 }}
         >
-          <div className="gradient-border relative p-6 rounded-2xl border border-border bg-card h-full overflow-hidden transition-all duration-300 hover:-translate-y-1.5 hover:shadow-elevated group">
-            <div className={`absolute -top-16 -right-16 w-32 h-32 rounded-full ${app.glow} opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-2xl`} />
-            <div className="relative">
-              <div className="flex items-start justify-between mb-4">
-                <div className={`w-12 h-12 rounded-xl ${app.color} flex items-center justify-center group-hover:scale-110 transition-transform duration-300`}>
-                  <app.icon className="w-5 h-5" />
-                </div>
-                <span className="text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/20">
-                  {app.status}
-                </span>
+          <div className="gradient-border relative rounded-2xl border border-border bg-card h-full overflow-hidden transition-all duration-300 hover:-translate-y-1.5 hover:shadow-elevated group">
+            {/* Image header */}
+            <div className="relative h-40 overflow-hidden bg-gradient-to-br from-muted/20 to-background">
+              <img
+                src={app.image}
+                alt={app.title}
+                loading="lazy"
+                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-card via-card/40 to-transparent" />
+              <div className={`absolute top-3 right-3 w-10 h-10 rounded-xl ${app.color} flex items-center justify-center backdrop-blur-sm border border-white/10`}>
+                <app.icon className="w-5 h-5" />
               </div>
-              <h3 className="text-sm font-bold text-foreground mb-2 group-hover:text-primary transition-colors">{app.title}</h3>
-              <p className="text-xs text-muted-foreground mb-4 leading-relaxed">{app.description}</p>
-              <span className="text-xs text-primary font-medium inline-flex items-center gap-1 opacity-0 group-hover:opacity-100 group-hover:gap-2 transition-all">
+              <span className="absolute bottom-3 left-3 text-[10px] font-bold uppercase tracking-wider px-2.5 py-1 rounded-full bg-amber-500/10 text-amber-400 border border-amber-500/20 backdrop-blur-sm">
+                {app.status}
+              </span>
+            </div>
+            {/* Content */}
+            <div className="p-5 relative">
+              <div className={`absolute -top-16 -right-16 w-32 h-32 rounded-full ${app.glow} opacity-0 group-hover:opacity-100 transition-opacity duration-500 blur-2xl pointer-events-none`} />
+              <h3 className="text-sm font-bold text-foreground mb-2 group-hover:text-primary transition-colors relative">{app.title}</h3>
+              <p className="text-xs text-muted-foreground mb-4 leading-relaxed relative">{app.description}</p>
+              <span className="text-xs text-primary font-medium inline-flex items-center gap-1 opacity-0 group-hover:opacity-100 group-hover:gap-2 transition-all relative">
                 Learn more <ArrowRight className="w-3 h-3" />
               </span>
             </div>

@@ -6,18 +6,22 @@ const quotes = [
   {
     text: "You will face many defeats in life, but never let yourself be defeated.",
     author: "Maya Angelou",
+    image: "https://images.pexels.com/photos/6648595/pexels-photo-6648595.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
   },
   {
     text: "The future belongs to those who believe in the beauty of their dreams.",
     author: "Eleanor Roosevelt",
+    image: "https://images.pexels.com/photos/20367722/pexels-photo-20367722.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
   },
   {
     text: "It is during our darkest moments that we must focus to see the light.",
     author: "Aristotle",
+    image: "https://images.pexels.com/photos/6945094/pexels-photo-6945094.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
   },
   {
     text: "The best way to predict the future is to create it.",
     author: "Abraham Lincoln",
+    image: "https://images.pexels.com/photos/5981782/pexels-photo-5981782.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
   },
 ];
 
@@ -48,17 +52,33 @@ export const InspirationalQuotes = () => (
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ delay: i * 0.1, duration: 0.5 }}
-          className="relative bg-background border border-border rounded-2xl p-7 md:p-8 hover:border-primary/20 hover:shadow-elevated transition-all duration-300 group overflow-hidden"
+          className="relative bg-background border border-border rounded-2xl overflow-hidden hover:border-primary/20 hover:shadow-elevated transition-all duration-300 group"
         >
-          <div className="absolute top-5 right-6 w-12 h-12 rounded-2xl bg-primary/5 flex items-center justify-center group-hover:bg-primary/10 transition-colors duration-300">
-            <Quote className="w-6 h-6 text-primary/30 group-hover:text-primary/50 transition-colors" />
-          </div>
-          <p className="text-foreground italic leading-relaxed text-base md:text-lg pr-14 mb-5">
-            "{q.text}"
-          </p>
-          <div className="flex items-center gap-3 pt-4 border-t border-border">
-            <div className="h-px w-8 bg-gradient-primary" />
-            <p className="text-sm font-semibold text-primary">{q.author}</p>
+          <div className="flex flex-col sm:flex-row">
+            {/* Image side */}
+            <div className="relative sm:w-2/5 h-40 sm:h-auto overflow-hidden shrink-0">
+              <img
+                src={q.image}
+                alt={q.author}
+                loading="lazy"
+                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+              />
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent to-background/60 sm:to-background" />
+              <div className="absolute inset-0 bg-gradient-to-t from-background/40 to-transparent sm:bg-gradient-to-r" />
+            </div>
+            {/* Quote side */}
+            <div className="flex-1 p-6 md:p-7 relative">
+              <div className="absolute top-4 right-4 w-10 h-10 rounded-2xl bg-primary/5 flex items-center justify-center group-hover:bg-primary/10 transition-colors duration-300">
+                <Quote className="w-5 h-5 text-primary/30 group-hover:text-primary/50 transition-colors" />
+              </div>
+              <p className="text-foreground italic leading-relaxed text-sm md:text-base pr-12 mb-5">
+                "{q.text}"
+              </p>
+              <div className="flex items-center gap-3 pt-4 border-t border-border">
+                <div className="h-px w-8 bg-gradient-primary" />
+                <p className="text-sm font-semibold text-primary">{q.author}</p>
+              </div>
+            </div>
           </div>
         </motion.div>
       ))}
