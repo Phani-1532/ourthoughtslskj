@@ -10,12 +10,12 @@ import {
 } from "lucide-react";
 
 const courses = [
-  { title: "Full-Stack Web Development", category: "Technology", duration: "12 weeks", students: 2400, rating: 4.8, image: "🖥️", level: "Intermediate" },
-  { title: "Digital Marketing Mastery", category: "Marketing", duration: "8 weeks", students: 1800, rating: 4.7, image: "📱", level: "Beginner" },
-  { title: "Healthcare Management", category: "Healthcare", duration: "10 weeks", students: 950, rating: 4.9, image: "🏥", level: "Advanced" },
-  { title: "Hospitality Operations", category: "Hospitality", duration: "6 weeks", students: 720, rating: 4.6, image: "🏨", level: "Beginner" },
-  { title: "AI & Machine Learning", category: "Technology", duration: "16 weeks", students: 3200, rating: 4.9, image: "🤖", level: "Advanced" },
-  { title: "Business Process Management", category: "Business", duration: "8 weeks", students: 1100, rating: 4.5, image: "📊", level: "Intermediate" },
+  { title: "Full-Stack Web Development", category: "Technology", duration: "12 weeks", students: 2400, rating: 4.8, image: "https://images.pexels.com/photos/256502/pexels-photo-256502.jpeg?auto=compress&cs=tinysrgb&h=650&w=940", level: "Intermediate" },
+  { title: "Digital Marketing Mastery", category: "Marketing", duration: "8 weeks", students: 1800, rating: 4.7, image: "https://images.pexels.com/photos/15635241/pexels-photo-15635241.jpeg?auto=compress&cs=tinysrgb&h=650&w=940", level: "Beginner" },
+  { title: "Healthcare Management", category: "Healthcare", duration: "10 weeks", students: 950, rating: 4.9, image: "https://images.pexels.com/photos/5407260/pexels-photo-5407260.jpeg?auto=compress&cs=tinysrgb&h=650&w=940", level: "Advanced" },
+  { title: "Hospitality Operations", category: "Hospitality", duration: "6 weeks", students: 720, rating: 4.6, image: "https://images.pexels.com/photos/6466490/pexels-photo-6466490.jpeg?auto=compress&cs=tinysrgb&h=650&w=940", level: "Beginner" },
+  { title: "AI & Machine Learning", category: "Technology", duration: "16 weeks", students: 3200, rating: 4.9, image: "https://images.pexels.com/photos/8124399/pexels-photo-8124399.jpeg?auto=compress&cs=tinysrgb&h=650&w=940", level: "Advanced" },
+  { title: "Business Process Management", category: "Business", duration: "8 weeks", students: 1100, rating: 4.5, image: "https://images.pexels.com/photos/97080/pexels-photo-97080.jpeg?auto=compress&cs=tinysrgb&h=650&w=940", level: "Intermediate" },
 ];
 
 const liveClasses = [
@@ -29,6 +29,9 @@ const testimonials = [
   { name: "Sneha Reddy", role: "Marketing Manager", text: "Best digital marketing course I've taken. Practical, hands-on, and industry-relevant.", rating: 5 },
   { name: "Dr. Kavita Singh", role: "Hospital Administrator", text: "Healthcare management modules are top-notch. Helped streamline our operations significantly.", rating: 5 },
 ];
+
+const heroImage = "https://images.pexels.com/photos/28927920/pexels-photo-28927920.jpeg?auto=compress&cs=tinysrgb&h=650&w=940";
+const testimonialImage = "https://images.pexels.com/photos/8055848/pexels-photo-8055848.jpeg?auto=compress&cs=tinysrgb&h=650&w=940";
 
 const ELearning = () => (
   <Layout>
@@ -56,7 +59,22 @@ const ELearning = () => (
             </div>
           </motion.div>
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-16">
+          {/* Hero image */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.97 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            className="max-w-4xl mx-auto mt-12 rounded-3xl overflow-hidden border border-border shadow-elevated group"
+          >
+            <img
+              src={heroImage}
+              alt="Student learning online"
+              loading="lazy"
+              className="w-full h-[260px] md:h-[360px] object-cover group-hover:scale-105 transition-transform duration-700"
+            />
+          </motion.div>
+
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mt-12">
             {[
               { icon: BookOpen, label: "50+ Courses", value: "50+" },
               { icon: Users, label: "10K+ Students", value: "10K+" },
@@ -89,11 +107,14 @@ const ELearning = () => (
               <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 {courses.filter(c => tab === "all" || c.category === tab).map((course, i) => (
                   <motion.div key={course.title} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.08 }}>
-                    <Card className="bg-gradient-card border-border/30 hover:border-primary/30 group h-full transition-all hover:-translate-y-1">
+                    <Card className="bg-gradient-card border-border/30 hover:border-primary/30 group h-full transition-all hover:-translate-y-1 overflow-hidden">
+                      <div className="relative h-36 overflow-hidden">
+                        <img src={course.image} alt={course.title} loading="lazy" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+                        <div className="absolute inset-0 bg-gradient-to-t from-card via-card/50 to-transparent" />
+                        <span className="absolute top-3 left-3 text-xs font-body font-medium text-primary bg-primary/10 px-2 py-1 rounded-full backdrop-blur-sm border border-primary/20">{course.category}</span>
+                      </div>
                       <CardContent className="p-6">
-                        <div className="text-5xl mb-4">{course.image}</div>
-                        <span className="text-xs font-body font-medium text-primary bg-primary/10 px-2 py-1 rounded-full">{course.category}</span>
-                        <h3 className="text-lg font-display font-semibold text-foreground mt-3 mb-2">{course.title}</h3>
+                        <h3 className="text-lg font-display font-semibold text-foreground mt-1 mb-2">{course.title}</h3>
                         <div className="flex items-center gap-4 text-sm text-muted-foreground font-body mb-3">
                           <span className="flex items-center gap-1"><Clock className="w-3 h-3" />{course.duration}</span>
                           <span className="flex items-center gap-1"><Users className="w-3 h-3" />{course.students.toLocaleString()}</span>
@@ -142,6 +163,20 @@ const ELearning = () => (
       {/* Testimonials */}
       <SectionWrapper>
         <SectionHeader badge="Student Reviews" title="What Our Students Say" subtitle="Real success stories from our learners." />
+        {/* Student image */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.97 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true }}
+          className="max-w-3xl mx-auto mb-10 rounded-3xl overflow-hidden border border-border shadow-elevated group"
+        >
+          <img
+            src={testimonialImage}
+            alt="Student learning online"
+            loading="lazy"
+            className="w-full h-[200px] md:h-[280px] object-cover group-hover:scale-105 transition-transform duration-700"
+          />
+        </motion.div>
         <div className="grid md:grid-cols-3 gap-6">
           {testimonials.map((t, i) => (
             <motion.div key={t.name} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }}>
