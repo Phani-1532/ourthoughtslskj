@@ -13,6 +13,7 @@ const industriesData: Record<string, {
   title: string; icon: any; tagline: string;
   problem: string; solution: string; impact: string;
   useCases: string[]; benefits: string[];
+  image: string;
 }> = {
   healthcare: {
     title: "Healthcare", icon: Heart, tagline: "End-to-end solutions with a humanity touch.",
@@ -21,6 +22,7 @@ const industriesData: Record<string, {
     impact: "60% improvement in operational efficiency and reduced patient wait times by 45%.",
     useCases: ["Pharmacy Management", "Patient Records", "Facility Scheduling", "Compliance Tracking"],
     benefits: ["HIPAA Ready", "Real-time Dashboards", "Automated Billing", "Multi-facility Support"],
+    image: "https://images.pexels.com/photos/6285379/pexels-photo-6285379.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
   },
   ecommerce: {
     title: "E-Commerce", icon: ShoppingCart, tagline: "Full-stack commerce and inventory platforms.",
@@ -29,6 +31,7 @@ const industriesData: Record<string, {
     impact: "35% increase in order processing speed and 25% reduction in inventory costs.",
     useCases: ["Online Stores", "Marketplace Integration", "Inventory Sync", "Payment Processing"],
     benefits: ["Multi-channel", "Real-time Sync", "Analytics", "Scalable"],
+    image: "https://images.pexels.com/photos/34577/pexels-photo.jpg?auto=compress&cs=tinysrgb&h=650&w=940",
   },
   technology: {
     title: "IT & Technology", icon: Cpu, tagline: "Cutting-edge digital transformation services.",
@@ -37,6 +40,7 @@ const industriesData: Record<string, {
     impact: "50% cost reduction through automation and 2x faster time-to-market for digital products.",
     useCases: ["Cloud Migration", "AI Integration", "Custom Software", "DevOps"],
     benefits: ["Modern Stack", "Scalable", "Secure", "24/7 Support"],
+    image: "https://images.pexels.com/photos/60504/security-protection-anti-virus-software-60504.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
   },
   hospitality: {
     title: "Hospitality", icon: Hotel, tagline: "Sustainability and reputation management.",
@@ -45,6 +49,7 @@ const industriesData: Record<string, {
     impact: "30% increase in guest satisfaction scores and 20% improvement in operational efficiency.",
     useCases: ["Booking Management", "Guest Services", "F&B Operations", "Reputation Monitoring"],
     benefits: ["Unified Platform", "Guest Analytics", "Revenue Management", "Multi-property"],
+    image: "https://images.pexels.com/photos/6466490/pexels-photo-6466490.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
   },
   "hr-finance": {
     title: "HR & Finance", icon: BarChart3, tagline: "Intelligent HR and financial management.",
@@ -53,6 +58,7 @@ const industriesData: Record<string, {
     impact: "40% reduction in hiring time and 95% payroll accuracy improvement.",
     useCases: ["Payroll Processing", "Recruitment", "Performance Reviews", "Financial Reporting"],
     benefits: ["Automated Payroll", "Applicant Tracking", "Analytics Dashboard", "Compliance"],
+    image: "https://images.pexels.com/photos/6693661/pexels-photo-6693661.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
   },
   "food-services": {
     title: "Food Services", icon: Utensils, tagline: "Connecting home cooks to local communities.",
@@ -61,6 +67,7 @@ const industriesData: Record<string, {
     impact: "Enabling 500+ home cooks to build sustainable food businesses.",
     useCases: ["Home Kitchen Management", "Order Processing", "Delivery Coordination", "Menu Management"],
     benefits: ["Easy Setup", "Payment Integration", "Delivery Tracking", "Customer Reviews"],
+    image: "https://images.pexels.com/photos/4393240/pexels-photo-4393240.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
   },
   law: {
     title: "Law Management", icon: Scale, tagline: "Case management and client relationship tools.",
@@ -69,6 +76,7 @@ const industriesData: Record<string, {
     impact: "35% improvement in case resolution time and better client retention.",
     useCases: ["Case Management", "Document Storage", "Client Portal", "Billing"],
     benefits: ["Secure Storage", "Deadline Tracking", "Client Portal", "Billing Integration"],
+    image: "https://images.pexels.com/photos/7869057/pexels-photo-7869057.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
   },
   ai: {
     title: "AI in ALL", icon: Brain, tagline: "AI-powered solutions across every sector.",
@@ -77,6 +85,7 @@ const industriesData: Record<string, {
     impact: "Organizations see 3x ROI on AI investments within the first year.",
     useCases: ["Predictive Analytics", "Process Automation", "Natural Language Processing", "Computer Vision"],
     benefits: ["Custom Models", "Data-Driven", "Scalable AI", "Cross-Industry"],
+    image: "https://images.pexels.com/photos/97080/pexels-photo-97080.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
   },
   professional: {
     title: "Professional Services", icon: Users, tagline: "Consulting and implementation expertise.",
@@ -85,6 +94,7 @@ const industriesData: Record<string, {
     impact: "90% of consulting engagements deliver ROI within 6 months.",
     useCases: ["Strategy Consulting", "Implementation", "Training", "Change Management"],
     benefits: ["Expert Teams", "Proven Methods", "Custom Approach", "Measurable ROI"],
+    image: "https://images.pexels.com/photos/30688593/pexels-photo-30688593.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
   },
 };
 
@@ -102,11 +112,15 @@ const IndustryDetail = () => {
               {Object.entries(industriesData).map(([key, ind], i) => (
                 <motion.div key={key} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.08 }}>
                   <Link to={`/industries/${key}`}>
-                    <Card className="bg-gradient-card border-border/30 hover:border-primary/30 h-full group transition-all hover:-translate-y-1">
-                      <CardContent className="p-6">
-                        <div className="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center mb-4 group-hover:bg-primary/20 transition-colors">
-                          <ind.icon className="w-6 h-6 text-primary" />
+                    <Card className="bg-gradient-card border-border/30 hover:border-primary/30 h-full group transition-all hover:-translate-y-1 overflow-hidden">
+                      <div className="relative h-36 overflow-hidden">
+                        <img src={ind.image} alt={ind.title} loading="lazy" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+                        <div className="absolute inset-0 bg-gradient-to-t from-card via-card/50 to-transparent" />
+                        <div className="absolute top-3 left-3 w-11 h-11 rounded-xl bg-primary/10 flex items-center justify-center backdrop-blur-sm border border-white/10">
+                          <ind.icon className="w-5 h-5 text-primary" />
                         </div>
+                      </div>
+                      <CardContent className="p-5">
                         <h3 className="text-lg font-display font-semibold text-foreground mb-2">{ind.title}</h3>
                         <p className="text-sm text-muted-foreground font-body">{ind.tagline}</p>
                       </CardContent>
@@ -127,6 +141,16 @@ const IndustryDetail = () => {
     <Layout>
       <div className="pt-24">
         <SectionWrapper>
+          {/* Hero image */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.97 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            className="rounded-3xl overflow-hidden border border-border shadow-elevated mb-10 group h-48 md:h-64"
+          >
+            <img src={data.image} alt={data.title} loading="lazy" className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" />
+          </motion.div>
+
           <div className="flex items-center gap-4 mb-8">
             <div className="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center">
               <Icon className="w-7 h-7 text-primary" />

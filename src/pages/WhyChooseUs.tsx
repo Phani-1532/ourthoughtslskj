@@ -15,6 +15,8 @@ const reasons = [
   { icon: CheckCircle, title: "End-to-End Solutions", description: "From strategy to deployment — we handle everything so you can focus on growth." },
 ];
 
+const heroImage = "https://images.pexels.com/photos/7693692/pexels-photo-7693692.jpeg?auto=compress&cs=tinysrgb&h=650&w=940";
+
 const WhyChooseUs = () => (
   <Layout>
     <div className="pt-24">
@@ -24,6 +26,22 @@ const WhyChooseUs = () => (
           title="Why Our Thoughts LSKJ?"
           subtitle="We don't just deliver solutions — we transform how organizations think, operate, and grow."
         />
+
+        {/* Hero image */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.97 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true }}
+          className="max-w-4xl mx-auto mb-12 rounded-3xl overflow-hidden border border-border shadow-elevated group"
+        >
+          <img
+            src={heroImage}
+            alt="Business professionals collaborating"
+            loading="lazy"
+            className="w-full h-[260px] md:h-[360px] object-cover group-hover:scale-105 transition-transform duration-700"
+          />
+        </motion.div>
+
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {reasons.map((r, i) => (
             <motion.div

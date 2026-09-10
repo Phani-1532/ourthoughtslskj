@@ -44,10 +44,10 @@ const products = [
 ];
 
 const upcomingApps = [
-  { title: "Blind Assistance App", description: "Assistive technology for visually impaired users.", icon: Eye },
-  { title: "Hotel Management App", description: "End-to-end hotel operations management.", icon: ShoppingBag },
-  { title: "Farming App", description: "Smart farming tools for the agricultural sector.", icon: Tractor },
-  { title: "E-Kirana App", description: "Digital kirana store e-commerce solution.", icon: ShoppingBag },
+  { title: "Blind Assistance App", description: "Assistive technology for visually impaired users.", icon: Eye, image: "https://images.pexels.com/photos/8124399/pexels-photo-8124399.jpeg?auto=compress&cs=tinysrgb&h=650&w=940" },
+  { title: "Hotel Management App", description: "End-to-end hotel operations management.", icon: ShoppingBag, image: "https://images.pexels.com/photos/6466490/pexels-photo-6466490.jpeg?auto=compress&cs=tinysrgb&h=650&w=940" },
+  { title: "Farming App", description: "Smart farming tools for the agricultural sector.", icon: Tractor, image: "https://images.pexels.com/photos/4487365/pexels-photo-4487365.jpeg?auto=compress&cs=tinysrgb&h=650&w=940" },
+  { title: "E-Kirana App", description: "Digital kirana store e-commerce solution.", icon: ShoppingBag, image: "https://images.pexels.com/photos/35560482/pexels-photo-35560482.jpeg?auto=compress&cs=tinysrgb&h=650&w=940" },
 ];
 
 const roadmap = [
@@ -140,7 +140,14 @@ const Products = () => (
               viewport={{ once: true }}
               transition={{ delay: i * 0.1 }}
             >
-              <Card className="bg-card/80 border-border/30 hover:border-primary/50 h-full text-center group shadow-card">
+              <Card className="bg-card/80 border-border/30 hover:border-primary/50 h-full text-center group shadow-card overflow-hidden">
+                <div className="relative h-32 overflow-hidden">
+                  <img src={app.image} alt={app.title} loading="lazy" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-card via-card/50 to-transparent" />
+                  <div className="absolute top-3 left-3 w-10 h-10 rounded-xl bg-primary/10 flex items-center justify-center backdrop-blur-sm border border-white/10">
+                    <app.icon className="w-5 h-5 text-primary" />
+                  </div>
+                </div>
                 <CardContent className="p-6">
                   <div className="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center mx-auto mb-4 group-hover:bg-primary/20 transition-colors">
                     <app.icon className="w-7 h-7 text-primary" />

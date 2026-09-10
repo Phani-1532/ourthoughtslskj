@@ -20,6 +20,7 @@ const services = [
     impact: "60% reduction in operational overhead and 3x faster decision-making.",
     useCases: ["E-Commerce Operations", "Inventory Management", "Invoice Processing", "Order Fulfillment"],
     benefits: ["Unified Dashboard", "Real-time Analytics", "Automated Workflows", "Cost Reduction"],
+    image: "https://images.pexels.com/photos/35560482/pexels-photo-35560482.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
   },
   {
     id: "web-design",
@@ -30,6 +31,7 @@ const services = [
     impact: "Average 150% increase in lead generation within 3 months.",
     useCases: ["Corporate Websites", "E-Commerce Stores", "Landing Pages", "SEO Campaigns"],
     benefits: ["Responsive Design", "SEO Optimized", "Analytics Integration", "Conversion Focused"],
+    image: "https://images.pexels.com/photos/6285074/pexels-photo-6285074.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
   },
   {
     id: "applications",
@@ -40,6 +42,7 @@ const services = [
     impact: "40% improvement in operational efficiency with purpose-built tools.",
     useCases: ["Mobile Apps", "Enterprise Portals", "SaaS Platforms", "API Development"],
     benefits: ["Custom Built", "Scalable Architecture", "Cross-Platform", "Ongoing Support"],
+    image: "https://images.pexels.com/photos/60504/security-protection-anti-virus-software-60504.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
   },
 ];
 
@@ -70,6 +73,12 @@ const Services = () => (
                       <service.icon className="w-6 h-6 text-primary" />
                     </div>
                     <h3 className="text-2xl font-display font-bold text-foreground">{service.title}</h3>
+                  </div>
+
+                  {/* Service image */}
+                  <div className="relative h-44 rounded-2xl overflow-hidden border border-border mb-6 group">
+                    <img src={service.image} alt={service.title} loading="lazy" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-card via-card/30 to-transparent" />
                   </div>
 
                   <div className="space-y-6">

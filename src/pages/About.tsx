@@ -40,19 +40,37 @@ const About = () => (
             </p>
           </motion.div>
         </div>
+        {/* Hero image */}
+        <motion.div
+          initial={{ opacity: 0, scale: 0.97 }}
+          whileInView={{ opacity: 1, scale: 1 }}
+          viewport={{ once: true }}
+          className="max-w-4xl mx-auto mt-10 rounded-3xl overflow-hidden border border-border shadow-elevated group"
+        >
+          <img
+            src="https://images.pexels.com/photos/7693692/pexels-photo-7693692.jpeg?auto=compress&cs=tinysrgb&h=650&w=940"
+            alt="Business professionals collaborating"
+            loading="lazy"
+            className="w-full h-[300px] md:h-[400px] object-cover group-hover:scale-105 transition-transform duration-700"
+          />
+        </motion.div>
       </SectionWrapper>
 
       {/* Mission & Vision */}
       <SectionWrapper>
         <div className="grid md:grid-cols-2 gap-8">
           {[
-            { icon: Target, title: "Our Mission", text: "To empower businesses and individuals with innovative technology solutions that drive growth, efficiency, and transformation across industries." },
-            { icon: Eye, title: "Our Vision", text: "To be the world's most trusted multi-domain innovation partner — where every entrepreneur, regardless of background, has the tools to succeed." },
+            { icon: Target, title: "Our Mission", text: "To empower businesses and individuals with innovative technology solutions that drive growth, efficiency, and transformation across industries.", image: "https://images.pexels.com/photos/7794059/pexels-photo-7794059.jpeg?auto=compress&cs=tinysrgb&h=650&w=940" },
+            { icon: Eye, title: "Our Vision", text: "To be the world's most trusted multi-domain innovation partner — where every entrepreneur, regardless of background, has the tools to succeed.", image: "https://images.pexels.com/photos/9034729/pexels-photo-9034729.jpeg?auto=compress&cs=tinysrgb&h=650&w=940" },
           ].map((item, i) => (
             <motion.div key={item.title} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }}>
-              <Card className="bg-card/80 border-primary/20 h-full shadow-card">
+              <Card className="bg-card/80 border-primary/20 h-full shadow-card overflow-hidden group">
+                <div className="relative h-44 overflow-hidden">
+                  <img src={item.image} alt={item.title} loading="lazy" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-card via-card/50 to-transparent" />
+                  <div className="absolute top-4 left-4 w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center backdrop-blur-sm border border-white/10"><item.icon className="w-6 h-6 text-primary" /></div>
+                </div>
                 <CardContent className="p-8">
-                  <div className="w-14 h-14 rounded-xl bg-primary/10 flex items-center justify-center mb-6"><item.icon className="w-7 h-7 text-primary" /></div>
                   <h3 className="text-2xl font-display font-bold text-foreground mb-4">{item.title}</h3>
                   <p className="text-muted-foreground font-body leading-relaxed">{item.text}</p>
                 </CardContent>

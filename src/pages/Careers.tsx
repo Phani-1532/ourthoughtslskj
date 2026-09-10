@@ -44,6 +44,11 @@ const employeeTestimonials = [
   { name: "Fatima Ali", role: "Marketing Lead", text: "As a woman in tech, I've never felt more supported and empowered.", years: "1.5 years" },
 ];
 
+const cultureImages = [
+  "https://images.pexels.com/photos/7794059/pexels-photo-7794059.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+  "https://images.pexels.com/photos/9034729/pexels-photo-9034729.jpeg?auto=compress&cs=tinysrgb&h=650&w=940",
+];
+
 const Careers = () => {
   const { toast } = useToast();
   const [appForm, setAppForm] = useState({ name: "", email: "", phone: "", resume: "", cover: "" });
@@ -66,6 +71,20 @@ const Careers = () => {
               <Button variant="hero" size="xl" onClick={() => document.getElementById("openings")?.scrollIntoView({ behavior: "smooth" })}>View Open Positions <ArrowRight className="w-5 h-5" /></Button>
             </motion.div>
           </div>
+          {/* Hero image */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.97 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            className="max-w-4xl mx-auto mt-10 rounded-3xl overflow-hidden border border-border shadow-elevated group"
+          >
+            <img
+              src={cultureImages[0]}
+              alt="Team collaboration"
+              loading="lazy"
+              className="w-full h-[260px] md:h-[340px] object-cover group-hover:scale-105 transition-transform duration-700"
+            />
+          </motion.div>
         </SectionWrapper>
 
         {/* Culture */}
@@ -106,6 +125,20 @@ const Careers = () => {
         {/* Employee Testimonials */}
         <SectionWrapper>
           <SectionHeader badge="Team Voices" title="Hear From Our Team" subtitle="What it's really like to work at Our Thoughts LSKJ." />
+          {/* Team image */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.97 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            className="max-w-3xl mx-auto mb-10 rounded-3xl overflow-hidden border border-border shadow-elevated group"
+          >
+            <img
+              src={cultureImages[1]}
+              alt="Team working together"
+              loading="lazy"
+              className="w-full h-[200px] md:h-[280px] object-cover group-hover:scale-105 transition-transform duration-700"
+            />
+          </motion.div>
           <div className="grid md:grid-cols-3 gap-6">
             {employeeTestimonials.map((t, i) => (
               <motion.div key={t.name} initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }} transition={{ delay: i * 0.1 }}>
